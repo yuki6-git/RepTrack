@@ -9,6 +9,8 @@ export const Header = () => {
       alignItems="center"
       h="60px"
       bg="blue.900"
+      borderBottomWidth="1px"
+      borderColor="gray.400"
     >
       <Heading ml={4} textAlign="left">RepTrack</Heading>
       <Text fontWeight="bold">トレーニングメニュー</Text>

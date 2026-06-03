@@ -1,16 +1,12 @@
-import { useEffect, useState } from "react";
-import { supabase } from "./lib/supabase";
-import { Header } from "./layouts/Header";
-// import { DashBoard } from "./pages/DashBoard";
-// import { Workout } from "./pages/Workout";
-// import { Exercise } from "./pages/Exercise";
-import { Weight } from "./pages/Weight";
-import { Analytics } from "./pages/Analytics";
-
-import type { TrainingMenu } from "./types/TrainingMenu";
 import "react-calendar/dist/Calendar.css";
 import "./App.css";
-import { ProfileSetting } from "./pages/ProfileSetting";
+import { useEffect, useState } from "react";
+import { supabase } from "./lib/supabase";
+import { AppRoutes } from "./routes/AppRoutes";
+import type { TrainingMenu } from "./types/TrainingMenu";
+
+
+
 
 function App() {
   const [menus, setMenus] = useState<TrainingMenu[]>([]);
@@ -36,13 +32,7 @@ function App() {
 
   return (
     <>
-      <Header />
-      {/* <DashBoard />? */}
-      {/* <Workout /> */}
-      {/* <Exercise/> */}
-      {/* <Weight/> */}
-      {/* <Analytics/> */}
-      <ProfileSetting/>
+      <AppRoutes/>
     </>
   );
 }

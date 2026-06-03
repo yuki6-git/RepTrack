@@ -41,7 +41,7 @@ export const Workout = () => {
   };
 
   return (
-    <>
+    <Box mx={10}>
       <Calendar
         minDetail="month"
         onClickDay={handleClickDay}
@@ -55,9 +55,9 @@ export const Workout = () => {
 
           return (
             <Box
-              w="6px"
-              h="6px"
-              bg="blue.600"
+              w="8px"
+              h="8px"
+              bg="blue.800"
               borderRadius="full"
               mx="auto"
               mt="4px"
@@ -71,6 +71,6 @@ export const Workout = () => {
         selectedLog={selectedLog}
       />
     
-    </>
+    </Box>
   );
 };

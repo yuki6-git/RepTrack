@@ -1,6 +1,6 @@
 import { Text, Box, Button, Heading, VStack, Flex } from "@chakra-ui/react";
 
-export const DashBoard = () => {
+export const Dashboard = () => {
   return (
     <VStack gap="24px" align="stretch">
       <Box p="24px" borderRadius="16px" boxShadow="md">
