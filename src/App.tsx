@@ -5,9 +5,6 @@ import { supabase } from "./lib/supabase";
 import { AppRoutes } from "./routes/AppRoutes";
 import type { TrainingMenu } from "./types/TrainingMenu";
 
-
-
-
 function App() {
   const [menus, setMenus] = useState<TrainingMenu[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,7 +29,9 @@ function App() {
 
   return (
     <>
+      
       <AppRoutes/>
+     
     </>
   );
 }

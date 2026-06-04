@@ -92,7 +92,6 @@ export const TrainingMenu = () => {
         <Flex>
             <Heading ml={4}>今日のトレーニング</Heading>
             <Spacer/>
-            <Button>種目を追加する</Button>
         </Flex>
       <VStack align="stretch" gap="20px">
         {selectedWorkout?.sections.map((section) => (
@@ -106,6 +105,7 @@ export const TrainingMenu = () => {
             <HStack mb="20px" gap="12px">
               <Text fontSize="32px">{section.icon}</Text>
               <Heading size="md">{section.name}</Heading>
+              <Button size="sm" ml="auto" >種目を追加する</Button>
             </HStack>
 
             <Table.Root>

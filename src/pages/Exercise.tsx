@@ -1,11 +1,6 @@
-import {
-  Tabs,
-  VStack,
-  Box,
-  Heading,
-  Flex,
-} from "@chakra-ui/react";
+import { Tabs, VStack, Heading, Flex, Spacer, HStack } from "@chakra-ui/react";
 import { TrainingMenu } from "../components/TrainingMenu";
+import { Timer } from "../components/organisms/Timer";
 
 export const Exercise = () => {
   return (
@@ -18,9 +13,13 @@ export const Exercise = () => {
       borderRadius="8px"
       bg="white"
     >
-      <Box>
+      <Flex w="100%" align="center" justify="center" position="relative">
         <Heading size="xl">Workout</Heading>
-      </Box>
+        <Flex position="absolute" right="0" top="0">
+          <Timer />
+        </Flex>
+      </Flex>
+
       <Flex>
         <Tabs.Root
           defaultValue="Day1"
