@@ -84,9 +84,9 @@ const workoutDays = [
   },
 ];
 
-export const TrainingMenu = () => {
-  const [activeDay, setActiveDay] = useState("day1");
-  const selectedWorkout = workoutDays.find((day) => day.id === activeDay);
+export const TrainingMenu = ({ trainingMenuId }: { trainingMenuId: string }) => {
+  const selectedWorkout = workoutDays.find((menu) => menu.id === trainingMenuId);
+
   return (
     <Box>
         <Flex>

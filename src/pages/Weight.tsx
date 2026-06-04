@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -10,34 +11,14 @@ import {
 } from "@chakra-ui/react";
 
 
-const weightLogs = [
-  {
-    date: "2024/06/14",
-    weight: "55.0",
-    bodyFat: "15.2",
-    memo: "朝の体重",
-  },
-  {
-    date: "2024/06/07",
-    weight: "55.4",
-    bodyFat: "15.3",
-    memo: "-",
-  },
-  {
-    date: "2024/05/31",
-    weight: "55.8",
-    bodyFat: "15.6",
-    memo: "-",
-  },
-  {
-    date: "2024/05/24",
-    weight: "56.1",
-    bodyFat: "15.8",
-    memo: "-",
-  },
-];
-
 export const Weight = () => {
+  const [latestWeight, setLatestWeight] = useState(55.0);
+  const [targetWeight, setTargetweight] = useState(60.0);
+  const [latestDate, setLatestDate] = useState("2024/06/14");
+
+  const [weightLogs, setWeightLogs] = useState([{ date: "2024/06/14", weight: "55.0", bodyFat: "15.2",diff:"+1" },
+    {date: "2024/06/07", weight: "55.4", bodyFat: "15.3", diff:"+0.5"}]);
+
   return (
     <VStack align="stretch" gap="24px">
       <Heading size="xl">体重記録</Heading>
@@ -48,22 +29,22 @@ export const Weight = () => {
             最新の記録
           </Heading>
 
-          <Text color="gray.500">2024/06/14</Text>
+          <Text color="gray.500">{latestDate}</Text>
           <Flex align="baseline" gap="8px" mt="8px">
-            <Heading size="2xl">55.0</Heading>
+            <Heading size="2xl">{latestWeight}</Heading>
             <Text fontWeight="bold">kg</Text>
           </Flex>
 
           <Text mt="24px" color="gray.500">
             目標体重まであと
           </Text>
-          <Heading size="lg">+5.0 kg</Heading>
+          <Heading size="lg">{targetWeight}kg</Heading>
 
           <Button mt="24px" width="100%" variant="outline">
             体重を記録する
           </Button>
         </Box>
-        
+
         <Box
           gridColumn={{ base: "auto", lg: "span 2" }}
           p="24px"
@@ -87,15 +68,13 @@ export const Weight = () => {
             <Text color="gray.500">グラフ表示エリア</Text>
           </Box>
         </Box>
-
-        
       </SimpleGrid>
 
       <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px">
         <Heading size="md" mb="16px">
           体重記録一覧
         </Heading>
-
+        
         <Table.Root>
           <Table.Header>
             <Table.Row>
@@ -112,7 +91,7 @@ export const Weight = () => {
                 <Table.Cell>{log.date}</Table.Cell>
                 <Table.Cell>{log.weight}</Table.Cell>
                 <Table.Cell>{log.bodyFat}</Table.Cell>
-                <Table.Cell>{log.memo}</Table.Cell>
+                <Table.Cell>{log.diff}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
@@ -125,4 +104,3 @@ export const Weight = () => {
     </VStack>
   );
 };
-    

@@ -3,21 +3,22 @@ import { useState } from "react";
 import Calendar from "react-calendar";
 import { WorkoutModal } from "../components/WorkoutModal";
 
-const workoutLogs = [
-  {
-    date: "2026-06-14",
-    title: "背中トレーニング",
-    part: "背中",
-    start: "18:30",
-    end: "19:45",
-    duration: "75分",
-    pr: "デッドリフト 100kg",
-  },
-];
-
 export const Workout = () => {
+  const [workoutLogs, setWorkoutLogs] = useState([
+    {
+      date: "2026-06-14",
+      title: "背中トレーニング",
+      part: "背中",
+      start: "18:30",
+      end: "19:45",
+      duration: "75分",
+      pr: "デッドリフト 100kg",
+    },
+  ]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  
+  
   const selectedLog = workoutLogs.find((log) => log.date === selectedDate);
 
   const handleClickDay = (date: Date) => {
@@ -70,7 +71,6 @@ export const Workout = () => {
         setIsOpen={setIsOpen}
         selectedLog={selectedLog}
       />
-    
     </Box>
   );
 };

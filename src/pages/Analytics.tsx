@@ -24,6 +24,12 @@ const bodyPartStats = [
 ];
 
 export const Analytics = () => {
+  // const [bodyPartStats, setBodyPartStats] = useState([]);
+  // const [monthlyWorkoutCount, setMonthlyWorkoutCount] = useState(0);
+  // const [monthlyChartData, setMonthlyChartData] = useState<MonthlyWorkoutStat[]>([]);
+  // const [prRecords, setPrRecords] = useState<PrRecord[]>([]);
+  // const [weeklyAverage, setWeeklyAverage] = useState(0);
+  // const [achievementRate, setAchievementRate] = useState(0);
   return (
     <VStack align="stretch" gap="24px">
       <Heading size="xl">分析</Heading>
@@ -34,8 +40,8 @@ export const Analytics = () => {
             部位別トレーニング重量（今月）
           </Heading>
 
-          <Flex  gap="32px">
-            <VStack alignItems="stretch"  gap="10px" flex="1">
+          <Flex gap="32px">
+            <VStack alignItems="stretch" gap="10px" flex="1">
               {bodyPartStats.map((stat) => (
                 <Flex key={stat.name} justify="space-between" align="center">
                   <HStack>
