@@ -1,5 +1,5 @@
 import { Text, Flex, NumberInput, Button } from "@chakra-ui/react";
-import type { UserGoals } from "../types/UserGoals";
+import type { UserGoals } from "../../types/UserGoals";
 import type { Dispatch, SetStateAction } from "react";
 
 type UserGoalsModalProps = {

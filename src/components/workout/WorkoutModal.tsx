@@ -1,5 +1,5 @@
 import { Dialog, Portal, VStack, Flex, Text, Button } from "@chakra-ui/react";
-import type { WorkoutLog } from "../types/WorkoutLog";
+import type { WorkoutLog } from "../../types/WorkoutLog";
 
 type Props = {
   isOpen: boolean;

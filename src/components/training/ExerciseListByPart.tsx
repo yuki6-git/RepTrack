@@ -7,8 +7,8 @@ import {
   Checkbox,
   Flex
 } from "@chakra-ui/react";
-import type { ExerciseListProps } from "../types/ExerciseList";
-import type { NewExercise } from "../types/NewxExercise";
+import type { ExerciseListProps } from "../../types/ExerciseList";
+import type { NewExercise } from "../../types/NewExercise";
 
 export const ExerciseListBypart = (props: ExerciseListProps) => {
   const {

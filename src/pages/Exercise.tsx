@@ -10,10 +10,10 @@ import {
 
 import { Timer } from "../components/organisms/Timer";
 import { FiPlus } from "react-icons/fi";
-import { TrainingMenu } from "../components/TrainingMenu";
-import { CreateTrainingMenuModal } from "../components/CreateTrainingMenuModal";
-import type { TrainingMenus } from "../types/TrainingMenus";
-import type { NewExercise } from "../types/NewxExercise";
+import { TrainingMenu } from "../components/training/TrainingMenu";
+import { CreateTrainingMenuModal } from "../components/training/CreateTrainingMenuModal";
+import type { TrainingMenus } from "../types/TrainingMenu";
+import type { NewExercise } from "../types/NewExercise";
 
 export const Exercise = () => {
   const [tabs, setTabs] = useState([{ id: crypto.randomUUID() }]);

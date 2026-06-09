@@ -1,7 +1,7 @@
 import { Text, Input, Button, Flex } from "@chakra-ui/react";
-import type { Profile } from "../types/profile";
+import type { Profile } from "../../types/profile";
 import type { Dispatch, SetStateAction } from "react";
-import { GenderSelect } from "./ GenderSelect";
+import { GenderSelect } from "./GenderSelect";
 
 type UserProfileModalProps = {
   profile: Profile;

@@ -1,6 +1,6 @@
 import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
 import { UserProfileForm } from "./UserProfileForm";
-import type { Profile } from "../types/profile";
+import type { Profile } from "../../types/profile";
 import type { Dispatch, SetStateAction } from "react";
 
 

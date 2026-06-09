@@ -1,7 +1,7 @@
 import { Text, HStack, Spacer } from "@chakra-ui/react";
-import type { TrainingMenus } from "../types/TrainingMenus";
-import type { NewExercise } from "../types/NewxExercise";
-import { ExerciseListBypart } from "./ExerciseListBypart";
+import type { TrainingMenus } from "../../types/TrainingMenu";
+import type { NewExercise } from "../../types/NewExercise";
+import { ExerciseListBypart } from "./ExerciseListByPart";
 import { CreateTrainingMenuModal } from "./CreateTrainingMenuModal";
 
 type Props = {

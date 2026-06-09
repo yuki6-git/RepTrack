@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { useState } from "react";
 import Calendar from "react-calendar";
-import { WorkoutModal } from "../components/WorkoutModal";
+import { WorkoutModal } from "../components/workout/WorkoutModal";
 
 export const Workout = () => {
   const [workoutLogs, setWorkoutLogs] = useState([

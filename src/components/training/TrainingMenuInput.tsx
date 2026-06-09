@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { AddedExerciseList } from "./AddedExerciseList";
-import type { NewExercise } from "../types/NewxExercise";
+import type { NewExercise } from "../../types/NewExercise";
 
 type Props = {
   tabId: string;

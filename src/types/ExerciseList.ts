@@ -1,4 +1,4 @@
-import type { NewExercise } from "./NewxExercise";
+import type { NewExercise } from "./NewExercise";
 
 export type ExerciseListProps = {
   exercises: NewExercise[];

@@ -8,8 +8,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { UserProfileModal } from "../components/UserProfileModal";
-import { UserGoalsModal } from "../components/UserGoalsModal";
+import { UserProfileModal } from "../components/profile/UserProfileModal";
+import { UserGoalsModal } from "../components/profile/UserGoalsModal";
 import type { Profile } from "../types/profile";
 import type { UserGoals } from "../types/UserGoals";
 

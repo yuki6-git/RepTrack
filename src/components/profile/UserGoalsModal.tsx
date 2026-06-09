@@ -1,7 +1,7 @@
 import { Dialog, Button, Portal, CloseButton } from "@chakra-ui/react";
 import { UserGoalsForm } from "./UserGoalsForm";
 import type { Dispatch, SetStateAction } from "react";
-import type { UserGoals } from "../types/UserGoals";
+import type { UserGoals } from "../../types/UserGoals";
 
 type UserGoalsModalProps = {
   userGoals: UserGoals;
@@ -28,7 +28,10 @@ export const UserGoalsModal = (props: UserGoalsModalProps) => {
               </Dialog.CloseTrigger>
             </Dialog.Header>
             <Dialog.Body overflowY="auto">
-              <UserGoalsForm userGoals={userGoals} setUserGoals={setUserGoals} />
+              <UserGoalsForm
+                userGoals={userGoals}
+                setUserGoals={setUserGoals}
+              />
             </Dialog.Body>
           </Dialog.Content>
         </Dialog.Positioner>

@@ -3,7 +3,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import { supabase } from "./lib/supabase";
 import { AppRoutes } from "./routes/AppRoutes";
-import type { TrainingMenus } from "./types/TrainingMenus";
+import type { TrainingMenus } from "./types/TrainingMenu";
 
 function App() {
   const [menus, setMenus] = useState<TrainingMenus[]>([]);

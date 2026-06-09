@@ -1,7 +1,7 @@
 import { useState } from "react";
-import type { NewExercise } from "../types/NewxExercise";
+import type { NewExercise } from "../../types/NewExercise";
 import type { Dispatch, SetStateAction } from "react";
-import { ExerciseListBypart } from "./ExerciseListBypart";
+import { ExerciseListBypart } from "./ExerciseListByPart";
 
 type Props = {
   draftExercises: NewExercise[];

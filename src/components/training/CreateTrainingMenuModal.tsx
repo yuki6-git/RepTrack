@@ -1,7 +1,7 @@
 import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
 import { useState } from "react";
 import { TrainingMenuInput } from "./TrainingMenuInput";
-import type { NewExercise } from "../types/NewxExercise";
+import type { NewExercise } from "../../types/NewExercise";
 
 type Props = {
   tabId: string;
