@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Flex,
   Heading,
   SimpleGrid,
@@ -9,7 +8,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-
+import { UserProfileModal } from "../components/UserProfileModal";
+import { UserGoalsModal } from "../components/UserGoalsModal";
+import type { Profile } from "../types/profile";
+import type { UserGoals } from "../types/UserGoals";
 
 const settings = [
   "パスワードの変更",
@@ -19,16 +21,17 @@ const settings = [
 ];
 
 export const ProfileSetting = () => {
-  const [profile, setProfile] = useState(
-    {
-      username: "taro_fitness",
-      email: "taro@example.com",
-      targetWeight: "60.0kg",
-      gender: "男性",
-      birthday: "1998/04/15",
-    },
-  );
-  const [weeklyGoalCount, setWeeklyGoalCount] = useState(3);
+  const [profile, setProfile] = useState<Profile>({
+    username: "taro_fitness",
+    email: "taro@example.com",
+    gender: "男性",
+    birthday: "1998/04/15",
+  });
+  const [userGoals, setUserGoals] = useState<UserGoals>({
+    targetWeight: 60,
+    weeklyGoal: 3,
+  });
+
   return (
     <VStack align="stretch" gap="24px">
       <Heading size="xl">プロフィール</Heading>
@@ -38,15 +41,13 @@ export const ProfileSetting = () => {
           <Heading size="md" mb="24px">
             ユーザー情報
           </Heading>
-          {
-            
-          }
-          <VStack gap="24px">
-            <Avatar.Root size="2xl">
+          {}
+          <VStack gap="80px">
+            <Avatar.Root size="2xl" mt={10}>
               <Avatar.Fallback name={profile.username} />
             </Avatar.Root>
 
-            <VStack align="stretch" gap="16px" width="100%">
+            <VStack align="stretch" gap="30px" width="100%">
               <Flex justify="space-between">
                 <Text color="gray.500">ユーザー名</Text>
                 <Text fontWeight="bold">{profile.username}</Text>
@@ -55,11 +56,6 @@ export const ProfileSetting = () => {
               <Flex justify="space-between">
                 <Text color="gray.500">メールアドレス</Text>
                 <Text fontWeight="bold">{profile.email}</Text>
-              </Flex>
-
-              <Flex justify="space-between">
-                <Text color="gray.500">目標体重</Text>
-                <Text fontWeight="bold">{profile.targetWeight}</Text>
               </Flex>
 
               <Flex justify="space-between">
@@ -73,7 +69,7 @@ export const ProfileSetting = () => {
               </Flex>
             </VStack>
 
-            <Button variant="outline">プロフィールを編集</Button>
+            <UserProfileModal profile={profile} setProfile={setProfile} />
           </VStack>
         </Box>
 
@@ -86,7 +82,7 @@ export const ProfileSetting = () => {
             <Flex justify="space-between" align="center" mb="20px">
               <Text color="gray.500">目標体重</Text>
               <Flex align="baseline" gap="6px">
-                <Heading size="xl">{profile.targetWeight}</Heading>
+                <Heading size="xl">{userGoals.targetWeight}</Heading>
                 <Text fontWeight="bold">kg</Text>
               </Flex>
             </Flex>
@@ -94,12 +90,12 @@ export const ProfileSetting = () => {
             <Flex justify="space-between" align="center" mb="24px">
               <Text color="gray.500">トレーニング目標</Text>
               <Flex align="baseline" gap="6px">
-                <Heading size="xl">{weeklyGoalCount}</Heading>
+                <Heading size="xl">{userGoals.weeklyGoal}</Heading>
                 <Text fontWeight="bold">回</Text>
               </Flex>
             </Flex>
 
-            <Button variant="outline">目標を編集</Button>
+            <UserGoalsModal userGoals={userGoals} setUserGoals={setUserGoals}/>
           </Box>
 
           <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px">

@@ -7,29 +7,34 @@ import {
   Button,
   CloseButton,
 } from "@chakra-ui/react";
-import { TrainingMenu } from "../components/TrainingMenu";
+
 import { Timer } from "../components/organisms/Timer";
 import { FiPlus } from "react-icons/fi";
+import { TrainingMenu } from "../components/TrainingMenu";
+import { CreateTrainingMenuModal } from "../components/CreateTrainingMenuModal";
+import type { TrainingMenus } from "../types/TrainingMenus";
+import type { NewExercise } from "../types/NewxExercise";
 
 export const Exercise = () => {
-  const [tabs, setTabs] = useState([
-    { id: crypto.randomUUID() },
-    { id: crypto.randomUUID() },
-    { id: crypto.randomUUID() },
-  ]);
-  const [trainingMenus, setTrainingMenus] = useState([
-    {
-      id: tabs[0].id,
-    },
-  ]);
+  const [tabs, setTabs] = useState([{ id: crypto.randomUUID() }]);
+  const [trainingMenus, setTrainingMenus] = useState<TrainingMenus[]>([]);
 
   const [selectedTab, setSelectedTab] = useState<string | null>(tabs[0].id);
+
+  const onCreateMenu = (tabId: string, exercises: NewExercise[]) => {
+    const newMenu: TrainingMenus = {
+      id: crypto.randomUUID(),
+      tabId,
+      exercises,
+    };
+
+    setTrainingMenus((prev) => [...prev, newMenu]);
+  };
 
   const addTab = () => {
     if (tabs.length < 7) {
       const newTab = {
         id: crypto.randomUUID(),
-        content: "Tab Content",
       };
       const newTabs = [...tabs, newTab];
 
@@ -47,6 +52,22 @@ export const Exercise = () => {
       setTabs(newTabs);
       setSelectedTab(newTabs[0].id);
     }
+  };
+
+  const onToggleComplete = (id: string) => {
+    setTrainingMenus((prev) =>
+      prev.map((menu) => ({
+        ...menu,
+        exercises: menu.exercises.map((exercise) =>
+          exercise.id === id
+            ? {
+                ...exercise,
+                completed: !Boolean(exercise.completed),
+              }
+            : exercise,
+        ),
+      })),
+    );
   };
 
   return (
@@ -100,21 +121,31 @@ export const Exercise = () => {
             </Button>
           </Tabs.List>
           <Tabs.ContentGroup>
-            {tabs.map((tab) => {
-              const trainingMenu = trainingMenus.find(
-                (menu) => menu.id === tab.id,
-              );
+            <Tabs.ContentGroup>
+              {tabs.map((tab) => {
+                const trainingMenu = trainingMenus.find(
+                  (menu) => menu.tabId === tab.id,
+                );
 
-              return (
-                <Tabs.Content value={tab.id} key={tab.id}>
-                  {trainingMenu ? (
-                    <TrainingMenu trainingMenuId={tab.id} />
-                  ) : (
-                    <Button>メニューを追加する</Button>
-                  )}
-                </Tabs.Content>
-              );
-            })}
+                return (
+                  <Tabs.Content value={tab.id} key={tab.id}>
+                    {trainingMenu ? (
+                      <TrainingMenu
+                        onToggleComplete={onToggleComplete}
+                        trainingMenu={trainingMenu}
+                        setTrainingMenus={setTrainingMenus}
+                      />
+                    ) : (
+                      <CreateTrainingMenuModal
+                        tabId={tab.id}
+                        onSaveMenu={onCreateMenu}
+                        triggerLabel="トレーニングメニューを追加"
+                      />
+                    )}
+                  </Tabs.Content>
+                );
+              })}
+            </Tabs.ContentGroup>
           </Tabs.ContentGroup>
         </Tabs.Root>
       </Flex>

@@ -3,10 +3,10 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import { supabase } from "./lib/supabase";
 import { AppRoutes } from "./routes/AppRoutes";
-import type { TrainingMenu } from "./types/TrainingMenu";
+import type { TrainingMenus } from "./types/TrainingMenus";
 
 function App() {
-  const [menus, setMenus] = useState<TrainingMenu[]>([]);
+  const [menus, setMenus] = useState<TrainingMenus[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
