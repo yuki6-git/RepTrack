@@ -1,20 +1,22 @@
 import { Dialog, Button, Portal, CloseButton } from "@chakra-ui/react";
-import { UserGoalsForm } from "./UserGoalsnput";
-import type { Dispatch, SetStateAction } from "react";
-import type { UserGoals } from "../../types/UserGoals";
+import { WeightInput } from "./WeightInput";
 
-type UserGoalsModalProps = {
-  userGoals: UserGoals;
-  setUserGoals: Dispatch<SetStateAction<UserGoals>>;
+type Props = {
+  latestWeight: string;
+  latestBodyFat: string;
+  createWeightRecord: (params: {
+    weight: number;
+    bodyFat: number;
+  }) => Promise<void>;
 };
 
-export const UserGoalsModal = (props: UserGoalsModalProps) => {
-  const { userGoals, setUserGoals } = props;
+export const WeightInputModal = (props: Props) => {
+  const { latestWeight, latestBodyFat, createWeightRecord } = props;
   return (
     <Dialog.Root size="md" placement="top" motionPreset="slide-in-bottom">
       <Dialog.Trigger asChild>
         <Button variant="outline" size="sm">
-          目標を編集
+          体重を記録する
         </Button>
       </Dialog.Trigger>
       <Portal>
@@ -22,15 +24,16 @@ export const UserGoalsModal = (props: UserGoalsModalProps) => {
         <Dialog.Positioner>
           <Dialog.Content>
             <Dialog.Header>
-              <Dialog.Title>目標を編集</Dialog.Title>
+              <Dialog.Title>最新の記録</Dialog.Title>
               <Dialog.CloseTrigger asChild>
                 <CloseButton size="sm" />
               </Dialog.CloseTrigger>
             </Dialog.Header>
             <Dialog.Body overflowY="auto">
-              <UserGoalsForm
-                userGoals={userGoals}
-                setUserGoals={setUserGoals}
+              <WeightInput
+                latestWeight={latestWeight}
+                latestBodyFat={latestBodyFat}
+                createWeightRecord={createWeightRecord}
               />
             </Dialog.Body>
           </Dialog.Content>
