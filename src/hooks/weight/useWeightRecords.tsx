@@ -34,8 +34,11 @@ export const useWeightRecords = () => {
     setIsLoading(false);
   };
 
-  const createWeightRecord = async ({weight, bodyFat}:CreateWeightRecordParams) => {
-   const { error } = await supabase.from("weight_records").insert({
+  const createWeightRecord = async ({
+    weight,
+    bodyFat,
+  }: CreateWeightRecordParams) => {
+    const { error } = await supabase.from("weight_records").insert({
       weight: Number(weight),
       body_fat: Number(bodyFat),
       recorded_at: new Date().toISOString().slice(0, 10),

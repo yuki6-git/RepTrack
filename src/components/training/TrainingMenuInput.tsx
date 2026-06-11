@@ -8,8 +8,9 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { AddedExerciseList } from "./AddedExerciseList";
 import type { NewExercise } from "../../types/NewExercise";
+import { ExerciseListBypart } from "./ExerciseListByPart";
+import { useDraftExercises } from "../../hooks/exercises/useDraftExercises";
 
 type Props = {
   tabId: string;
@@ -51,7 +52,11 @@ export const TrainingMenuInput = (props: Props) => {
     setDraftExercises((prev) => [...prev, newExercise]);
     setForm(initialForm);
   };
-
+  const { onClickEditExercise, onClickDeleteExercise } = useDraftExercises({
+    setDraftExercises,
+    setForm,
+    initialForm,
+  });
   return (
     <>
       <Box as="dl">
@@ -191,12 +196,13 @@ export const TrainingMenuInput = (props: Props) => {
 
       <Text my={4}>追加済み種目</Text>
 
-      <AddedExerciseList
-        setForm={setForm}
-        initialForm={initialForm}
-        draftExercises={draftExercises}
-        setDraftExercises={setDraftExercises}
+      <ExerciseListBypart
+        exercises={draftExercises}
+        onClickEditExercise={onClickEditExercise}
+        onClickDeleteExercise={onClickDeleteExercise}
+        mode="draft"
       />
+
       <Flex justifyContent="end" mt={4}>
         <Button onClick={() => onCreateMenu(tabId, draftExercises)}>
           保存

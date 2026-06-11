@@ -1,24 +1,22 @@
 import { useState } from "react";
 import type { NewExercise } from "../../types/NewExercise";
 import type { Dispatch, SetStateAction } from "react";
-import { ExerciseListBypart } from "./ExerciseListByPart";
 
 type Props = {
-  draftExercises: NewExercise[];
   setDraftExercises: Dispatch<SetStateAction<NewExercise[]>>;
-  initialForm: NewExercise;
   setForm: Dispatch<SetStateAction<NewExercise>>;
+  initialForm: NewExercise;
 };
 
-export const AddedExerciseList = (props: Props) => {
-  const { draftExercises, setDraftExercises, setForm, initialForm } = props;
+export const useDraftExercises = (props: Props) => {
+  const { setDraftExercises, setForm, initialForm } = props;
 
   const [editingExerciseId, setEditingExerciseId] = useState<string | null>(
     null,
   );
 
   const onClickDeleteExercise = (id: string) => {
-    setDraftExercises((prev) => prev.filter((Exercise) => Exercise.id !== id));
+    setDraftExercises((prev) => prev.filter((exercise) => exercise.id !== id));
 
     if (editingExerciseId === id) {
       setEditingExerciseId(null);
@@ -34,12 +32,8 @@ export const AddedExerciseList = (props: Props) => {
     setForm(exercise);
   };
 
-  return (
-    <ExerciseListBypart
-      onClickEditExercise={onClickEditExercise}
-      onClickDeleteExercise={onClickDeleteExercise}
-      exercises={draftExercises}
-      mode="draft"
-    />
-  );
+  return {
+    onClickEditExercise,
+    onClickDeleteExercise,
+  };
 };

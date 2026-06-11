@@ -14,7 +14,7 @@ export const Sidebar = () => {
   const navItems = [
     { label: "Dashboard", path: "/", icon: FiHome, end: true },
     { label: "Workout", path: "/workout", icon: FiCalendar },
-    { label: "Exercise", path: "/exercise", icon: FiActivity },
+    { label: "Training", path: "/training", icon: FiActivity },
     { label: "Weight", path: "/weight", icon: FiTrendingUp },
     { label: "Analytics", path: "/analytics", icon: FiBarChart2 },
     { label: "Profile", path: "/profile-setting", icon: FiUser },

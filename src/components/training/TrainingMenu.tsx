@@ -1,29 +1,17 @@
 import { Text, HStack, Spacer } from "@chakra-ui/react";
-import type { TrainingMenus } from "../../types/TrainingMenu";
+import type { TrainingMenu as TrainingMenuType } from "../../types/TrainingMenu";
 import type { NewExercise } from "../../types/NewExercise";
 import { ExerciseListBypart } from "./ExerciseListByPart";
 import { CreateTrainingMenuModal } from "./CreateTrainingMenuModal";
 
 type Props = {
-  trainingMenu: TrainingMenus;
-  setTrainingMenus:React.Dispatch<React.SetStateAction<TrainingMenus[]>>;
+  trainingMenu: TrainingMenuType;
   onToggleComplete: (exerciseId: string) => void;
+  onUpdateMenu: (tabId: string, exercises: NewExercise[]) => void;
 };
 
 export const TrainingMenu = (props: Props) => {
-  const { trainingMenu, setTrainingMenus, onToggleComplete } = props;
-  const onUpdateMenu = (tabId: string, exercises: NewExercise[]) => {
-    setTrainingMenus((prev) =>
-      prev.map((menu) =>
-        menu.tabId === tabId
-          ? {
-              ...menu,
-              exercises,
-            }
-          : menu,
-      ),
-    );
-  };
+  const { trainingMenu, onToggleComplete, onUpdateMenu } = props;
 
   return (
     <>

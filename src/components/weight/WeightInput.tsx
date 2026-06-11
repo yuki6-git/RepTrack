@@ -1,8 +1,9 @@
 import { Flex, Text, NumberInput, Button } from "@chakra-ui/react";
 import { useState } from "react";
-
+import type { Dispatch, SetStateAction } from "react";
 
 type Props = {
+  setOpen: Dispatch<SetStateAction<boolean>>;
   latestWeight: string;
   latestBodyFat: string;
   createWeightRecord: (params: {
@@ -12,14 +13,16 @@ type Props = {
 };
 
 export const WeightInput = (props: Props) => {
-  const { latestWeight, latestBodyFat, createWeightRecord } = props;
+  const { latestWeight, latestBodyFat, setOpen, createWeightRecord } = props;
   const [weight, setWeight] = useState(String(latestWeight));
   const [bodyFat, setBodyFat] = useState(String(latestBodyFat));
+
   const onSaveWeight = async () => {
     await createWeightRecord({
       weight: Number(weight),
       bodyFat: Number(bodyFat),
     });
+    setOpen(false);
   };
 
   return (

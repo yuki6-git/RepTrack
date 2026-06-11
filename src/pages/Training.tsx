@@ -12,24 +12,20 @@ import { Timer } from "../components/organisms/Timer";
 import { FiPlus } from "react-icons/fi";
 import { TrainingMenu } from "../components/training/TrainingMenu";
 import { CreateTrainingMenuModal } from "../components/training/CreateTrainingMenuModal";
-import type { TrainingMenus } from "../types/TrainingMenu";
-import type { NewExercise } from "../types/NewExercise";
+import { useTrainingMenus } from "../hooks/exercises/useTrainingMenus";
 
-export const Exercise = () => {
+
+export const Training = () => {
   const [tabs, setTabs] = useState([{ id: crypto.randomUUID() }]);
-  const [trainingMenus, setTrainingMenus] = useState<TrainingMenus[]>([]);
-
   const [selectedTab, setSelectedTab] = useState<string | null>(tabs[0].id);
+  const {
+    trainingMenus,
+    createTrainingMenu,
+    onToggleComplete,
+    onUpdateMenu,
+  } = useTrainingMenus();
 
-  const onCreateMenu = (tabId: string, exercises: NewExercise[]) => {
-    const newMenu: TrainingMenus = {
-      id: crypto.randomUUID(),
-      tabId,
-      exercises,
-    };
-
-    setTrainingMenus((prev) => [...prev, newMenu]);
-  };
+ 
 
   const addTab = () => {
     if (tabs.length < 7) {
@@ -52,22 +48,6 @@ export const Exercise = () => {
       setTabs(newTabs);
       setSelectedTab(newTabs[0].id);
     }
-  };
-
-  const onToggleComplete = (id: string) => {
-    setTrainingMenus((prev) =>
-      prev.map((menu) => ({
-        ...menu,
-        exercises: menu.exercises.map((exercise) =>
-          exercise.id === id
-            ? {
-                ...exercise,
-                completed: !Boolean(exercise.completed),
-              }
-            : exercise,
-        ),
-      })),
-    );
   };
 
   return (
@@ -133,12 +113,12 @@ export const Exercise = () => {
                       <TrainingMenu
                         onToggleComplete={onToggleComplete}
                         trainingMenu={trainingMenu}
-                        setTrainingMenus={setTrainingMenus}
+                        onUpdateMenu={onUpdateMenu}
                       />
                     ) : (
                       <CreateTrainingMenuModal
                         tabId={tab.id}
-                        onSaveMenu={onCreateMenu}
+                        onSaveMenu={createTrainingMenu}
                         triggerLabel="トレーニングメニューを追加"
                       />
                     )}

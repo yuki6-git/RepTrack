@@ -18,6 +18,7 @@ export const CreateTrainingMenuModal = (props: Props) => {
     onSaveMenu(tabId, exercises);
     setIsOpen(false);
   };
+
   return (
     <Dialog.Root
       open={isOpen}
@@ -44,7 +45,7 @@ export const CreateTrainingMenuModal = (props: Props) => {
             <Dialog.Body overflowY="auto">
               <TrainingMenuInput
                 addExercises={addExercises}
-                onCreateMenu={onClickSave}
+                onCreateMenu={onClickSave} // onClickSaveに統一
                 tabId={tabId}
               />
             </Dialog.Body>

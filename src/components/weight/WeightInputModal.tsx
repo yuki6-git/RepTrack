@@ -1,4 +1,5 @@
 import { Dialog, Button, Portal, CloseButton } from "@chakra-ui/react";
+import { useState } from "react";
 import { WeightInput } from "./WeightInput";
 
 type Props = {
@@ -12,8 +13,15 @@ type Props = {
 
 export const WeightInputModal = (props: Props) => {
   const { latestWeight, latestBodyFat, createWeightRecord } = props;
+  const [open, setOpen] = useState(false);
   return (
-    <Dialog.Root size="md" placement="top" motionPreset="slide-in-bottom">
+    <Dialog.Root
+      size="md"
+      placement="top"
+      motionPreset="slide-in-bottom"
+      open={open}
+      onOpenChange={(e) => setOpen(e.open)}
+    >
       <Dialog.Trigger asChild>
         <Button variant="outline" size="sm">
           体重を記録する
@@ -34,6 +42,7 @@ export const WeightInputModal = (props: Props) => {
                 latestWeight={latestWeight}
                 latestBodyFat={latestBodyFat}
                 createWeightRecord={createWeightRecord}
+                setOpen={setOpen}
               />
             </Dialog.Body>
           </Dialog.Content>

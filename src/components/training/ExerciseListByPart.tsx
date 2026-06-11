@@ -5,18 +5,25 @@ import {
   VStack,
   Button,
   Checkbox,
-  Flex
+  Flex,
 } from "@chakra-ui/react";
-import type { ExerciseListProps } from "../../types/ExerciseList";
 import type { NewExercise } from "../../types/NewExercise";
 
-export const ExerciseListBypart = (props: ExerciseListProps) => {
+type Props = {
+  exercises: NewExercise[];
+  mode: "draft" | "workout";
+  onClickEditExercise?: (exercise: NewExercise) => void;
+  onClickDeleteExercise?: (id: string) => void;
+  onToggleComplete?: (id: string) => void;
+};
+
+export const ExerciseListBypart = (props: Props) => {
   const {
     exercises,
     mode,
+    onToggleComplete,
     onClickEditExercise,
     onClickDeleteExercise,
-    onToggleComplete,
   } = props;
 
   const groupedExercises = exercises.reduce<Record<string, NewExercise[]>>(
