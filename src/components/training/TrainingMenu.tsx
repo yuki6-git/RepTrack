@@ -19,7 +19,7 @@ export const TrainingMenu = (props: Props) => {
         <Text fontWeight="bold">今日の筋トレメニュー</Text>
         <Spacer />
         <CreateTrainingMenuModal
-          onSaveMenu={onUpdateMenu}
+          createTrainingMenu={onUpdateMenu}
           addExercises={trainingMenu.exercises}
           tabId={trainingMenu.tabId}
           triggerLabel={"トレーニングメニューを編集"}

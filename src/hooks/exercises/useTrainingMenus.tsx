@@ -62,6 +62,12 @@ export const useTrainingMenus = () => {
     setIsLoading(true);
     setError("");
 
+    if (draftExercises.length === 0) {
+      setError("種目を1件以上追加してください");
+      setIsLoading(false);
+      return;
+    }
+
     const { data: menu, error: menuError } = await insertTrainingMenu(tabId);
 
     if (menuError) {

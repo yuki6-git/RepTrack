@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Tabs,
   VStack,
@@ -14,18 +14,30 @@ import { TrainingMenu } from "../components/training/TrainingMenu";
 import { CreateTrainingMenuModal } from "../components/training/CreateTrainingMenuModal";
 import { useTrainingMenus } from "../hooks/exercises/useTrainingMenus";
 
+type Tab = {
+  id: string;
+};
 
 export const Training = () => {
-  const [tabs, setTabs] = useState([{ id: crypto.randomUUID() }]);
+  const [tabs, setTabs] = useState<Tab[]>([{ id: crypto.randomUUID() }]);
   const [selectedTab, setSelectedTab] = useState<string | null>(tabs[0].id);
-  const {
-    trainingMenus,
-    createTrainingMenu,
-    onToggleComplete,
-    onUpdateMenu,
-  } = useTrainingMenus();
+  const { trainingMenus, createTrainingMenu, onToggleComplete, onUpdateMenu } =
+    useTrainingMenus();
 
- 
+  useEffect(() => {
+    if (trainingMenus.length === 0) {
+      return;
+    }
+
+    const savedTabs = trainingMenus.map((menu) => ({ id: menu.tabId }));
+
+    setTabs(savedTabs);
+    setSelectedTab((prev) => {
+      const selectedTab = savedTabs.find((tab) => tab.id === prev);
+
+      return selectedTab ? prev : savedTabs[0].id;
+    });
+  }, [trainingMenus]);
 
   const addTab = () => {
     if (tabs.length < 7) {
@@ -118,7 +130,7 @@ export const Training = () => {
                     ) : (
                       <CreateTrainingMenuModal
                         tabId={tab.id}
-                        onSaveMenu={createTrainingMenu}
+                        createTrainingMenu={createTrainingMenu}
                         triggerLabel="トレーニングメニューを追加"
                       />
                     )}

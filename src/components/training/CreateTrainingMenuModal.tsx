@@ -5,17 +5,17 @@ import type { NewExercise } from "../../types/NewExercise";
 
 type Props = {
   tabId: string;
-  onSaveMenu: (tabId: string, exercises: NewExercise[]) => void;
+  createTrainingMenu: (tabId: string, exercises: NewExercise[]) => void;
   triggerLabel: string;
   addExercises?: NewExercise[];
 };
 
 export const CreateTrainingMenuModal = (props: Props) => {
-  const { tabId, onSaveMenu, triggerLabel, addExercises } = props;
+  const { tabId, createTrainingMenu, triggerLabel, addExercises } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const onClickSave = (tabId: string, exercises: NewExercise[]) => {
-    onSaveMenu(tabId, exercises);
+    createTrainingMenu(tabId, exercises);
     setIsOpen(false);
   };
 
@@ -45,7 +45,7 @@ export const CreateTrainingMenuModal = (props: Props) => {
             <Dialog.Body overflowY="auto">
               <TrainingMenuInput
                 addExercises={addExercises}
-                onCreateMenu={onClickSave} // onClickSaveに統一
+                onClickSave={onClickSave} 
                 tabId={tabId}
               />
             </Dialog.Body>

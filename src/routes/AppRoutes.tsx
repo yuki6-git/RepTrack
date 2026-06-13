@@ -7,6 +7,7 @@ import { Weight } from "../pages/Weight";
 import { Analytics } from "../pages/Analytics";
 import { ProfileSetting } from "../pages/ProfileSetting";
 import { Login } from "../pages/Login";
+import { Register } from "../pages/Register";
 
 export const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ export const AppRoutes = () => {
         <Route path="/weight" element={<Weight />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/profile-setting" element={<ProfileSetting />} />
+        <Route path="/register" element={<Register />} />
       </Route>
     </Routes>
   );

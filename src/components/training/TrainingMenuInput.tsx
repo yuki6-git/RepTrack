@@ -6,6 +6,7 @@ import {
   InputGroup,
   NumberInput,
   Flex,
+  Field,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import type { NewExercise } from "../../types/NewExercise";
@@ -14,12 +15,12 @@ import { useDraftExercises } from "../../hooks/exercises/useDraftExercises";
 
 type Props = {
   tabId: string;
-  onCreateMenu: (tabId: string, exercises: NewExercise[]) => void;
+  onClickSave: (tabId: string, exercises: NewExercise[]) => void;
   addExercises?: NewExercise[];
 };
 
 export const TrainingMenuInput = (props: Props) => {
-  const { tabId, onCreateMenu, addExercises } = props;
+  const { tabId, onClickSave, addExercises } = props;
   const initialForm: NewExercise = {
     id: "",
     tabId: "",
@@ -36,8 +37,21 @@ export const TrainingMenuInput = (props: Props) => {
   const [draftExercises, setDraftExercises] = useState<NewExercise[]>(
     addExercises ?? [],
   );
+  const [validationMessage, setValidationMessage] = useState("");
+
+  const hasRequiredValues =
+    form.part.trim() !== "" &&
+    form.exerciseName.trim() !== "" &&
+    form.setWeight.trim() !== "" &&
+    form.sets.trim() !== "" &&
+    form.reps.trim() !== "";
 
   const onClickAddExercise = () => {
+    if (!hasRequiredValues) {
+      setValidationMessage("必須項目を入力してください");
+      return;
+    }
+
     const newExercise: NewExercise = {
       id: crypto.randomUUID(),
       tabId: tabId,
@@ -51,7 +65,18 @@ export const TrainingMenuInput = (props: Props) => {
 
     setDraftExercises((prev) => [...prev, newExercise]);
     setForm(initialForm);
+    setValidationMessage("");
   };
+
+  const onClickSaveMenu = () => {
+    if (draftExercises.length === 0) {
+      setValidationMessage("種目を1件以上追加してください");
+      return;
+    }
+
+    onClickSave(tabId, draftExercises);
+  };
+
   const { onClickEditExercise, onClickDeleteExercise } = useDraftExercises({
     setDraftExercises,
     setForm,
@@ -60,139 +85,173 @@ export const TrainingMenuInput = (props: Props) => {
   return (
     <>
       <Box as="dl">
-        <Text as="dt" color="gray.500">
-          部位
-        </Text>
-        <Input
-          placeholder="部位"
-          value={form.part}
-          onChange={(e) =>
-            setForm({
-              ...form,
-              part: e.target.value,
-            })
-          }
-          as="dd"
-        />
-        <Text as="dt" color="gray.500">
-          種目名
-        </Text>
-        <Input
-          placeholder="種目名"
-          value={form.exerciseName}
-          onChange={(e) =>
-            setForm({
-              ...form,
-              exerciseName: e.target.value,
-            })
-          }
-          as="dd"
-        />
-
-        <Text as="dt" color="gray.500">
-          Max重量
-        </Text>
-        <NumberInput.Root
-          value={form.maxWeight}
-          onValueChange={(e) =>
-            setForm({
-              ...form,
-              maxWeight: e.value,
-            })
-          }
-          maxW={200}
-        >
-          <NumberInput.Control />
-          <InputGroup
-            endElement={
-              <Box pr="30px" color="gray.500">
-                kg
-              </Box>
+        <Field.Root required>
+          <Field.Label as="dt" color="gray.500">
+            部位 <Field.RequiredIndicator />
+          </Field.Label>
+          <Input
+            placeholder="部位"
+            value={form.part}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                part: e.target.value,
+              })
             }
-          >
-            <NumberInput.Input />
-          </InputGroup>
-        </NumberInput.Root>
+            as="dd"
+          />
 
-        <Text as="dt" color="gray.500">
-          セット重量
-        </Text>
-        <NumberInput.Root
-          value={form.setWeight}
-          onValueChange={(e) =>
-            setForm({
-              ...form,
-              setWeight: e.value,
-            })
-          }
-          maxW={200}
-        >
-          <NumberInput.Control />
-          <InputGroup
-            endElement={
-              <Box pr="30px" color="gray.500">
-                kg
-              </Box>
+          <Field.Label as="dt" color="gray.500">
+            種目名 <Field.RequiredIndicator />
+          </Field.Label>
+          <Input
+            placeholder="種目名"
+            value={form.exerciseName}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                exerciseName: e.target.value,
+              })
             }
-          >
-            <NumberInput.Input />
-          </InputGroup>
-        </NumberInput.Root>
+            as="dd"
+          />
 
-        <Text as="dt" color="gray.500">
-          セット回数
-        </Text>
-        <NumberInput.Root
-          value={form.sets}
-          onValueChange={(e) =>
-            setForm({
-              ...form,
-              sets: e.value,
-            })
-          }
-          maxW={200}
-        >
-          <NumberInput.Control />
-          <InputGroup
-            endElement={
-              <Box pr="30px" color="gray.500">
-                回
-              </Box>
+          <Text as="dt" color="gray.500">
+            Max重量
+          </Text>
+          <NumberInput.Root
+            value={form.maxWeight}
+            onValueChange={(e) =>
+              setForm({
+                ...form,
+                maxWeight: e.value,
+              })
             }
+            maxW={200}
           >
-            <NumberInput.Input />
-          </InputGroup>
-        </NumberInput.Root>
+            <NumberInput.Control />
+            <InputGroup
+              endElement={
+                <Box pr="30px" color="gray.500">
+                  kg
+                </Box>
+              }
+            >
+              <NumberInput.Input />
+            </InputGroup>
+          </NumberInput.Root>
 
-        <Text as="dt" color="gray.500">
-          レップ数
-        </Text>
-        <NumberInput.Root
-          value={form.reps}
-          onValueChange={(e) =>
-            setForm({
-              ...form,
-              reps: e.value,
-            })
-          }
-          maxW={200}
-        >
-          <NumberInput.Control />
-          <InputGroup
-            endElement={
-              <Box pr="30px" color="gray.500">
-                回
-              </Box>
+          <Field.Label as="dt" color="gray.500">
+            セット重量 <Field.RequiredIndicator />
+          </Field.Label>
+          <NumberInput.Root
+            value={form.setWeight}
+            onValueChange={(e) =>
+              setForm({
+                ...form,
+                setWeight: e.value,
+              })
             }
+            maxW={200}
           >
-            <NumberInput.Input />
-          </InputGroup>
-        </NumberInput.Root>
+            <NumberInput.Control />
+            <InputGroup
+              endElement={
+                <Box pr="30px" color="gray.500">
+                  kg
+                </Box>
+              }
+            >
+              <NumberInput.Input />
+            </InputGroup>
+          </NumberInput.Root>
+
+          <Field.Label as="dt" color="gray.500">
+            セット回数 <Field.RequiredIndicator />
+          </Field.Label>
+          <NumberInput.Root
+            value={form.sets}
+            onValueChange={(e) =>
+              setForm({
+                ...form,
+                sets: e.value,
+              })
+            }
+            maxW={200}
+          >
+            <NumberInput.Control />
+            <InputGroup
+              endElement={
+                <Box pr="30px" color="gray.500">
+                  回
+                </Box>
+              }
+            >
+              <NumberInput.Input />
+            </InputGroup>
+          </NumberInput.Root>
+
+          <Field.Label as="dt" color="gray.500">
+            セット重量 <Field.RequiredIndicator />
+          </Field.Label>
+          <NumberInput.Root
+            value={form.setWeight}
+            onValueChange={(e) =>
+              setForm({
+                ...form,
+                setWeight: e.value,
+              })
+            }
+            maxW={200}
+          >
+            <NumberInput.Control />
+            <InputGroup
+              endElement={
+                <Box pr="30px" color="gray.500">
+                  kg
+                </Box>
+              }
+            >
+              <NumberInput.Input />
+            </InputGroup>
+          </NumberInput.Root>
+
+          <Field.Label as="dt" color="gray.500">
+            レップ数 <Field.RequiredIndicator />
+          </Field.Label>
+          <NumberInput.Root
+            value={form.reps}
+            onValueChange={(e) =>
+              setForm({
+                ...form,
+                reps: e.value,
+              })
+            }
+            maxW={200}
+          >
+            <NumberInput.Control />
+            <InputGroup
+              endElement={
+                <Box pr="30px" color="gray.500">
+                  回
+                </Box>
+              }
+            >
+              <NumberInput.Input />
+            </InputGroup>
+          </NumberInput.Root>
+        </Field.Root>
       </Box>
 
       <Button onClick={onClickAddExercise} my={4}>
         種目を追加
       </Button>
+
+      {validationMessage && (
+        <Text color="red.500" mb={4}>
+          {validationMessage}
+        </Text>
+      )}
 
       <Text my={4}>追加済み種目</Text>
 
@@ -204,9 +263,7 @@ export const TrainingMenuInput = (props: Props) => {
       />
 
       <Flex justifyContent="end" mt={4}>
-        <Button onClick={() => onCreateMenu(tabId, draftExercises)}>
-          保存
-        </Button>
+        <Button onClick={onClickSaveMenu}>保存</Button>
       </Flex>
     </>
   );
