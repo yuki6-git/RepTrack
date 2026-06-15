@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { MainLayout } from "../layouts/MainLayout";
 import { Dashboard } from "../pages/Dashboard";
 import { Workout } from "../pages/Workout";
-import { Training } from "../pages/Training";
+import { Training } from "../pages/Training"
 import { Weight } from "../pages/Weight";
 import { Analytics } from "../pages/Analytics";
 import { ProfileSetting } from "../pages/ProfileSetting";

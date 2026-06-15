@@ -22,7 +22,7 @@ export type TrainingMenuExerciseRow = {
   training_menu_id: string;
   part: string;
   exercise_name: string;
-  max_weight: number;
+  max_weight: number | null;
   set_weight: number;
   sets: number;
   reps: number;

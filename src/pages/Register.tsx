@@ -12,11 +12,17 @@ import {
   NumberInput,
   InputGroup,
   SegmentGroup,
+  Field,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useCalorieCalculation } from "../hooks/register/useCalorieCalculation";
 import { ManualCaloriModal } from "../components/register/ManualcaloriModal";
 import { useNavigate } from "react-router-dom";
+import { onClickRegister } from "../components/features/register/onClickRegister";
+import {
+  checkRequiredField,
+  type UserInfoErrors,
+} from "../components/features/register/checkRequiredField";
 import type { UserInfo } from "../types/UserInfo";
 
 export const Register = () => {
@@ -36,6 +42,9 @@ export const Register = () => {
   const [userInfo, setUserInfo] = useState<UserInfo>(initialUserInfo);
   const [isManualCalories, setIsManualCalories] = useState(false);
   const [manualTargetCalories, setManualTargetCalories] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<UserInfoErrors>({});
 
   const { estimatedCalories, targetCalories } = useCalorieCalculation({
     userInfo,
@@ -84,10 +93,8 @@ export const Register = () => {
           <VStack align="stretch" w="100%">
             <Heading size="md">ユーザー情報</Heading>
             <SimpleGrid columns={2} gap="16px">
-              <Box>
-                <Text color="gray.600" fontSize="sm" mb="6px">
-                  ユーザー名
-                </Text>
+              <Field.Root invalid={Boolean(fieldErrors.username)}>
+                <Field.Label>ユーザー名</Field.Label>
                 <Input
                   placeholder="ユーザー名を入力"
                   value={userInfo.username}
@@ -98,11 +105,10 @@ export const Register = () => {
                     })
                   }
                 />
-              </Box>
-              <Box>
-                <Text color="gray.600" fontSize="sm" mb="6px">
-                  メールアドレス
-                </Text>
+                <Field.ErrorText>{fieldErrors.username}</Field.ErrorText>
+              </Field.Root>
+              <Field.Root invalid={Boolean(fieldErrors.email)}>
+                <Field.Label>メールアドレス</Field.Label>
                 <Input
                   type="email"
                   placeholder="メールアドレスを入力"
@@ -114,13 +120,12 @@ export const Register = () => {
                     })
                   }
                 />
-              </Box>
+                <Field.ErrorText>{fieldErrors.email}</Field.ErrorText>
+              </Field.Root>
             </SimpleGrid>
             <SimpleGrid columns={2} gap="16px">
-              <Box>
-                <Text color="gray.600" fontSize="sm" mb="6px">
-                  性別
-                </Text>
+              <Field.Root invalid={Boolean(fieldErrors.gender)}>
+                <Field.Label>性別</Field.Label>
                 <NativeSelect.Root>
                   <NativeSelect.Field
                     value={userInfo.gender}
@@ -138,11 +143,10 @@ export const Register = () => {
                   </NativeSelect.Field>
                   <NativeSelect.Indicator />
                 </NativeSelect.Root>
-              </Box>
-              <Box>
-                <Text color="gray.600" fontSize="sm" mb="6px">
-                  生年月日
-                </Text>
+                <Field.ErrorText>{fieldErrors.gender}</Field.ErrorText>
+              </Field.Root>
+              <Field.Root invalid={Boolean(fieldErrors.birthday)}>
+                <Field.Label>生年月日</Field.Label>
                 <Input
                   type="date"
                   value={userInfo.birthday}
@@ -153,13 +157,12 @@ export const Register = () => {
                     })
                   }
                 />
-              </Box>
+                <Field.ErrorText>{fieldErrors.birthday}</Field.ErrorText>
+              </Field.Root>
             </SimpleGrid>
             <SimpleGrid columns={2} gap="16px">
-              <Box>
-                <Text color="gray.600" fontSize="sm" mb="6px">
-                  身長
-                </Text>
+              <Field.Root invalid={Boolean(fieldErrors.height)}>
+                <Field.Label>身長</Field.Label>
                 <NumberInput.Root
                   min={0}
                   value={userInfo.height}
@@ -174,11 +177,10 @@ export const Register = () => {
                     <NumberInput.Input />
                   </InputGroup>
                 </NumberInput.Root>
-              </Box>
-              <Box>
-                <Text color="gray.600" fontSize="sm" mb="6px">
-                  体重
-                </Text>
+                <Field.ErrorText>{fieldErrors.height}</Field.ErrorText>
+              </Field.Root>
+              <Field.Root invalid={Boolean(fieldErrors.weight)}>
+                <Field.Label>体重</Field.Label>
                 <NumberInput.Root
                   min={0}
                   value={userInfo.weight}
@@ -193,13 +195,12 @@ export const Register = () => {
                     <NumberInput.Input />
                   </InputGroup>
                 </NumberInput.Root>
-              </Box>
+                <Field.ErrorText>{fieldErrors.weight}</Field.ErrorText>
+              </Field.Root>
             </SimpleGrid>
             <SimpleGrid columns={2} gap="16px">
-              <Box>
-                <Text color="gray.600" fontSize="sm" mb="6px">
-                  目標タイプ
-                </Text>
+              <Field.Root invalid={Boolean(fieldErrors.goalType)}>
+                <Field.Label>目標タイプ</Field.Label>
                 <SegmentGroup.Root
                   size="md"
                   width="100%"
@@ -220,11 +221,10 @@ export const Register = () => {
                   <SegmentGroup.Indicator />
                   <SegmentGroup.Items items={["増量", "減量", "維持"]} />
                 </SegmentGroup.Root>
-              </Box>
-              <Box>
-                <Text color="gray.600" fontSize="sm" mb="6px">
-                  活動レベル
-                </Text>
+                <Field.ErrorText>{fieldErrors.goalType}</Field.ErrorText>
+              </Field.Root>
+              <Field.Root invalid={Boolean(fieldErrors.activityLevel)}>
+                <Field.Label>活動レベル</Field.Label>
                 <NativeSelect.Root>
                   <NativeSelect.Field
                     value={userInfo.activityLevel}
@@ -243,13 +243,12 @@ export const Register = () => {
                   </NativeSelect.Field>
                   <NativeSelect.Indicator />
                 </NativeSelect.Root>
-              </Box>
+                <Field.ErrorText>{fieldErrors.activityLevel}</Field.ErrorText>
+              </Field.Root>
             </SimpleGrid>
             <SimpleGrid columns={2} gap="16px">
-              <Box>
-                <Text color="gray.600" fontSize="sm" mb="6px">
-                  週間トレーニング目標
-                </Text>
+              <Field.Root invalid={Boolean(fieldErrors.weeklyGoal)}>
+                <Field.Label>週間トレーニング目標</Field.Label>
                 <NumberInput.Root
                   min={0}
                   max={7}
@@ -265,11 +264,10 @@ export const Register = () => {
                     <NumberInput.Input />
                   </InputGroup>
                 </NumberInput.Root>
-              </Box>
-              <Box>
-                <Text color="gray.600" fontSize="sm" mb="6px">
-                  目標体重
-                </Text>
+                <Field.ErrorText>{fieldErrors.weeklyGoal}</Field.ErrorText>
+              </Field.Root>
+              <Field.Root invalid={Boolean(fieldErrors.targetWeight)}>
+                <Field.Label>目標体重</Field.Label>
                 <NumberInput.Root
                   min={0}
                   value={userInfo.targetWeight}
@@ -284,7 +282,8 @@ export const Register = () => {
                     <NumberInput.Input />
                   </InputGroup>
                 </NumberInput.Root>
-              </Box>
+                <Field.ErrorText>{fieldErrors.targetWeight}</Field.ErrorText>
+              </Field.Root>
             </SimpleGrid>
           </VStack>
         </Box>
@@ -328,11 +327,40 @@ export const Register = () => {
           </VStack>
         </Box>
       </Grid>
+      {errorMessage && (
+        <Text color="red.500" fontSize="sm">
+          {errorMessage}
+        </Text>
+      )}
       <Flex mt={8} justifyContent="end" gap="4">
         <Button onClick={onClickCancel} variant="outline">
           キャンセル
         </Button>
-        <Button colorPalette="blue">登録して始める</Button>
+        <Button
+          colorPalette="blue"
+          loading={isLoading}
+          disabled={isLoading}
+          onClick={() => {
+            const errors = checkRequiredField(userInfo);
+
+            if (Object.keys(errors).length > 0) {
+              setFieldErrors(errors);
+              return;
+            }
+
+            setFieldErrors({});
+
+            onClickRegister({
+              userInfo,
+              displayTargetCalories,
+              navigate,
+              setErrorMessage,
+              setIsLoading,
+            });
+          }}
+        >
+          登録して始める
+        </Button>
       </Flex>
     </VStack>
   );

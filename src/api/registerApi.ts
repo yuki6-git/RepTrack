@@ -8,7 +8,11 @@ export const insertUser = async ({
   username: string;
   email: string;
 }) => {
-  return await supabase.from("users").insert({ username, email });
+  return await supabase
+    .from("users")
+    .insert({ username, email })
+    .select()
+    .single();
 };
 
 export const insertProfileSetting = async ({

@@ -14,13 +14,12 @@ import { ExerciseListBypart } from "./ExerciseListByPart";
 import { useDraftExercises } from "../../hooks/exercises/useDraftExercises";
 
 type Props = {
-  tabId: string;
-  onClickSave: (tabId: string, exercises: NewExercise[]) => void;
+  onSave: (exercises: NewExercise[]) => void;
   addExercises?: NewExercise[];
 };
 
 export const TrainingMenuInput = (props: Props) => {
-  const { tabId, onClickSave, addExercises } = props;
+  const { onSave, addExercises } = props;
   const initialForm: NewExercise = {
     id: "",
     tabId: "",
@@ -54,7 +53,7 @@ export const TrainingMenuInput = (props: Props) => {
 
     const newExercise: NewExercise = {
       id: crypto.randomUUID(),
-      tabId: tabId,
+      tabId: "",
       part: form.part,
       exerciseName: form.exerciseName,
       maxWeight: form.maxWeight,
@@ -74,7 +73,7 @@ export const TrainingMenuInput = (props: Props) => {
       return;
     }
 
-    onClickSave(tabId, draftExercises);
+    onSave(draftExercises);
   };
 
   const { onClickEditExercise, onClickDeleteExercise } = useDraftExercises({
@@ -84,9 +83,9 @@ export const TrainingMenuInput = (props: Props) => {
   });
   return (
     <>
-      <Box as="dl">
-        <Field.Root required>
-          <Field.Label as="dt" color="gray.500">
+      <Box>
+        <Field.Root required mb="12px">
+          <Field.Label color="gray.500">
             部位 <Field.RequiredIndicator />
           </Field.Label>
           <Input
@@ -98,10 +97,11 @@ export const TrainingMenuInput = (props: Props) => {
                 part: e.target.value,
               })
             }
-            as="dd"
           />
+        </Field.Root>
 
-          <Field.Label as="dt" color="gray.500">
+        <Field.Root required mb="12px">
+          <Field.Label color="gray.500">
             種目名 <Field.RequiredIndicator />
           </Field.Label>
           <Input
@@ -113,12 +113,11 @@ export const TrainingMenuInput = (props: Props) => {
                 exerciseName: e.target.value,
               })
             }
-            as="dd"
           />
+        </Field.Root>
 
-          <Text as="dt" color="gray.500">
-            Max重量
-          </Text>
+        <Field.Root mb="12px">
+          <Field.Label color="gray.500">Max重量</Field.Label>
           <NumberInput.Root
             value={form.maxWeight}
             onValueChange={(e) =>
@@ -140,8 +139,10 @@ export const TrainingMenuInput = (props: Props) => {
               <NumberInput.Input />
             </InputGroup>
           </NumberInput.Root>
+        </Field.Root>
 
-          <Field.Label as="dt" color="gray.500">
+        <Field.Root required mb="12px">
+          <Field.Label color="gray.500">
             セット重量 <Field.RequiredIndicator />
           </Field.Label>
           <NumberInput.Root
@@ -165,8 +166,10 @@ export const TrainingMenuInput = (props: Props) => {
               <NumberInput.Input />
             </InputGroup>
           </NumberInput.Root>
+        </Field.Root>
 
-          <Field.Label as="dt" color="gray.500">
+        <Field.Root required mb="12px">
+          <Field.Label color="gray.500">
             セット回数 <Field.RequiredIndicator />
           </Field.Label>
           <NumberInput.Root
@@ -190,33 +193,10 @@ export const TrainingMenuInput = (props: Props) => {
               <NumberInput.Input />
             </InputGroup>
           </NumberInput.Root>
+        </Field.Root>
 
-          <Field.Label as="dt" color="gray.500">
-            セット重量 <Field.RequiredIndicator />
-          </Field.Label>
-          <NumberInput.Root
-            value={form.setWeight}
-            onValueChange={(e) =>
-              setForm({
-                ...form,
-                setWeight: e.value,
-              })
-            }
-            maxW={200}
-          >
-            <NumberInput.Control />
-            <InputGroup
-              endElement={
-                <Box pr="30px" color="gray.500">
-                  kg
-                </Box>
-              }
-            >
-              <NumberInput.Input />
-            </InputGroup>
-          </NumberInput.Root>
-
-          <Field.Label as="dt" color="gray.500">
+        <Field.Root required mb="12px">
+          <Field.Label color="gray.500">
             レップ数 <Field.RequiredIndicator />
           </Field.Label>
           <NumberInput.Root

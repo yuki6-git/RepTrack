@@ -8,23 +8,19 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import type { NewExercise } from "../../types/NewExercise";
+import { useTrainingMenuContext } from "../../context/TrainingMenuContext";
 
 type Props = {
   exercises: NewExercise[];
   mode: "draft" | "workout";
   onClickEditExercise?: (exercise: NewExercise) => void;
   onClickDeleteExercise?: (id: string) => void;
-  onToggleComplete?: (id: string) => void;
 };
 
 export const ExerciseListBypart = (props: Props) => {
-  const {
-    exercises,
-    mode,
-    onToggleComplete,
-    onClickEditExercise,
-    onClickDeleteExercise,
-  } = props;
+  const { exercises, mode, onClickEditExercise, onClickDeleteExercise } = props;
+
+  const { onToggleComplete } = useTrainingMenuContext();
 
   const groupedExercises = exercises.reduce<Record<string, NewExercise[]>>(
     (groups, exercise) => {
