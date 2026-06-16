@@ -1,64 +1,46 @@
-import { Text, Input, Button, Flex } from "@chakra-ui/react";
-import type { Profile } from "../../types/profile";
-import type { Dispatch, SetStateAction } from "react";
+import { Text, Input, NumberInput } from "@chakra-ui/react";
 import { GenderSelect } from "./GenderSelect";
+import type { UserProfileSettingForm } from "../../types/UserInfo";
 
-type UserProfileModalProps = {
-  profile: Profile;
-  setProfile: Dispatch<SetStateAction<Profile>>;
+type Props = {
+  form: UserProfileSettingForm;
+  onChangeForm: (name: keyof UserProfileSettingForm, value: string) => void;
 };
 
-export const UserProfileForm = (props: UserProfileModalProps) => {
-  const { profile, setProfile } = props;
+export const UserProfileInput = (props: Props) => {
+  const { form, onChangeForm } = props;
   return (
     <>
       <Text>ユーザー名</Text>
       <Input
-        value={profile.username}
-        onChange={(e) =>
-          setProfile({
-            ...profile,
-            username: e.target.value,
-          })
-        }
+        value={form.username}
+        onChange={(e) => onChangeForm("username", e.target.value)}
       />
       <Text>メールアドレス</Text>
       <Input
-        value={profile.email}
-        onChange={(e) =>
-          setProfile({
-            ...profile,
-            email: e.target.value,
-          })
-        }
+        value={form.email}
+        onChange={(e) => onChangeForm("email", e.target.value)}
       />
       <Text>性別</Text>
-      <GenderSelect
-        value={profile.gender}
-        onChange={(gender) =>
-          setProfile({
-            ...profile,
-            gender,
-          })
-        }
-      />
+      <GenderSelect value={form.gender} onChange={onChangeForm} />
+
+      <Text>身長</Text>
+      <NumberInput.Root
+        value={String(form.height)}
+        min={0}
+        step={1}
+        onValueChange={(e) => onChangeForm("height", e.value)}
+      >
+        <NumberInput.Input />
+      </NumberInput.Root>
 
       <Text>生年月日</Text>
       <Input
         type="date"
         defaultValue={"1998-04-15"}
-        value={profile.birthday}
-        onChange={(e) =>
-          setProfile({
-            ...profile,
-            birthday: e.target.value,
-          })
-        }
+        value={form.birthday}
+        onChange={(e) => onChangeForm("birthday", e.target.value)}
       />
-      <Flex justifyContent="end">
-        <Button mt={4}>保存</Button>
-      </Flex>
-      
     </>
   );
 };

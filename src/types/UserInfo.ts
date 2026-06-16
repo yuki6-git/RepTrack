@@ -1,14 +1,20 @@
-export type UserInfo = {
+export type UserProfileForm = {
   username: string;
   email: string;
   gender: string;
   birthday: string;
+};
+
+export type UserProfileSettingForm = UserProfileForm & {
   height: string;
-  weight: string;
-  goalType: string;
   activityLevel: string;
+  goalType: string;
+};
+
+export type UserGoalsForm = {
   weeklyGoal: string;
   targetWeight: string;
+  targetCalories: string;
 };
 
 

@@ -1,14 +1,14 @@
 import { Text, Flex, NumberInput, Button } from "@chakra-ui/react";
-import type { UserGoals } from "../../types/UserGoals";
-import type { Dispatch, SetStateAction } from "react";
+import type { UserGoalsForm } from "../../types/UserInfo";
 
-type UserGoalsModalProps = {
-  userGoals: UserGoals;
-  setUserGoals: Dispatch<SetStateAction<UserGoals>>;
+type Props = {
+  form: UserGoalsForm;
+
+  onChangeForm: (name: keyof UserGoalsForm, value: string) => void;
 };
 
-export const UserGoalsForm = (props: UserGoalsModalProps) => {
-  const { userGoals, setUserGoals } = props;
+export const UserGoalsInput = (props: Props) => {
+  const { form, onChangeForm } = props;
 
   return (
     <>
@@ -16,15 +16,10 @@ export const UserGoalsForm = (props: UserGoalsModalProps) => {
         <Text color="gray.500">目標体重</Text>
         <Flex align="center" gap="6px">
           <NumberInput.Root
-            value={String(userGoals.targetWeight)}
+            value={String(form.targetWeight)}
             min={0}
             step={0.1}
-            onValueChange={(e) =>
-              setUserGoals({
-                ...userGoals,
-                targetWeight: e.valueAsNumber,
-              })
-            }
+            onValueChange={(e) => onChangeForm("targetWeight", e.value)}
           >
             <NumberInput.Input />
           </NumberInput.Root>
@@ -36,23 +31,30 @@ export const UserGoalsForm = (props: UserGoalsModalProps) => {
         <Text color="gray.500">トレーニング目標</Text>
         <Flex align="center" gap="6px">
           <NumberInput.Root
-            value={String(userGoals.weeklyGoal)}
+            value={String(form.weeklyGoal)}
             min={0}
             step={1}
-            onValueChange={(e) =>
-              setUserGoals({
-                ...userGoals,
-                weeklyGoal: e.valueAsNumber,
-              })
-            }
+            onValueChange={(e) => onChangeForm("weeklyGoal", e.value)}
           >
             <NumberInput.Input />
           </NumberInput.Root>
           <Text fontWeight="bold">回</Text>
         </Flex>
       </Flex>
-      <Flex justifyContent="end">
-        <Button>保存</Button>
+
+      <Flex justify="space-between" align="center" mb="20px">
+        <Text color="gray.500">目標摂取カロリー</Text>
+        <Flex align="center" gap="6px">
+          <NumberInput.Root
+            value={String(form.targetCalories)}
+            min={0}
+            step={0.1}
+            onValueChange={(e) => onChangeForm("targetCalories", e.value)}
+          >
+            <NumberInput.Input />
+          </NumberInput.Root>
+          <Text fontWeight="bold">kcal</Text>
+        </Flex>
       </Flex>
     </>
   );
