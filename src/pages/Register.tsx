@@ -14,7 +14,7 @@ import {
   SegmentGroup,
   Field,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCalorieCalculation } from "../hooks/register/useCalorieCalculation";
 import { ManualCaloriModal } from "../components/register/ManualcaloriModal";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +23,7 @@ import {
   checkRequiredField,
   type UserInfoErrors,
 } from "../components/features/register/checkRequiredField";
-import type { UserInfo } from "../types/UserInfo";
+import type { RegisterUserInfo } from "../types/UserInfoForm";
 
 export const Register = () => {
   const initialUserInfo = {
@@ -37,11 +37,11 @@ export const Register = () => {
     activityLevel: "",
     weeklyGoal: "",
     targetWeight: "",
+    targetCalories: "",
   };
 
-  const [userInfo, setUserInfo] = useState<UserInfo>(initialUserInfo);
+  const [userInfo, setUserInfo] = useState<RegisterUserInfo>(initialUserInfo);
   const [isManualCalories, setIsManualCalories] = useState(false);
-  const [manualTargetCalories, setManualTargetCalories] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<UserInfoErrors>({});
@@ -50,9 +50,18 @@ export const Register = () => {
     userInfo,
   });
 
-  const displayTargetCalories = isManualCalories
-    ? manualTargetCalories
-    : String(targetCalories);
+  useEffect(() => {
+    if (isManualCalories) {
+      return;
+    }
+
+    setUserInfo((prev) => ({
+      ...prev,
+      targetCalories: String(targetCalories),
+    }));
+  }, [targetCalories, isManualCalories]);
+
+  const displayTargetCalories = userInfo.targetCalories;
 
   const navigate = useNavigate();
   const onClickCancel = () => {
@@ -179,6 +188,7 @@ export const Register = () => {
                 </NumberInput.Root>
                 <Field.ErrorText>{fieldErrors.height}</Field.ErrorText>
               </Field.Root>
+              
               <Field.Root invalid={Boolean(fieldErrors.weight)}>
                 <Field.Label>体重</Field.Label>
                 <NumberInput.Root
@@ -198,6 +208,8 @@ export const Register = () => {
                 <Field.ErrorText>{fieldErrors.weight}</Field.ErrorText>
               </Field.Root>
             </SimpleGrid>
+
+
             <SimpleGrid columns={2} gap="16px">
               <Field.Root invalid={Boolean(fieldErrors.goalType)}>
                 <Field.Label>目標タイプ</Field.Label>
@@ -223,6 +235,8 @@ export const Register = () => {
                 </SegmentGroup.Root>
                 <Field.ErrorText>{fieldErrors.goalType}</Field.ErrorText>
               </Field.Root>
+
+
               <Field.Root invalid={Boolean(fieldErrors.activityLevel)}>
                 <Field.Label>活動レベル</Field.Label>
                 <NativeSelect.Root>
@@ -251,7 +265,6 @@ export const Register = () => {
                 <Field.Label>週間トレーニング目標</Field.Label>
                 <NumberInput.Root
                   min={0}
-                  max={7}
                   value={userInfo.weeklyGoal}
                   onValueChange={(e) =>
                     setUserInfo({
@@ -316,8 +329,13 @@ export const Register = () => {
               </Text>
               <ManualCaloriModal
                 setIsManualCalories={setIsManualCalories}
-                setManualTargetCalories={setManualTargetCalories}
-                manualTargetCalories={manualTargetCalories}
+                targetCalories={userInfo.targetCalories}
+                onChangeTargetCalories={(value) =>
+                  setUserInfo({
+                    ...userInfo,
+                    targetCalories: value,
+                  })
+                }
               />
             </Box>
 
@@ -352,7 +370,6 @@ export const Register = () => {
 
             onClickRegister({
               userInfo,
-              displayTargetCalories,
               navigate,
               setErrorMessage,
               setIsLoading,

@@ -4,13 +4,12 @@ import {
   insertGoals,
   insertWeightRecord,
 } from "../../../api/registerApi";
-import type { UserInfo } from "../../../types/UserInfo";
+import type { RegisterUserInfo } from "../../../types/UserInfoForm";
 import type { NavigateFunction } from "react-router-dom";
 import type { Dispatch, SetStateAction } from "react";
 
 type Props = {
-  displayTargetCalories: string;
-  userInfo: UserInfo;
+  userInfo: RegisterUserInfo;
   setErrorMessage: Dispatch<SetStateAction<string>>;
   navigate: NavigateFunction;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
@@ -18,7 +17,6 @@ type Props = {
 
 export const onClickRegister = async (props: Props) => {
   const {
-    displayTargetCalories,
     userInfo,
     navigate,
     setErrorMessage,
@@ -29,10 +27,10 @@ export const onClickRegister = async (props: Props) => {
   setIsLoading(true);
 
   try {
-    const targetCalories = Number(displayTargetCalories);
+    const targetCalories = Number(userInfo.targetCalories);
 
     if (
-      !displayTargetCalories ||
+      !userInfo.targetCalories ||
       targetCalories <= 0 ||
       Number.isNaN(targetCalories)
     ) {
@@ -63,7 +61,6 @@ export const onClickRegister = async (props: Props) => {
     const { error: goalsError } = await insertGoals({
       userId: user.id,
       userInfo,
-      targetCalories,
     });
 
     if (goalsError) {

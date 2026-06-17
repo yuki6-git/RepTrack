@@ -8,7 +8,8 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import type { NewExercise } from "../../types/NewExercise";
-import { useTrainingMenuContext } from "../../context/TrainingMenuContext";
+
+import { useWorkoutSession } from "../../hooks/workout/useWorkoutSession";
 
 type Props = {
   exercises: NewExercise[];
@@ -20,7 +21,7 @@ type Props = {
 export const ExerciseListBypart = (props: Props) => {
   const { exercises, mode, onClickEditExercise, onClickDeleteExercise } = props;
 
-  const { onToggleComplete } = useTrainingMenuContext();
+  const { toggleCompleted } = useWorkoutSession();
 
   const groupedExercises = exercises.reduce<Record<string, NewExercise[]>>(
     (groups, exercise) => {
@@ -109,9 +110,7 @@ export const ExerciseListBypart = (props: Props) => {
                           colorPalette="blue"
                           variant="subtle"
                           checked={exercise.completed}
-                          onCheckedChange={() =>
-                            onToggleComplete?.(exercise.id)
-                          }
+                          onCheckedChange={() => toggleCompleted(exercise.id)}
                         >
                           <Checkbox.HiddenInput />
                           <Checkbox.Control cursor="pointer">

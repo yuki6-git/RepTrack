@@ -1,10 +1,11 @@
 import { Dialog, Button, Portal, CloseButton } from "@chakra-ui/react";
 import { UserGoalsInput } from "./UserGoalsnput";
-import type { UserGoalsForm } from "../../types/UserInfo";
 import { useState } from "react";
+import type { UserGoals } from "../../types/ProfileSetting";
+import type { UserGoalsForm } from "../../types/UserInfoForm";
 
 type Props = {
-  userGoals: UserGoalsForm | null;
+  userGoals: UserGoals | null;
   onSave: (form: UserGoalsForm) => Promise<boolean>;
 };
 
@@ -12,9 +13,9 @@ export const UserGoalsModal = (props: Props) => {
   const { userGoals, onSave } = props;
 
   const [form, setForm] = useState<UserGoalsForm>({
-    weeklyGoal: userGoals?.weeklyGoal ?? "",
-    targetWeight: userGoals?.targetWeight ?? "",
-    targetCalories: userGoals?.targetCalories ?? "",
+    weeklyGoal: String(userGoals?.weekly_goal ?? ""),
+    targetWeight: String(userGoals?.target_weight ?? ""),
+    targetCalories: String(userGoals?.target_calories ?? ""),
   });
 
   const onChangeForm = (name: keyof UserGoalsForm, value: string) => {

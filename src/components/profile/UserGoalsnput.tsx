@@ -1,5 +1,5 @@
-import { Text, Flex, NumberInput, Button } from "@chakra-ui/react";
-import type { UserGoalsForm } from "../../types/UserInfo";
+import { Text, Flex, NumberInput } from "@chakra-ui/react";
+import type { UserGoalsForm } from "../../types/UserInfoForm";
 
 type Props = {
   form: UserGoalsForm;

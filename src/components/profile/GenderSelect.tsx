@@ -1,5 +1,5 @@
 import { NativeSelect } from "@chakra-ui/react";
-import type { UserProfileSettingForm } from "../../types/UserInfo";
+import type { UserProfileSettingForm } from "../../types/UserInfoForm";
 
 type GenderSelectProps = {
   value: string;

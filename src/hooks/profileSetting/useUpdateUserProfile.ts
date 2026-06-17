@@ -4,7 +4,7 @@ import {
   updateUserGoals,
   updateUserProfile
 } from "../../api/profileSettingApi";
-import type { UserGoalsForm, UserProfileSettingForm } from "../../types/UserInfo";
+import type { UserGoalsForm, UserProfileSettingForm } from "../../types/UserInfoForm";
 
 export const useUpdateUserProfile = () => {
   const [isUpdating, setIsUpdating] = useState(false);
@@ -37,7 +37,7 @@ export const useUpdateUserProfile = () => {
 
     return true;
   };
-  
+
 
   const updateGoals = async (form: UserGoalsForm) => {
     setIsUpdating(true);

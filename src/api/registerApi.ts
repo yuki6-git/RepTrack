@@ -1,5 +1,5 @@
 import { supabase } from "../lib/supabase";
-import type { UserInfo } from "../types/UserInfo";
+import type { RegisterUserInfo } from "../types/UserInfoForm";
 
 export const insertUser = async ({
   username,
@@ -20,7 +20,7 @@ export const insertProfileSetting = async ({
   userInfo,
 }: {
   userId: string;
-  userInfo: UserInfo;
+  userInfo: RegisterUserInfo;
 }) => {
   return await supabase.from("profile_setting").insert({
     user_id: userId,
@@ -35,17 +35,15 @@ export const insertProfileSetting = async ({
 export const insertGoals = async ({
   userId,
   userInfo,
-  targetCalories,
 }: {
   userId: string;
-  userInfo: UserInfo;
-  targetCalories: number;
+  userInfo: RegisterUserInfo;
 }) => {
   return await supabase.from("goals").insert({
     user_id: userId,
     weekly_goal: Number(userInfo.weeklyGoal),
     target_weight: Number(userInfo.targetWeight),
-    target_calories: targetCalories,
+    target_calories: Number(userInfo.targetCalories),
   });
 };
 

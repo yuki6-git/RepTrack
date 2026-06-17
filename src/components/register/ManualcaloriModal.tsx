@@ -9,14 +9,13 @@ import { useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 
 type Props = {
-  manualTargetCalories: string;
-  setManualTargetCalories: Dispatch<SetStateAction<string>>;
+  targetCalories: string;
+  onChangeTargetCalories: (value: string) => void;
   setIsManualCalories: Dispatch<SetStateAction<boolean>>;
 };
 
 export const ManualCaloriModal = (props: Props) => {
-  const { manualTargetCalories, setManualTargetCalories, setIsManualCalories } =
-    props;
+  const { targetCalories, onChangeTargetCalories, setIsManualCalories } = props;
   const [open, setOpen] = useState(false);
   return (
     <Dialog.Root size="sm" open={open} onOpenChange={(e) => setOpen(e.open)}>
@@ -35,8 +34,8 @@ export const ManualCaloriModal = (props: Props) => {
             </Dialog.Header>
             <Dialog.Body>
               <NumberInput.Root
-                value={manualTargetCalories}
-                onValueChange={(e) => setManualTargetCalories(e.value)}
+                value={targetCalories}
+                onValueChange={(e) => onChangeTargetCalories(e.value)}
               >
                 <InputGroup endElement="kcal">
                   <NumberInput.Input />
@@ -48,7 +47,6 @@ export const ManualCaloriModal = (props: Props) => {
                 <Button
                   onClick={() => {
                     setIsManualCalories(false);
-                    setManualTargetCalories("");
                   }}
                   variant="outline"
                 >

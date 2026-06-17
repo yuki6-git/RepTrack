@@ -1,8 +1,10 @@
-import type { UserInfo } from "../../../types/UserInfo";
+import type { RegisterUserInfo } from "../../../types/UserInfoForm";
 
-export type UserInfoErrors = Partial<Record<keyof UserInfo, string>>;
+export type UserInfoErrors = Partial<Record<keyof RegisterUserInfo, string>>;
 
-export const checkRequiredField = (userInfo: UserInfo): UserInfoErrors => {
+export const checkRequiredField = (
+  userInfo: RegisterUserInfo,
+): UserInfoErrors => {
   const errors: UserInfoErrors = {};
 
   if (!userInfo.username.trim()) {

@@ -1,5 +1,5 @@
 import { supabase } from "../lib/supabase";
-import type { UserGoalsForm, UserProfileForm, UserProfileSettingForm } from "../types/UserInfo";
+import type { UserGoalsForm, UserProfileForm, UserProfileSettingForm } from "../types/UserInfoForm";
 
 export const fetchUserInfo = async (userId: string) => {
   return await supabase.from("users").select("*").eq("id", userId).single();

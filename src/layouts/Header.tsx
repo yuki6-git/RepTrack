@@ -1,10 +1,9 @@
-import { Flex, Grid, Heading, Button, Text } from "@chakra-ui/react";
+import { Flex, Grid, Heading, Button, Spacer } from "@chakra-ui/react";
 import { FaUserCircle } from "react-icons/fa";
 
 export const Header = () => {
   return (
-    <Grid
-      templateColumns="1fr auto 1fr"
+    <Flex
       color="white"
       alignItems="center"
       h="60px"
@@ -12,12 +11,12 @@ export const Header = () => {
       borderBottomWidth="1px"
       borderColor="gray.400"
     >
-      <Heading ml={4} textAlign="left">RepTrack</Heading>
-      <Text fontWeight="bold">トレーニングメニュー</Text>
-      <Flex justify="flex-end" gap="16px" align="center">
-        <FaUserCircle size={32} />
-        <Button mx={4}>ログアウト</Button>
-      </Flex>
-    </Grid>
+      <Heading ml={4} textAlign="left">
+        RepTrack
+      </Heading>
+      <Spacer />
+      <FaUserCircle size={32} />
+      <Button mx={4}>ログアウト</Button>
+    </Flex>
   );
 };

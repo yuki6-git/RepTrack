@@ -46,6 +46,7 @@ export const useFetchUserProfile = () => {
     setUserInfo(userData);
     setProfileSetting(profileData);
     setUserGoals(goalsData);
+    setIsLoading(false);
   };
   useEffect(() => {
     fetchUserProfile();

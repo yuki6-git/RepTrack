@@ -17,4 +17,18 @@ export type UserGoalsForm = {
   targetCalories: string;
 };
 
+export type RegisterUserInfo = {
+  username: string;
+  email: string;
+  gender: string;
+  birthday: string;
+  height: string;
+  weight: string;
+  goalType: string;
+  activityLevel: string;
+  weeklyGoal: string;
+  targetWeight: string;
+  targetCalories: string;
+};
+
 

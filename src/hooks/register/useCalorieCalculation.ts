@@ -1,7 +1,7 @@
-import type { UserInfo } from "../../types/UserInfo";
+import type { RegisterUserInfo } from "../../types/UserInfoForm";
 
 type Props = {
-  userInfo: UserInfo;
+  userInfo: RegisterUserInfo;
 };
 
 export const useCalorieCalculation = (props: Props) => {

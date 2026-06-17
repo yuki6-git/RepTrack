@@ -1,8 +1,8 @@
-import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
+import { Button, CloseButton, Dialog, Portal, Flex } from "@chakra-ui/react";
 import { useState } from "react";
 import { UserProfileInput } from "./UserProfilenput";
 import type { ProfileSetting, UserInfo } from "../../types/ProfileSetting";
-import type { UserProfileSettingForm } from "../../types/UserInfo";
+import type { UserProfileSettingForm } from "../../types/UserInfoForm";
 
 type Props = {
   userInfo: UserInfo | null;
@@ -33,9 +33,15 @@ export const UserProfileModal = (props: Props) => {
   const onClickSave = async () => {
     await onSave(form);
   };
-
+  const [open, setOpen] = useState(false);
   return (
-    <Dialog.Root size="lg" placement="top" motionPreset="slide-in-bottom">
+    <Dialog.Root
+      size="lg"
+      placement="top"
+      motionPreset="slide-in-bottom"
+      open={open}
+      onOpenChange={(e) => setOpen(e.open)}
+    >
       <Dialog.Trigger asChild>
         <Button variant="outline" size="sm">
           プロフィールを編集
@@ -55,11 +61,13 @@ export const UserProfileModal = (props: Props) => {
               <UserProfileInput form={form} onChangeForm={onChangeForm} />
             </Dialog.Body>
             <Dialog.Footer>
-              <Dialog.CloseTrigger asChild>
-                <Button variant="outline">キャンセル</Button>
-              </Dialog.CloseTrigger>
+              <Flex>
+                <Dialog.ActionTrigger asChild>
+                  <Button variant="outline">キャンセル</Button>
+                </Dialog.ActionTrigger>
 
-              <Button onClick={onClickSave}>保存</Button>
+                <Button ml={4} onClick={onClickSave}>保存</Button>
+              </Flex>
             </Dialog.Footer>
           </Dialog.Content>
         </Dialog.Positioner>

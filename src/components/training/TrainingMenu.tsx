@@ -1,7 +1,9 @@
-import { Text, HStack, Spacer } from "@chakra-ui/react";
+import { Text, HStack, Spacer, Box } from "@chakra-ui/react";
 import type { TrainingMenu as TrainingMenuType } from "../../types/TrainingMenu";
 import { ExerciseListBypart } from "./ExerciseListByPart";
 import { CreateTrainingMenuModal } from "./CreateTrainingMenuModal";
+import { Timer } from "../organisms/Timer";
+import { useWorkoutSession } from "../../hooks/workout/useWorkoutSession";
 
 type Props = {
   trainingMenu: TrainingMenuType;
@@ -22,6 +24,9 @@ export const TrainingMenu = (props: Props) => {
           triggerLabel={"トレーニングメニューを編集"}
         />
       </HStack>
+      <Box mb={4}>
+        <Timer trainingMenu={trainingMenu} />
+      </Box>
 
       <ExerciseListBypart exercises={trainingMenu.exercises} mode="workout" />
     </>

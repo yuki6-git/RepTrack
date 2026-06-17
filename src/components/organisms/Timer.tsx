@@ -1,11 +1,26 @@
-import { Text, Button, VStack, Flex, IconButton } from "@chakra-ui/react";
+import {
+  Text,
+  Button,
+  HStack,
+  Flex,
+  IconButton,
+  Spacer,
+} from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { FiRefreshCw } from "react-icons/fi";
+import { useWorkoutSession } from "../../hooks/workout/useWorkoutSession";
+import type { TrainingMenu as TrainingMenuType } from "../../types/TrainingMenu";
 
-export const Timer = () => {
+type Props = {
+  trainingMenu: TrainingMenuType;
+};
+
+export const Timer = (props: Props) => {
+  const { trainingMenu } = props;
   const [startedTime, setStartedTime] = useState<Date | null>(null);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState<Boolean>(false);
+  const { startworkout, endWorkout } = useWorkoutSession();
 
   useEffect(() => {
     if (!startedTime || !isRunning) return;
@@ -34,28 +49,35 @@ export const Timer = () => {
     if (!isRunning) {
       setStartedTime(new Date());
       setIsRunning(true);
+      startworkout(trainingMenu.id, trainingMenu.exercises);
       return;
     }
 
     setIsRunning(false);
+    endWorkout(elapsedSeconds);
   };
 
   const onClickRestart = () => {
     setElapsedSeconds(0);
     setStartedTime(new Date());
-    
   };
 
   return (
     <Flex borderRadius="8px" boxShadow="sm" alignItems="center" p={4}>
-      <VStack>
-        <Text fontWeight="bold">トレーニング時間</Text>
-        <Text>{formatTime(elapsedSeconds)}</Text>
-      </VStack>
+      <HStack>
+        <Text fontWeight="bold">トレーニング時間 :</Text>
+        <Text fontSize="3xl">{formatTime(elapsedSeconds)}</Text>
+      </HStack>
+      <Spacer />
       <Button mx={4} size="sm" onClick={onClickTimer}>
         {isRunning ? "終了" : "開始"}
       </Button>
-      <IconButton color="black" bg="transparent" aria-label="resetTimer" onClick={onClickRestart}>
+      <IconButton
+        color="black"
+        bg="transparent"
+        aria-label="resetTimer"
+        onClick={onClickRestart}
+      >
         <FiRefreshCw />
       </IconButton>
     </Flex>

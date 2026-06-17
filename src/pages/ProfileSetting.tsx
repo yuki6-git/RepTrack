@@ -11,8 +11,8 @@ import {
 import { UserProfileModal } from "../components/profile/UserProfileModal";
 import { UserGoalsModal } from "../components/profile/UserGoalsModal";
 import { useFetchUserProfile } from "../hooks/profileSetting/useFetchuserProfile";
-import { useUpdateUserProfile } from "../hooks/profileSetting/useUpdateUSerProfile";
-import type { UserGoalsForm, UserProfileSettingForm } from "../types/UserInfo";
+import { useUpdateUserProfile } from "../hooks/profileSetting/useUpdateUserProfile";
+import type { UserGoalsForm, UserProfileSettingForm } from "../types/UserInfoForm";
 
 const settings = [
   "パスワードの変更",

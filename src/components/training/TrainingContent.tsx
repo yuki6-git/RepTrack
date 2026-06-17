@@ -7,8 +7,6 @@ import {
   Button,
   CloseButton,
 } from "@chakra-ui/react";
-
-import { Timer } from "../organisms/Timer";
 import { FiPlus } from "react-icons/fi";
 import { TrainingMenu } from "./TrainingMenu";
 import { CreateTrainingMenuModal } from "./CreateTrainingMenuModal";
@@ -74,7 +72,7 @@ export const TrainingContent = () => {
       <Flex w="100%" align="center" justify="center" position="relative">
         <Heading size="xl">Workout</Heading>
         <Flex position="absolute" right="0" top="0">
-          <Timer />
+          
         </Flex>
       </Flex>
 
