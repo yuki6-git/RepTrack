@@ -8,20 +8,26 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import type { NewExercise } from "../../types/NewExercise";
-
-import { useWorkoutSession } from "../../hooks/workout/useWorkoutSession";
+import type { ExerciseRecord } from "../../types/Workout";
 
 type Props = {
   exercises: NewExercise[];
   mode: "draft" | "workout";
   onClickEditExercise?: (exercise: NewExercise) => void;
   onClickDeleteExercise?: (id: string) => void;
+  toggleCompleted: (trainingMenuExerciseId: string) => Promise<boolean>;
+  exerciseRecords: ExerciseRecord[];
 };
 
 export const ExerciseListBypart = (props: Props) => {
-  const { exercises, mode, onClickEditExercise, onClickDeleteExercise } = props;
-
-  const { toggleCompleted } = useWorkoutSession();
+  const {
+    exercises,
+    mode,
+    onClickEditExercise,
+    onClickDeleteExercise,
+    toggleCompleted,
+    exerciseRecords,
+  } = props;
 
   const groupedExercises = exercises.reduce<Record<string, NewExercise[]>>(
     (groups, exercise) => {
@@ -75,52 +81,60 @@ export const ExerciseListBypart = (props: Props) => {
               </Table.Header>
 
               <Table.Body>
-                {exercises.map((exercise) => (
-                  <Table.Row key={exercise.id}>
-                    <Table.Cell fontWeight="bold">
-                      {exercise.exerciseName}
-                    </Table.Cell>
-                    <Table.Cell>{exercise.maxWeight}kg</Table.Cell>
-                    <Table.Cell>{exercise.setWeight}kg</Table.Cell>
-                    <Table.Cell>{exercise.sets}</Table.Cell>
-                    <Table.Cell>{exercise.reps}</Table.Cell>
-                    {mode === "draft" && (
-                      <Table.Cell>
-                        <Flex>
-                          <Button
-                            mr={2}
-                            size="xs"
-                            onClick={() => onClickEditExercise?.(exercise)}
-                          >
-                            編集
-                          </Button>
-                          <Button
-                            onClick={() => onClickDeleteExercise?.(exercise.id)}
-                            size="xs"
-                          >
-                            削除
-                          </Button>
-                        </Flex>
+                {exercises.map((exercise) => {
+                  const record = exerciseRecords.find(
+                    (record) =>
+                      record.training_menu_exercise_id === exercise.id,
+                  );
+                  return (
+                    <Table.Row key={exercise.id}>
+                      <Table.Cell fontWeight="bold">
+                        {exercise.exerciseName}
                       </Table.Cell>
-                    )}
+                      <Table.Cell>{exercise.maxWeight}kg</Table.Cell>
+                      <Table.Cell>{exercise.setWeight}kg</Table.Cell>
+                      <Table.Cell>{exercise.sets}</Table.Cell>
+                      <Table.Cell>{exercise.reps}</Table.Cell>
+                      {mode === "draft" && (
+                        <Table.Cell>
+                          <Flex>
+                            <Button
+                              mr={2}
+                              size="xs"
+                              onClick={() => onClickEditExercise?.(exercise)}
+                            >
+                              編集
+                            </Button>
+                            <Button
+                              onClick={() =>
+                                onClickDeleteExercise?.(exercise.id)
+                              }
+                              size="xs"
+                            >
+                              削除
+                            </Button>
+                          </Flex>
+                        </Table.Cell>
+                      )}
 
-                    {mode === "workout" && (
-                      <Table.Cell>
-                        <Checkbox.Root
-                          colorPalette="blue"
-                          variant="subtle"
-                          checked={exercise.completed}
-                          onCheckedChange={() => toggleCompleted(exercise.id)}
-                        >
-                          <Checkbox.HiddenInput />
-                          <Checkbox.Control cursor="pointer">
-                            <Checkbox.Indicator />
-                          </Checkbox.Control>
-                        </Checkbox.Root>
-                      </Table.Cell>
-                    )}
-                  </Table.Row>
-                ))}
+                      {mode === "workout" && (
+                        <Table.Cell>
+                          <Checkbox.Root
+                            colorPalette="blue"
+                            variant="subtle"
+                            checked={record?.completed ?? false}
+                            onCheckedChange={() => toggleCompleted(exercise.id)}
+                          >
+                            <Checkbox.HiddenInput />
+                            <Checkbox.Control cursor="pointer">
+                              <Checkbox.Indicator />
+                            </Checkbox.Control>
+                          </Checkbox.Root>
+                        </Table.Cell>
+                      )}
+                    </Table.Row>
+                  );
+                })}
               </Table.Body>
             </Table.Root>
           </Box>

@@ -8,19 +8,23 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { FiRefreshCw } from "react-icons/fi";
-import { useWorkoutSession } from "../../hooks/workout/useWorkoutSession";
 import type { TrainingMenu as TrainingMenuType } from "../../types/TrainingMenu";
+import type { NewExercise } from "../../types/NewExercise";
 
 type Props = {
   trainingMenu: TrainingMenuType;
+  startworkout: (
+    trainingMenuId: string,
+    exercises: NewExercise[],
+  ) => Promise<boolean>;
+  endWorkout: (duration: number) => Promise<boolean>;
 };
 
 export const Timer = (props: Props) => {
-  const { trainingMenu } = props;
+  const { trainingMenu, startworkout, endWorkout } = props;
   const [startedTime, setStartedTime] = useState<Date | null>(null);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState<Boolean>(false);
-  const { startworkout, endWorkout } = useWorkoutSession();
 
   useEffect(() => {
     if (!startedTime || !isRunning) return;

@@ -54,3 +54,16 @@ export const updateExerciseRecordCompleted = async (
     .eq("workout_id", workoutId)
     .eq("training_menu_exercise_id", trainingMenuExerciseId);
 };
+
+export const fetchWorkoutLogs = async (userId: string) => {
+  return await supabase
+    .from("workouts")
+    .select(
+      `
+      *,
+      exercise_records (*)
+    `,
+    )
+    .eq("user_id", userId)
+    .order("workout_date", { ascending: false });
+};

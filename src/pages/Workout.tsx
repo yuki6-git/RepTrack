@@ -1,30 +1,23 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import Calendar from "react-calendar";
 import { WorkoutModal } from "../components/workout/WorkoutModal";
+import { useWorkoutLogs } from "../hooks/workout/useWorkoutLogs";
+import type { WorkoutLog } from "../types/Workout";
 
 export const Workout = () => {
-  const [workoutLogs, setWorkoutLogs] = useState([
-    {
-      date: "2026-06-14",
-      title: "背中トレーニング",
-      part: "背中",
-      start: "18:30",
-      end: "19:45",
-      duration: "75分",
-      pr: "デッドリフト 100kg",
-    },
-  ]);
+  const { logs, isLoading, errorMessage } = useWorkoutLogs();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  
-  
-  const selectedLog = workoutLogs.find((log) => log.date === selectedDate);
+
+  const selectedLog: WorkoutLog | undefined = logs.find(
+    (log) => log.date === selectedDate,
+  );
 
   const handleClickDay = (date: Date) => {
     const dateKey = formatDate(date);
 
-    const log = workoutLogs.find((log) => log.date === dateKey);
+    const log = logs.find((log) => log.date === dateKey);
 
     if (!log) return;
 
@@ -40,7 +33,13 @@ export const Workout = () => {
 
     return `${year}-${month}-${day}`;
   };
+  if (isLoading) {
+    return <Text>読み込み中...</Text>;
+  }
 
+  if (errorMessage) {
+    return <Text color="red.500">{errorMessage}</Text>;
+  }
   return (
     <Box mx={10}>
       <Calendar
@@ -50,7 +49,7 @@ export const Workout = () => {
           if (view !== "month") return null;
 
           const dateKey = formatDate(date);
-          const hasWorkout = workoutLogs.some((log) => log.date === dateKey);
+          const hasWorkout = logs.some((log) => log.date === dateKey);
 
           if (!hasWorkout) return null;
 

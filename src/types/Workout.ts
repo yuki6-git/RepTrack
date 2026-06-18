@@ -21,3 +21,13 @@ export type ExerciseRecord = {
   completed: boolean;
   created_at: string;
 };
+
+export type WorkoutLog = {
+  id: string;
+  date: string;
+  title: string;
+  start: string | null;
+  end: string | null;
+  duration: number | null;
+  records: ExerciseRecord[];
+};

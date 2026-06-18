@@ -11,12 +11,21 @@ type Props = {
 
 export const TrainingMenu = (props: Props) => {
   const { trainingMenu } = props;
-
+  const {
+    toggleCompleted,
+    startworkout,
+    endWorkout,
+    exerciseRecords,
+    isLoading,
+    errorMessage,
+  } = useWorkoutSession();
   return (
     <>
       <HStack my={4}>
         <Text fontWeight="bold">今日の筋トレメニュー</Text>
         <Spacer />
+        {isLoading && <Text>...読み込み中</Text>}
+        {errorMessage && <Text>{errorMessage}</Text>}
         <CreateTrainingMenuModal
           mode="edit"
           addExercises={trainingMenu.exercises}
@@ -25,10 +34,19 @@ export const TrainingMenu = (props: Props) => {
         />
       </HStack>
       <Box mb={4}>
-        <Timer trainingMenu={trainingMenu} />
+        <Timer
+          trainingMenu={trainingMenu}
+          startworkout={startworkout}
+          endWorkout={endWorkout}
+        />
       </Box>
 
-      <ExerciseListBypart exercises={trainingMenu.exercises} mode="workout" />
+      <ExerciseListBypart
+        exercises={trainingMenu.exercises}
+        mode="workout"
+        toggleCompleted={toggleCompleted}
+        exerciseRecords={exerciseRecords}
+      />
     </>
   );
 };
