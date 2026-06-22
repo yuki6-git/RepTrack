@@ -6,8 +6,8 @@ type Props = {
   latestWeight: string;
   latestBodyFat: string;
   createWeightRecord: (params: {
-    weight: number;
-    bodyFat: number;
+    weight: string;
+    bodyFat: string;
   }) => Promise<void>;
 };
 

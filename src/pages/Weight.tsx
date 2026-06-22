@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { WeightInputModal } from "../components/weight/WeightInputModal";
 import { useWeightRecords } from "../hooks/weight/useWeightRecords";
 
@@ -12,17 +12,47 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { fetchUserGoals } from "../api/profileSettingApi";
+import { getCurrentUserId } from "../api/authApi";
 
 export const Weight = () => {
-  const [targetWeight, setTargetweight] = useState("60.0");
+  const [targetWeight, setTargetWeight] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const { weightLogs, isLoading, error, createWeightRecord } =
     useWeightRecords();
 
+  useEffect(() => {
+    const fetchTargetWeight = async () => {
+      const userId = await getCurrentUserId();
+      if (!userId) {
+        setErrorMessage("ユーザー情報がありません");
+        return;
+      }
+      const { data: goalsData, error: goalsError } =
+        await fetchUserGoals(userId);
+      if (goalsError || !goalsData) {
+        setErrorMessage("目標体重の取得に失敗しました");
+        return;
+      }
+
+      setTargetWeight(String(goalsData.target_weight));
+    };
+
+    fetchTargetWeight();
+  }, []);
+
   const latestRecord = weightLogs[0];
   const weightDiff =
-    latestRecord !== undefined ? Number(targetWeight) - latestRecord.weight : null;
+    latestRecord !== undefined
+      ? Number(targetWeight) - latestRecord.weight
+      : null;
   const displayWeightDiff =
-    weightDiff === null ? "-" : weightDiff > 0 ? `+ ${weightDiff}` : `${weightDiff}`;
+    weightDiff === null
+      ? "-"
+      : weightDiff > 0
+        ? `+ ${weightDiff}`
+        : `${weightDiff}`;
 
   return (
     <VStack align="stretch" gap="24px">
@@ -33,7 +63,9 @@ export const Weight = () => {
 
         <WeightInputModal
           latestWeight={
-            latestRecord?.weight !== undefined ? String(latestRecord.weight) : ""
+            latestRecord?.weight !== undefined
+              ? String(latestRecord.weight)
+              : ""
           }
           latestBodyFat={
             latestRecord?.body_fat !== undefined
@@ -52,6 +84,8 @@ export const Weight = () => {
           <Heading size="md" mb="20px">
             最新の記録
           </Heading>
+
+          {errorMessage && <Text>{errorMessage}</Text>}
 
           <Text color="gray.500" mb="16px">
             {latestRecord?.recorded_at ?? "-"}

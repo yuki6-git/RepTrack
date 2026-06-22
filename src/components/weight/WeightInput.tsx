@@ -7,8 +7,8 @@ type Props = {
   latestWeight: string;
   latestBodyFat: string;
   createWeightRecord: (params: {
-    weight: number;
-    bodyFat: number;
+    weight: string;
+    bodyFat: string;
   }) => Promise<void>;
 };
 
@@ -19,8 +19,8 @@ export const WeightInput = (props: Props) => {
 
   const onSaveWeight = async () => {
     await createWeightRecord({
-      weight: Number(weight),
-      bodyFat: Number(bodyFat),
+      weight,
+      bodyFat,
     });
     setOpen(false);
   };

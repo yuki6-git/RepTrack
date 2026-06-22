@@ -16,7 +16,7 @@ export const useWeightRecords = () => {
   const fetchWeightRecords = async () => {
     setIsLoading(true);
     setError("");
-    
+
     const userId = await getCurrentUserId();
     if (!userId) {
       setError("ユーザー情報がありません");
