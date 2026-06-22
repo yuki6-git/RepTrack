@@ -22,7 +22,9 @@ export const TrainingMenu = (props: Props) => {
   return (
     <>
       <HStack my={4}>
-        <Text fontWeight="bold">今日の筋トレメニュー</Text>
+        <Text fontWeight="bold">
+          {trainingMenu.title ?? "トレーニングメニュー"}
+        </Text>
         <Spacer />
         {isLoading && <Text>...読み込み中</Text>}
         {errorMessage && <Text>{errorMessage}</Text>}
@@ -31,6 +33,7 @@ export const TrainingMenu = (props: Props) => {
           addExercises={trainingMenu.exercises}
           tabId={trainingMenu.tabId}
           triggerLabel={"トレーニングメニューを編集"}
+          menuTitle={trainingMenu.title}
         />
       </HStack>
       <Box mb={4}>

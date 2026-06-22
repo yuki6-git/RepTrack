@@ -27,12 +27,12 @@ export const fetchTrainingMenuExerciseRows = async () => {
     .order("created_at", { ascending: true });
 };
 
-export const insertTrainingMenu = async (tabId: string) => {
+export const insertTrainingMenu = async (tabId: string, menuTitle: string) => {
   return await supabase
     .from("training_menu")
     .insert({
       tab_id: tabId,
-      title: "トレーニングメニュー",
+      title: menuTitle,
     })
     .select()
     .single();
@@ -69,4 +69,14 @@ export const replaceTrainingMenuExercises = async (
   }
 
   return await insertTrainingMenuExercises(trainingMenuId, exercises);
+};
+
+export const updateTrainingMenuTitle = async (
+  trainingMenuId: string,
+  menuTitle: string,
+) => {
+  return await supabase
+    .from("training_menu")
+    .update({ title: menuTitle })
+    .eq("id", trainingMenuId);
 };

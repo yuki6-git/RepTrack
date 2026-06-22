@@ -6,6 +6,7 @@ import {
   insertTrainingMenu,
   insertTrainingMenuExercises,
   replaceTrainingMenuExercises,
+  updateTrainingMenuTitle,
 } from "../../api/trainingMenuApi";
 import type { TrainingMenu } from "../../types/TrainingMenu";
 
@@ -59,6 +60,7 @@ export const useTrainingMenus = () => {
 
   const createTrainingMenu = async (
     tabId: string,
+    menuTitle: string,
     draftExercises: NewExercise[],
   ) => {
     setIsLoading(true);
@@ -70,7 +72,10 @@ export const useTrainingMenus = () => {
       return false;
     }
 
-    const { data: menu, error: menuError } = await insertTrainingMenu(tabId);
+    const { data: menu, error: menuError } = await insertTrainingMenu(
+      tabId,
+      menuTitle,
+    );
 
     if (menuError || !menu) {
       setError(menuError?.message ?? "メニューの保存に失敗しました");
@@ -112,7 +117,11 @@ export const useTrainingMenus = () => {
       })),
     );
   };
-  const onUpdateMenu = async (tabId: string, exercises: NewExercise[]) => {
+  const onUpdateMenu = async (
+    tabId: string,
+    menuTitle: string,
+    exercises: NewExercise[],
+  ) => {
     setIsLoading(true);
     setError("");
 
@@ -124,13 +133,23 @@ export const useTrainingMenus = () => {
       return false;
     }
 
-    const { error } = await replaceTrainingMenuExercises(
+    const { error: replaceExerciseError } = await replaceTrainingMenuExercises(
       targetMenu.id,
       exercises,
     );
 
-    if (error) {
-      setError(error.message);
+    if (replaceExerciseError) {
+      setError(replaceExerciseError.message);
+      setIsLoading(false);
+      return false;
+    }
+    const { error: titleError } = await updateTrainingMenuTitle(
+      targetMenu.id,
+      menuTitle,
+    );
+
+    if (titleError) {
+      setError(titleError.message);
       setIsLoading(false);
       return false;
     }

@@ -19,7 +19,6 @@ export type UserGoalsForm = {
 
 export type RegisterUserInfo = {
   username: string;
-  email: string;
   gender: string;
   birthday: string;
   height: string;
@@ -30,5 +29,4 @@ export type RegisterUserInfo = {
   targetWeight: string;
   targetCalories: string;
 };
-
 

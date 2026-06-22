@@ -9,20 +9,28 @@ type Props = {
   triggerLabel: string;
   addExercises?: NewExercise[];
   mode: "edit" | "create";
+  menuTitle?: string;
 };
 
 export const CreateTrainingMenuModal = (props: Props) => {
   const { createTrainingMenu, onUpdateMenu } = useTrainingMenuContext();
-  const { tabId, triggerLabel, addExercises, mode } = props;
+  const {
+    tabId,
+    triggerLabel,
+    addExercises,
+    mode,
+    menuTitle: initialMenuTitle,
+  } = props;
   const [isOpen, setIsOpen] = useState(false);
-
+  const [menuTitle, setMenuTitle] = useState<string>(initialMenuTitle ?? "");
   const onSave = async (exercises: NewExercise[]) => {
     let isSaved = false;
 
     if (mode === "create") {
-      isSaved = await createTrainingMenu(tabId, exercises);
-    } else {
-      isSaved = await onUpdateMenu(tabId, exercises);
+      isSaved = await createTrainingMenu(tabId, menuTitle, exercises);
+    }
+    if (mode === "edit") {
+      isSaved = await onUpdateMenu(tabId, menuTitle, exercises);
     }
 
     if (isSaved) {
@@ -54,7 +62,12 @@ export const CreateTrainingMenuModal = (props: Props) => {
               </Dialog.CloseTrigger>
             </Dialog.Header>
             <Dialog.Body overflowY="auto">
-              <TrainingMenuInput addExercises={addExercises} onSave={onSave} />
+              <TrainingMenuInput
+                addExercises={addExercises}
+                onSave={onSave}
+                menuTitle={menuTitle}
+                setMenuTitle={setMenuTitle}
+              />
             </Dialog.Body>
           </Dialog.Content>
         </Dialog.Positioner>

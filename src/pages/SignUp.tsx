@@ -1,28 +1,28 @@
-import { useNavigate } from "react-router-dom";
 import {
-  Box,
-  Heading,
-  Text,
-  Button,
   Flex,
+  Box,
   VStack,
+  Heading,
   Input,
+  Button,
   Field,
+  Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { fetchUserById, signIn } from "../api/authApi";
+import { signUp } from "../api/authApi";
 
-export const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+export const SignUp = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const navigate = useNavigate();
 
-  const onClickLogin = async () => {
-    setErrorMessage("");
+  const onClickSignUp = async () => {
     setIsSubmitted(true);
+    setErrorMessage("");
+    setMessage("");
 
     if (!email || !password) {
       return;
@@ -31,32 +31,18 @@ export const Login = () => {
     setIsLoading(true);
 
     try {
-      const { data: authData, error: signInError } = await signIn(
-        email,
-        password,
+      const { error } = await signUp(email, password);
+      if (error) {
+        setErrorMessage("新規登録に失敗しました");
+        return;
+      }
+      setMessage(
+        "確認メールを送信しました。メール確認後にログインしてください。",
       );
-
-      if (signInError || !authData.user) {
-        setErrorMessage("ログインに失敗しました");
-        return;
-      }
-
-      const userId = authData.user.id;
-      const { data: user, error: userError } = await fetchUserById(userId);
-      if (userError) {
-        setErrorMessage("ユーザー情報の確認に失敗しました");
-        return;
-      }
-      if (!user) {
-        navigate("/register");
-        return;
-      }
-      navigate("/");
     } finally {
       setIsLoading(false);
     }
   };
-
   return (
     <Flex minH="100vh" bg="blue.900" align="center" justify="center" px="24px">
       <Box
@@ -70,11 +56,8 @@ export const Login = () => {
         <VStack align="stretch" gap="24px">
           <Box textAlign="center">
             <Heading size="2xl" color="blue.900">
-              RepTrack
+              新規登録
             </Heading>
-            <Text mt="12px" color="gray.600">
-              日々のトレーニングを記録して、成長を見える化しよう
-            </Text>
           </Box>
 
           <VStack align="stretch" gap="16px">
@@ -109,31 +92,28 @@ export const Login = () => {
               </Field.Root>
             </Box>
           </VStack>
+
           {errorMessage && (
             <Text color="red.500" fontSize="sm">
               {errorMessage}
             </Text>
           )}
+
+          {message && (
+            <Text color="green.600" fontSize="sm">
+              {message}
+            </Text>
+          )}
           <Button
-            loading={isLoading}
-            disabled={isLoading}
             h="48px"
             bg="blue.700"
             color="white"
             _hover={{ bg: "blue.800" }}
-            onClick={onClickLogin}
+            loading={isLoading}
+            disabled={isLoading}
+            onClick={onClickSignUp}
           >
-            ログイン
-          </Button>
-
-          <Button
-            variant="outline"
-            h="48px"
-            onClick={() => {
-              navigate("/signup");
-            }}
-          >
-            新規登録の方はこちら
+            登録
           </Button>
         </VStack>
       </Box>

@@ -1,7 +1,22 @@
-import { Flex, Grid, Heading, Button, Spacer } from "@chakra-ui/react";
+import { Flex, Heading, Button, Spacer } from "@chakra-ui/react";
 import { FaUserCircle } from "react-icons/fa";
+import { signOut } from "../api/authApi";
+import { useNavigate } from "react-router-dom";
+
+const navigate = useNavigate();
 
 export const Header = () => {
+  const onClickLogout = async () => {
+    const isCancel = window.confirm("ログアウトしますか？");
+    if (!isCancel) {
+      return;
+    }
+    const { error } = await signOut();
+
+    if (!error) {
+      navigate("/login");
+    }
+  };
   return (
     <Flex
       color="white"
@@ -16,7 +31,9 @@ export const Header = () => {
       </Heading>
       <Spacer />
       <FaUserCircle size={32} />
-      <Button mx={4}>ログアウト</Button>
+      <Button onClick={onClickLogout} mx={4}>
+        ログアウト
+      </Button>
     </Flex>
   );
 };

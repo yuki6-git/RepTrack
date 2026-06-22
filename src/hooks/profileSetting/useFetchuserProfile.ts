@@ -10,6 +10,7 @@ import type {
   ProfileSetting,
   UserGoals,
 } from "../../types/ProfileSetting";
+import { getCurrentUserId } from "../../api/authApi";
 
 export const useFetchUserProfile = () => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
@@ -24,7 +25,7 @@ export const useFetchUserProfile = () => {
     setIsLoading(true);
     setErrorMessage("");
 
-    const userId = localStorage.getItem("userId");
+    const userId = await getCurrentUserId();
 
     if (!userId) {
       setErrorMessage("ユーザー情報がありません");

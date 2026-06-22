@@ -7,6 +7,7 @@ import {
 } from "../../api/workoutApi";
 import type { ExerciseRecord, Workout } from "../../types/Workout";
 import type { NewExercise } from "../../types/NewExercise";
+import { getCurrentUserId } from "../../api/authApi";
 
 export const useWorkoutSession = () => {
   const [workout, setWorkout] = useState<Workout | null>(null);
@@ -21,7 +22,7 @@ export const useWorkoutSession = () => {
     setIsLoading(true);
     setErrorMessage("");
 
-    const userId = localStorage.getItem("userId");
+    const userId = await getCurrentUserId();
 
     if (!userId) {
       setErrorMessage("ユーザー情報がありません");

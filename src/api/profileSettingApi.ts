@@ -21,9 +21,6 @@ export const fetchUserGoals = async (userId: string) => {
     .single();
 };
 
-
-
-
 export const updateUserProfile = async (
   userId: string,
   form: UserProfileSettingForm,

@@ -12,11 +12,11 @@ import type { ExerciseRecord } from "../../types/Workout";
 
 type Props = {
   exercises: NewExercise[];
-  mode: "draft" | "workout";
+  mode?: "draft" | "workout";
   onClickEditExercise?: (exercise: NewExercise) => void;
   onClickDeleteExercise?: (id: string) => void;
-  toggleCompleted: (trainingMenuExerciseId: string) => Promise<boolean>;
-  exerciseRecords: ExerciseRecord[];
+  toggleCompleted?: (trainingMenuExerciseId: string) => Promise<boolean>;
+  exerciseRecords?: ExerciseRecord[];
 };
 
 export const ExerciseListBypart = (props: Props) => {
@@ -82,7 +82,7 @@ export const ExerciseListBypart = (props: Props) => {
 
               <Table.Body>
                 {exercises.map((exercise) => {
-                  const record = exerciseRecords.find(
+                  const record = exerciseRecords?.find(
                     (record) =>
                       record.training_menu_exercise_id === exercise.id,
                   );
@@ -123,7 +123,7 @@ export const ExerciseListBypart = (props: Props) => {
                             colorPalette="blue"
                             variant="subtle"
                             checked={record?.completed ?? false}
-                            onCheckedChange={() => toggleCompleted(exercise.id)}
+                            onCheckedChange={() => toggleCompleted?.(exercise.id)}
                           >
                             <Checkbox.HiddenInput />
                             <Checkbox.Control cursor="pointer">

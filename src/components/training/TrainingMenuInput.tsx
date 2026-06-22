@@ -7,8 +7,9 @@ import {
   NumberInput,
   Flex,
   Field,
+  Heading,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import type { NewExercise } from "../../types/NewExercise";
 import { ExerciseListBypart } from "./ExerciseListByPart";
 import { useDraftExercises } from "../../hooks/exercises/useDraftExercises";
@@ -16,10 +17,12 @@ import { useDraftExercises } from "../../hooks/exercises/useDraftExercises";
 type Props = {
   onSave: (exercises: NewExercise[]) => void;
   addExercises?: NewExercise[];
+  setMenuTitle: Dispatch<SetStateAction<string>>;
+  menuTitle: string;
 };
 
 export const TrainingMenuInput = (props: Props) => {
-  const { onSave, addExercises } = props;
+  const { onSave, addExercises, setMenuTitle, menuTitle } = props;
   const initialForm: NewExercise = {
     id: "",
     tabId: "",
@@ -84,22 +87,14 @@ export const TrainingMenuInput = (props: Props) => {
   return (
     <>
       <Box>
-        <Field.Root required mb="12px">
-          <Field.Label color="gray.500">
-            部位 <Field.RequiredIndicator />
-          </Field.Label>
-          <Input
-            placeholder="部位"
-            value={form.part}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                part: e.target.value,
-              })
-            }
-          />
-        </Field.Root>
+        <Heading mb={2}>メニュー名</Heading>
+        <Input
+          placeholder="メニュー名"
+          value={menuTitle}
+          onChange={(e) => setMenuTitle(e.target.value)}
+        />
 
+        <Heading mt={4}>種目</Heading>
         <Field.Root required mb="12px">
           <Field.Label color="gray.500">
             種目名 <Field.RequiredIndicator />
@@ -111,6 +106,21 @@ export const TrainingMenuInput = (props: Props) => {
               setForm({
                 ...form,
                 exerciseName: e.target.value,
+              })
+            }
+          />
+        </Field.Root>
+        <Field.Root required mb="12px">
+          <Field.Label color="gray.500">
+            部位 <Field.RequiredIndicator />
+          </Field.Label>
+          <Input
+            placeholder="部位"
+            value={form.part}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                part: e.target.value,
               })
             }
           />

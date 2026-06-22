@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchWorkoutLogs } from "../../api/workoutApi";
 import type { WorkoutLog } from "../../types/Workout";
+import { getCurrentUserId } from "../../api/authApi";
 
 export const useWorkoutLogs = () => {
   const [logs, setLogs] = useState<WorkoutLog[]>([]);
@@ -10,7 +11,7 @@ export const useWorkoutLogs = () => {
   const fetchLogs = async () => {
     setIsLoading(true);
     setErrorMessage("");
-    const userId = localStorage.getItem("userId");
+    const userId = await getCurrentUserId();
     if (!userId) {
       setErrorMessage("ユーザー情報がありません");
       setIsLoading(false);

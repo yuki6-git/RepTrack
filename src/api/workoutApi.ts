@@ -22,6 +22,7 @@ export const insertExerciseRecords = async (
     workout_id: workoutId,
     training_menu_exercise_id: exercise.id,
     exercise_name: exercise.exerciseName,
+    part:exercise.part,
     set_weight: Number(exercise.setWeight),
     max_weight: Number(exercise.maxWeight),
     reps: Number(exercise.reps),

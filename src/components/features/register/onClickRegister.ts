@@ -4,6 +4,7 @@ import {
   insertGoals,
   insertWeightRecord,
 } from "../../../api/registerApi";
+import { getCurrentUser } from "../../../api/authApi";
 import type { RegisterUserInfo } from "../../../types/UserInfoForm";
 import type { NavigateFunction } from "react-router-dom";
 import type { Dispatch, SetStateAction } from "react";
@@ -16,12 +17,7 @@ type Props = {
 };
 
 export const onClickRegister = async (props: Props) => {
-  const {
-    userInfo,
-    navigate,
-    setErrorMessage,
-    setIsLoading,
-  } = props;
+  const { userInfo, navigate, setErrorMessage, setIsLoading } = props;
 
   setErrorMessage("");
   setIsLoading(true);
@@ -38,9 +34,18 @@ export const onClickRegister = async (props: Props) => {
       return;
     }
 
+    const { data: authData, error: authError } = await getCurrentUser();
+    const authUser = authData.user;
+
+    if (authError || !authUser?.id || !authUser.email) {
+      setErrorMessage("ログイン情報の取得に失敗しました");
+      return;
+    }
+
     const { data: user, error: userError } = await insertUser({
+      id: authUser.id,
       username: userInfo.username,
-      email: userInfo.email,
+      email: authUser.email,
     });
 
     if (userError || !user) {
@@ -76,8 +81,6 @@ export const onClickRegister = async (props: Props) => {
       setErrorMessage("初期体重の保存に失敗しました");
       return;
     }
-
-    localStorage.setItem("userId", user.id);
 
     navigate("/");
   } finally {

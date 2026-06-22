@@ -2,15 +2,17 @@ import { supabase } from "../lib/supabase";
 import type { RegisterUserInfo } from "../types/UserInfoForm";
 
 export const insertUser = async ({
+  id,
   username,
   email,
 }: {
+  id: string;
   username: string;
   email: string;
 }) => {
   return await supabase
     .from("users")
-    .insert({ username, email })
+    .insert({ id, username, email })
     .select()
     .single();
 };

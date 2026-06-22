@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../../lib/supabase";
+import { fetchweightRecords, insertWeightRecords } from "../../api/weightApi";
 import type { WeightRecord } from "../../types/WeightRecord";
+import { getCurrentUserId } from "../../api/authApi";
 
 type CreateWeightRecordParams = {
-  weight: number;
-  bodyFat: number;
+  weight: string;
+  bodyFat: string;
 };
 
 export const useWeightRecords = () => {
@@ -15,16 +16,17 @@ export const useWeightRecords = () => {
   const fetchWeightRecords = async () => {
     setIsLoading(true);
     setError("");
+    
+    const userId = await getCurrentUserId();
+    if (!userId) {
+      setError("ユーザー情報がありません");
+      setIsLoading(false);
+      return;
+    }
 
-    const { data, error } = await supabase
-      .from("weight_records")
-      .select("*")
-      .order("recorded_at", { ascending: false });
-    console.log("data", data);
-    console.log("error", error);
+    const { data, error } = await fetchweightRecords(userId ?? "");
 
     if (error) {
-      console.log(error.message);
       setError(error.message);
       setIsLoading(false);
       return;
@@ -38,11 +40,7 @@ export const useWeightRecords = () => {
     weight,
     bodyFat,
   }: CreateWeightRecordParams) => {
-    const { error } = await supabase.from("weight_records").insert({
-      weight: Number(weight),
-      body_fat: Number(bodyFat),
-      recorded_at: new Date().toISOString().slice(0, 10),
-    });
+    const { error } = await insertWeightRecords(weight, bodyFat);
 
     if (error) {
       setError(error.message);

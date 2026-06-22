@@ -14,6 +14,7 @@ export type ExerciseRecord = {
   workout_id: string;
   training_menu_exercise_id: string;
   exercise_name: string;
+  part: string;
   set_weight: number;
   max_weight: number | null;
   reps: number;

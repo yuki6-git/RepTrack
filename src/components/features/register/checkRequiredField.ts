@@ -11,10 +11,6 @@ export const checkRequiredField = (
     errors.username = "ユーザー名を入力してください";
   }
 
-  if (!userInfo.email.trim()) {
-    errors.email = "メールアドレスを入力してください";
-  }
-
   if (!userInfo.gender.trim()) {
     errors.gender = "性別を選択してください";
   }

@@ -2,9 +2,13 @@ import { useState } from "react";
 import {
   updateUser,
   updateUserGoals,
-  updateUserProfile
+  updateUserProfile,
 } from "../../api/profileSettingApi";
-import type { UserGoalsForm, UserProfileSettingForm } from "../../types/UserInfoForm";
+import type {
+  UserGoalsForm,
+  UserProfileSettingForm,
+} from "../../types/UserInfoForm";
+import { getCurrentUserId } from "../../api/authApi";
 
 export const useUpdateUserProfile = () => {
   const [isUpdating, setIsUpdating] = useState(false);
@@ -14,7 +18,7 @@ export const useUpdateUserProfile = () => {
     setIsUpdating(true);
     setErrorMessage("");
 
-    const userId = localStorage.getItem("userId");
+    const userId = await getCurrentUserId();
 
     if (!userId) {
       setErrorMessage("ユーザー情報がありません");
@@ -23,10 +27,7 @@ export const useUpdateUserProfile = () => {
     }
 
     const { error: userError } = await updateUser(userId, form);
-    const { error: profileError } = await updateUserProfile(
-      userId,
-      form,
-    );
+    const { error: profileError } = await updateUserProfile(userId, form);
 
     setIsUpdating(false);
 
@@ -38,12 +39,11 @@ export const useUpdateUserProfile = () => {
     return true;
   };
 
-
   const updateGoals = async (form: UserGoalsForm) => {
     setIsUpdating(true);
     setErrorMessage("");
 
-    const userId = localStorage.getItem("userId");
+    const userId = await getCurrentUserId();
 
     if (!userId) {
       setErrorMessage("ユーザー情報がありません");
