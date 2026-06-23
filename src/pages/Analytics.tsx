@@ -8,6 +8,9 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useAnalyticsData } from "../hooks/analytics/useAnalyticsData";
+import { WeeklyTrainingProgress } from "../components/analytics/WeeklyTrainingProgress";
+import { useFetchUserProfile } from "../hooks/profileSetting/useFetchuserProfile";
 
 const prRecords = [
   { name: "ベンチプレス", weight: "75kg" },
@@ -30,6 +33,10 @@ export const Analytics = () => {
   // const [prRecords, setPrRecords] = useState<PrRecord[]>([]);
   // const [weeklyAverage, setWeeklyAverage] = useState(0);
   // const [achievementRate, setAchievementRate] = useState(0);
+
+  const { createWeeklyTrainingData } = useAnalyticsData();
+
+  const { userGoals } = useFetchUserProfile();
   return (
     <VStack align="stretch" gap="24px">
       <Heading size="xl">分析</Heading>
@@ -37,7 +44,7 @@ export const Analytics = () => {
       <SimpleGrid columns={{ base: 1, lg: 2 }} gap="24px">
         <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px">
           <Heading size="md" mb="20px">
-            部位別トレーニング重量（今月）
+            部位別トレーニング重量
           </Heading>
 
           <Flex gap="32px">
@@ -61,28 +68,10 @@ export const Analytics = () => {
         </Box>
 
         <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px">
-          <Heading size="md" mb="20px">
-            月間トレーニング回数
-          </Heading>
-
-          <Flex align="baseline" gap="8px" mb="24px">
-            <Heading size="2xl">12</Heading>
-            <Text fontWeight="bold">回</Text>
-          </Flex>
-
-          <HStack align="end" h="160px" gap="16px">
-            {[32, 58, 88, 70, 110, 84].map((height, index) => (
-              <VStack key={index} justify="end" flex="1">
-                <Box
-                  w="100%"
-                  h={`${height}px`}
-                  bg="blue.400"
-                  borderRadius="6px"
-                />
-                <Text fontSize="sm">{index + 1}月</Text>
-              </VStack>
-            ))}
-          </HStack>
+          <WeeklyTrainingProgress
+            createWeeklyTrainingData={createWeeklyTrainingData}
+            userGoals={userGoals}
+          />
         </Box>
 
         <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px">

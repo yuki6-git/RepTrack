@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { fetchUserGoals } from "../api/profileSettingApi";
 import { getCurrentUserId } from "../api/authApi";
+import { WeightLineChart } from "../components/features/register/analytics/WeightLineCharts";
 
 export const Weight = () => {
   const [targetWeight, setTargetWeight] = useState("");
@@ -133,17 +134,7 @@ export const Weight = () => {
             体重の推移
           </Heading>
 
-          <Box
-            h="280px"
-            borderRadius="8px"
-            bg="gray.50"
-            borderWidth="1px"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Text color="gray.500">グラフ表示エリア</Text>
-          </Box>
+          <WeightLineChart />
         </Box>
       </SimpleGrid>
 

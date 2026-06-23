@@ -9,6 +9,7 @@ import { ProfileSetting } from "../pages/ProfileSetting";
 import { Login } from "../pages/Login";
 import { Register } from "../pages/Register";
 import { SignUp } from "../pages/SignUp";
+import { AuthGuard } from "../components/auth/AuthGuard";
 
 export const AppRoutes = () => {
   return (
@@ -16,14 +17,20 @@ export const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/register" element={<Register />} />
-      <Route element={<MainLayout />}>
+
+      <Route
+        element={
+          <AuthGuard>
+            <MainLayout />
+          </AuthGuard>
+        }
+      >
         <Route path="/" element={<Dashboard />} />
         <Route path="/workout" element={<Workout />} />
         <Route path="/training" element={<Training />} />
         <Route path="/weight" element={<Weight />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/profile-setting" element={<ProfileSetting />} />
-        
       </Route>
     </Routes>
   );

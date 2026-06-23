@@ -3,9 +3,9 @@ import { FaUserCircle } from "react-icons/fa";
 import { signOut } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
 
-const navigate = useNavigate();
-
 export const Header = () => {
+  const navigate = useNavigate();
+  
   const onClickLogout = async () => {
     const isCancel = window.confirm("ログアウトしますか？");
     if (!isCancel) {
