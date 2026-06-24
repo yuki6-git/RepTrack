@@ -19,15 +19,15 @@ export const useAnalyticsData = () => {
     }));
   };
 
-  const createTrainingHours = (workouts: WorkoutLog[]) => {
+  const createTrainingMinutes = (workouts: WorkoutLog[]) => {
     const latestFiveWorkouts = workouts.slice(0, 5).map((workout) => ({
-      duration: workout.duration ? Math.round(workout.duration / 60) : 0,
       date: workout.date,
+      duration: workout.duration ? Math.round(workout.duration / 60) : 0,
     }));
     return latestFiveWorkouts;
   };
 
-  const createPrByExercises = (exerciseRecords: ExerciseRecord[]) => {
+  const createExercisesPr = (exerciseRecords: ExerciseRecord[]) => {
     const currentPrExercises: Record<string, number> = {};
     exerciseRecords.forEach((exerciseRecord) => {
       if (exerciseRecord.max_weight === null) {
@@ -66,8 +66,8 @@ export const useAnalyticsData = () => {
 
   return {
     createWeeklyTrainingData,
-    createTrainingHours,
+    createTrainingMinutes,
     calculateTrainingVolumebypart,
-    createPrByExercises,
+    createExercisesPr,
   };
 };
