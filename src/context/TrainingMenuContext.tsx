@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import type { ReactNode } from "react";
-import { useTrainingMenus } from "../hooks/exercises/useTrainingMenus";
+import { useTrainingMenus } from "../hooks/training/useTrainingMenus";
 
 type TrainingMenuContextValue = ReturnType<typeof useTrainingMenus>;
 

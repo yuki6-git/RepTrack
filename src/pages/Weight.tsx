@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { fetchUserGoals } from "../api/profileSettingApi";
 import { getCurrentUserId } from "../api/authApi";
-import { WeightLineChart } from "../components/features/register/analytics/WeightLineCharts";
+import { WeightLineChart } from "../components/weight/WeightLineCharts";
 
 export const Weight = () => {
   const [targetWeight, setTargetWeight] = useState("");
@@ -85,13 +85,10 @@ export const Weight = () => {
           <Heading size="md" mb="20px">
             最新の記録
           </Heading>
-
           {errorMessage && <Text>{errorMessage}</Text>}
-
           <Text color="gray.500" mb="16px">
             {latestRecord?.recorded_at ?? "-"}
           </Text>
-
           <Box as="dl">
             <Flex justify="space-between" align="baseline" py="8px">
               <Text as="dt" color="gray.500">
@@ -102,7 +99,6 @@ export const Weight = () => {
                 <Text>kg</Text>
               </Flex>
             </Flex>
-
             <Flex justify="space-between" align="baseline" py="8px">
               <Text as="dt" color="gray.500">
                 体脂肪率
@@ -112,7 +108,6 @@ export const Weight = () => {
                 <Text>%</Text>
               </Flex>
             </Flex>
-
             <Flex justify="space-between" align="baseline" py="8px">
               <Text as="dt" color="gray.500">
                 目標まであと
@@ -123,6 +118,7 @@ export const Weight = () => {
             </Flex>
           </Box>
         </Box>
+
         <Box
           gridColumn={{ base: "auto", lg: "span 2" }}
           p="24px"
@@ -133,8 +129,11 @@ export const Weight = () => {
           <Heading size="md" mb="16px">
             体重の推移
           </Heading>
-
-          <WeightLineChart />
+          <WeightLineChart
+            weightLogs={weightLogs}
+            isLoading={isLoading}
+            error={error}
+          />
         </Box>
       </SimpleGrid>
 
@@ -154,7 +153,7 @@ export const Weight = () => {
           </Table.Header>
 
           <Table.Body>
-            {weightLogs.map((log, index) => {
+            {weightLogs.slice(0, 5).map((log, index) => {
               const previousLog = weightLogs[index + 1];
 
               const diff =

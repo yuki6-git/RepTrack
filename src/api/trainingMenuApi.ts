@@ -27,10 +27,15 @@ export const fetchTrainingMenuExerciseRows = async () => {
     .order("created_at", { ascending: true });
 };
 
-export const insertTrainingMenu = async (tabId: string, menuTitle: string) => {
+export const insertTrainingMenu = async (
+  tabId: string,
+  menuTitle: string,
+  userId: string,
+) => {
   return await supabase
     .from("training_menu")
     .insert({
+      user_id: userId,
       tab_id: tabId,
       title: menuTitle,
     })

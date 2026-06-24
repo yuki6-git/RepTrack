@@ -9,6 +9,7 @@ import {
   updateTrainingMenuTitle,
 } from "../../api/trainingMenuApi";
 import type { TrainingMenu } from "../../types/TrainingMenu";
+import { getCurrentUserId } from "../../api/authApi";
 
 export const useTrainingMenus = () => {
   const [trainingMenus, setTrainingMenus] = useState<TrainingMenu[]>([]);
@@ -66,6 +67,14 @@ export const useTrainingMenus = () => {
     setIsLoading(true);
     setError("");
 
+    const userId = await getCurrentUserId();
+
+    if (!userId) {
+      setError("ユーザー情報がありません");
+      setIsLoading(false);
+      return false;
+    }
+
     if (draftExercises.length === 0) {
       setError("種目を1件以上追加してください");
       setIsLoading(false);
@@ -75,6 +84,7 @@ export const useTrainingMenus = () => {
     const { data: menu, error: menuError } = await insertTrainingMenu(
       tabId,
       menuTitle,
+      userId,
     );
 
     if (menuError || !menu) {

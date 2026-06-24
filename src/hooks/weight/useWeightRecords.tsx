@@ -40,7 +40,14 @@ export const useWeightRecords = () => {
     weight,
     bodyFat,
   }: CreateWeightRecordParams) => {
-    const { error } = await insertWeightRecords(weight, bodyFat);
+
+    const userId = await getCurrentUserId();
+    if (!userId) {
+      setError("ユーザー情報がありません");
+      setIsLoading(false);
+      return;
+    }
+    const { error } = await insertWeightRecords(userId, weight, bodyFat);
 
     if (error) {
       setError(error.message);
@@ -53,6 +60,8 @@ export const useWeightRecords = () => {
     fetchWeightRecords();
   }, []);
 
+  
+
   return {
     weightLogs,
     isLoading,
@@ -60,4 +69,5 @@ export const useWeightRecords = () => {
     fetchWeightRecords,
     createWeightRecord,
   };
+
 };

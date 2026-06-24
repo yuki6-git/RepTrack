@@ -1,5 +1,7 @@
 import { Dialog, Portal, VStack, Flex, Text, Button } from "@chakra-ui/react";
 import type { WorkoutLog } from "../../types/Workout";
+import { formatTime } from "../../utils/formatTime";
+import { formatDurationMinutes } from "../../utils/formatDurationMinutes";
 
 type Props = {
   isOpen: boolean;
@@ -9,6 +11,14 @@ type Props = {
 
 export const WorkoutModal = (props: Props) => {
   const { isOpen, setIsOpen, selectedLog } = props;
+
+  const trainedParts = Array.from(
+    new Set(selectedLog?.records.map((record) => record.part) ?? []),
+  );
+
+  const startTIme = selectedLog?.start ?? null;
+  const endTime = selectedLog?.end ?? null;
+  const duration = selectedLog?.duration ?? null;
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => setIsOpen(e.open)}>
       <Portal>
@@ -26,20 +36,21 @@ export const WorkoutModal = (props: Props) => {
                 <Flex justify="space-between">
                   <Text fontWeight="bold">開始〜終了</Text>
                   <Text>
-                    {selectedLog?.start} 〜 {selectedLog?.end}
+                    {formatTime(startTIme)} 〜 {formatTime(endTime)}
                   </Text>
                 </Flex>
 
                 <Flex justify="space-between">
                   <Text fontWeight="bold">総時間</Text>
-                  <Text>{selectedLog?.duration}</Text>
+                  <Text>{formatDurationMinutes(duration)}</Text>
                 </Flex>
-                {selectedLog?.records.map((record) => (
-                  <Flex justify="space-between">
-                    <Text fontWeight="bold">部位</Text>
-                    <Text>{record?.part}</Text>
-                  </Flex>
-                ))}
+                <Flex justify="space-between">
+                  <Text fontWeight="bold" mr={4}>
+                    部位
+                  </Text>
+
+                  <Text>{trainedParts.join(" / ")}</Text>
+                </Flex>
               </VStack>
             </Dialog.Body>
             <Dialog.CloseTrigger asChild>

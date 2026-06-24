@@ -29,7 +29,7 @@ export const TrainingVolumeByPartChart = (props: Props) => {
       {trainingVolumeData.length === 0 ? (
         <Text color="gray.500">重量のデータがありません</Text>
       ) : (
-        <PieChart>
+        <PieChart width={300} height={300}>
           <Pie
             data={trainingVolumeData}
             dataKey="volume"
@@ -45,6 +45,7 @@ export const TrainingVolumeByPartChart = (props: Props) => {
               position="center"
               fontSize={16}
               fontWeight="bold"
+              color="black"
             />
           </Pie>
           <Tooltip formatter={(value, name) => [`${value}kg`, name]} />

@@ -23,10 +23,10 @@ export type RegisterUserInfo = {
   birthday: string;
   height: string;
   weight: string;
+  bodyFat: string;
   goalType: string;
   activityLevel: string;
   weeklyGoal: string;
   targetWeight: string;
   targetCalories: string;
 };
-

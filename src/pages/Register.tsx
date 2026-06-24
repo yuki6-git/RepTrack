@@ -32,6 +32,7 @@ export const Register = () => {
     birthday: "",
     height: "",
     weight: "",
+    bodyFat: "",
     goalType: "",
     activityLevel: "",
     weeklyGoal: "",
@@ -76,7 +77,7 @@ export const Register = () => {
   };
 
   return (
-    <VStack align="stretch" gap="24px" >
+    <VStack align="stretch" gap="24px">
       <Box mt={4} mx={8}>
         <Heading fontWeight="bold" fontSize="2xl" as="h1">
           新規登録
@@ -101,20 +102,36 @@ export const Register = () => {
         >
           <VStack align="stretch" w="100%">
             <Heading size="md">ユーザー情報</Heading>
-            <Field.Root w="100%" invalid={Boolean(fieldErrors.username)}>
-              <Field.Label>ユーザー名</Field.Label>
-              <Input
-                placeholder="ユーザー名を入力"
-                value={userInfo.username}
-                onChange={(e) =>
-                  setUserInfo({
-                    ...userInfo,
-                    username: e.target.value,
-                  })
-                }
-              />
-              <Field.ErrorText>{fieldErrors.username}</Field.ErrorText>
-            </Field.Root>
+            <SimpleGrid columns={2} gap="16px">
+              <Field.Root w="100%" invalid={Boolean(fieldErrors.username)}>
+                <Field.Label>ユーザー名</Field.Label>
+                <Input
+                  placeholder="ユーザー名を入力"
+                  value={userInfo.username}
+                  onChange={(e) =>
+                    setUserInfo({
+                      ...userInfo,
+                      username: e.target.value,
+                    })
+                  }
+                />
+                <Field.ErrorText>{fieldErrors.username}</Field.ErrorText>
+              </Field.Root>
+              <Field.Root invalid={Boolean(fieldErrors.birthday)}>
+                <Field.Label>生年月日</Field.Label>
+                <Input
+                  type="date"
+                  value={userInfo.birthday}
+                  onChange={(e) =>
+                    setUserInfo({
+                      ...userInfo,
+                      birthday: e.target.value,
+                    })
+                  }
+                />
+                <Field.ErrorText>{fieldErrors.birthday}</Field.ErrorText>
+              </Field.Root>
+            </SimpleGrid>
 
             <SimpleGrid columns={2} gap="16px">
               <Field.Root invalid={Boolean(fieldErrors.gender)}>
@@ -138,23 +155,6 @@ export const Register = () => {
                 </NativeSelect.Root>
                 <Field.ErrorText>{fieldErrors.gender}</Field.ErrorText>
               </Field.Root>
-              <Field.Root invalid={Boolean(fieldErrors.birthday)}>
-                <Field.Label>生年月日</Field.Label>
-                <Input
-                  type="date"
-                  value={userInfo.birthday}
-                  onChange={(e) =>
-                    setUserInfo({
-                      ...userInfo,
-                      birthday: e.target.value,
-                    })
-                  }
-                />
-                <Field.ErrorText>{fieldErrors.birthday}</Field.ErrorText>
-              </Field.Root>
-            </SimpleGrid>
-
-            <SimpleGrid columns={2} gap="16px">
               <Field.Root invalid={Boolean(fieldErrors.height)}>
                 <Field.Label>身長</Field.Label>
                 <NumberInput.Root
@@ -174,7 +174,9 @@ export const Register = () => {
                 </NumberInput.Root>
                 <Field.ErrorText>{fieldErrors.height}</Field.ErrorText>
               </Field.Root>
+            </SimpleGrid>
 
+            <SimpleGrid columns={2} gap="16px">
               <Field.Root invalid={Boolean(fieldErrors.weight)}>
                 <Field.Label>体重</Field.Label>
                 <NumberInput.Root
@@ -193,6 +195,25 @@ export const Register = () => {
                   </InputGroup>
                 </NumberInput.Root>
                 <Field.ErrorText>{fieldErrors.weight}</Field.ErrorText>
+              </Field.Root>
+
+              <Field.Root>
+                <Field.Label>体脂肪率 (optional)</Field.Label>
+                <NumberInput.Root
+                  w="100%"
+                  min={0}
+                  value={userInfo.bodyFat}
+                  onValueChange={(e) =>
+                    setUserInfo({
+                      ...userInfo,
+                      bodyFat: e.value,
+                    })
+                  }
+                >
+                  <InputGroup endElement="%">
+                    <NumberInput.Input />
+                  </InputGroup>
+                </NumberInput.Root>
               </Field.Root>
             </SimpleGrid>
 
@@ -310,7 +331,7 @@ export const Register = () => {
 
             <Box>
               <Text color="gray.500" fontSize="sm">
-                目標カロリー
+                目標摂取カロリー
               </Text>
               <Text fontSize="lg" fontWeight="bold">
                 {displayTargetCalories}kcal

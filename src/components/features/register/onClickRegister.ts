@@ -72,9 +72,11 @@ export const onClickRegister = async (props: Props) => {
       setErrorMessage("目標情報の保存に失敗しました");
       return;
     }
+    
     const { error: weightError } = await insertWeightRecord({
       userId: user.id,
       weight: userInfo.weight,
+      bodyFat: userInfo.bodyFat
     });
 
     if (weightError) {

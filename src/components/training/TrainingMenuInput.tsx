@@ -12,7 +12,7 @@ import {
 import { useState, type Dispatch, type SetStateAction } from "react";
 import type { NewExercise } from "../../types/NewExercise";
 import { ExerciseListBypart } from "./ExerciseListByPart";
-import { useDraftExercises } from "../../hooks/exercises/useDraftExercises";
+import { useDraftExercises } from "../../hooks/training/useDraftExercises";
 
 type Props = {
   onSave: (exercises: NewExercise[]) => void;
@@ -35,11 +35,11 @@ export const TrainingMenuInput = (props: Props) => {
   };
 
   const [form, setForm] = useState(initialForm);
-
   const [draftExercises, setDraftExercises] = useState<NewExercise[]>(
     addExercises ?? [],
   );
   const [validationMessage, setValidationMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const hasRequiredValues =
     form.part.trim() !== "" &&
@@ -71,12 +71,16 @@ export const TrainingMenuInput = (props: Props) => {
   };
 
   const onClickSaveMenu = () => {
+    setIsLoading(true);
+
     if (draftExercises.length === 0) {
       setValidationMessage("種目を1件以上追加してください");
+      setIsLoading(false);
       return;
     }
 
     onSave(draftExercises);
+    setIsLoading(false);
   };
 
   const { onClickEditExercise, onClickDeleteExercise } = useDraftExercises({
@@ -84,6 +88,7 @@ export const TrainingMenuInput = (props: Props) => {
     setForm,
     initialForm,
   });
+
   return (
     <>
       <Box>
@@ -127,7 +132,7 @@ export const TrainingMenuInput = (props: Props) => {
         </Field.Root>
 
         <Field.Root mb="12px">
-          <Field.Label color="gray.500">Max重量</Field.Label>
+          <Field.Label color="gray.500">Max重量 (opitinal)</Field.Label>
           <NumberInput.Root
             value={form.maxWeight}
             onValueChange={(e) =>
@@ -253,7 +258,13 @@ export const TrainingMenuInput = (props: Props) => {
       />
 
       <Flex justifyContent="end" mt={4}>
-        <Button onClick={onClickSaveMenu}>保存</Button>
+        <Button
+          loading={isLoading}
+          disabled={isLoading}
+          onClick={onClickSaveMenu}
+        >
+          保存
+        </Button>
       </Flex>
     </>
   );

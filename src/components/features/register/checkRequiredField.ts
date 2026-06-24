@@ -26,7 +26,6 @@ export const checkRequiredField = (
   if (!userInfo.weight.trim()) {
     errors.weight = "体重を入力してください";
   }
-
   if (!userInfo.goalType.trim()) {
     errors.goalType = "目標タイプを選択してください";
   }

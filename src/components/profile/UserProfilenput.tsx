@@ -34,7 +34,6 @@ export const UserProfileInput = (props: Props) => {
       <Text>生年月日</Text>
       <Input
         type="date"
-        defaultValue={"1998-04-15"}
         value={form.birthday}
         onChange={(e) => onChangeForm("birthday", e.target.value)}
       />

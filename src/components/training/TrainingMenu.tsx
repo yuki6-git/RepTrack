@@ -2,7 +2,7 @@ import { Text, HStack, Spacer, Box } from "@chakra-ui/react";
 import type { TrainingMenu as TrainingMenuType } from "../../types/TrainingMenu";
 import { ExerciseListBypart } from "./ExerciseListByPart";
 import { CreateTrainingMenuModal } from "./CreateTrainingMenuModal";
-import { Timer } from "../organisms/Timer";
+import { TrainingTimer } from "../organisms/TrainingTimer";
 import { useWorkoutSession } from "../../hooks/workout/useWorkoutSession";
 
 type Props = {
@@ -27,7 +27,7 @@ export const TrainingMenu = (props: Props) => {
         </Text>
         <Spacer />
         {isLoading && <Text>...読み込み中</Text>}
-        {errorMessage && <Text>{errorMessage}</Text>}
+        {errorMessage && <Text color="red">{errorMessage}</Text>}
         <CreateTrainingMenuModal
           mode="edit"
           addExercises={trainingMenu.exercises}
@@ -37,7 +37,7 @@ export const TrainingMenu = (props: Props) => {
         />
       </HStack>
       <Box mb={4}>
-        <Timer
+        <TrainingTimer
           trainingMenu={trainingMenu}
           startworkout={startworkout}
           endWorkout={endWorkout}

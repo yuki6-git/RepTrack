@@ -52,13 +52,16 @@ export const insertGoals = async ({
 export const insertWeightRecord = async ({
   userId,
   weight,
+  bodyFat,
 }: {
   userId: string;
   weight: string;
+  bodyFat: string;
 }) => {
   return await supabase.from("weight_records").insert({
     user_id: userId,
     weight: Number(weight),
+    bodyFat: Number(bodyFat),
     recorded_at: new Date().toISOString().slice(0, 10),
   });
 };

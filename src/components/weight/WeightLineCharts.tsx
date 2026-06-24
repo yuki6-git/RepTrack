@@ -8,16 +8,28 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Box, Heading, Text } from "@chakra-ui/react";
-import { useWeightRecords } from "../../../../hooks/weight/useWeightRecords";
+import type { WeightRecord } from "../../types/WeightRecord";
 
-export const WeightLineChart = () => {
-  const { weightLogs, isLoading, error } = useWeightRecords();
+type Props = {
+  weightLogs: WeightRecord[];
+  isLoading: boolean;
+  error: string;
+};
+export const WeightLineChart = (props: Props) => {
+  const { weightLogs, isLoading, error } = props;
+
+  const formatMonthDay = (date: string) => {
+    const parsedDate = new Date(date);
+    const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+    const day = String(parsedDate.getDate()).padStart(2, "0");
+    return `${month}/${day}`;
+  };
 
   const chartData = weightLogs
     .slice(0, 7)
     .reverse()
     .map((log) => ({
-      date: log.recorded_at,
+      date: formatMonthDay(log.recorded_at),
       weight: log.weight,
     }));
 
@@ -36,13 +48,9 @@ export const WeightLineChart = () => {
       borderWidth="1px"
       display="flex"
       alignItems="center"
-      justifyContent="center"
+      justifyContent="start"
     >
-      <Heading size="xl" mb="24px">
-        Analytics
-      </Heading>
-
-      <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px">
+      <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px" w="100%">
         <Heading size="md" mb="20px">
           体重推移
         </Heading>
@@ -51,7 +59,7 @@ export const WeightLineChart = () => {
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
+              <XAxis dataKey="date" dy={10} />
               <YAxis domain={["dataMin - 1", "dataMax + 1"]} />
               <Tooltip formatter={(value) => [`${value}kg`, "体重"]} />
               <Line
