@@ -68,73 +68,83 @@ export const Login = () => {
         boxShadow="xl"
       >
         <VStack align="stretch" gap="24px">
-          <Box textAlign="center">
-            <Heading size="2xl" color="blue.900">
-              RepTrack
-            </Heading>
-            <Text mt="12px" color="gray.600">
-              日々のトレーニングを記録して、成長を見える化しよう
-            </Text>
-          </Box>
-
-          <VStack align="stretch" gap="16px">
-            <Box>
-              <Field.Root invalid={Boolean(isSubmitted && !email)}>
-                <Field.Label mb="8px" fontWeight="bold">
-                  メールアドレス
-                </Field.Label>
-                <Input
-                  value={email}
-                  placeholder="example@email.com"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <Field.ErrorText>
-                  メールアドレスを入力してください
-                </Field.ErrorText>
-              </Field.Root>
-            </Box>
-
-            <Box>
-              <Field.Root invalid={Boolean(isSubmitted && !password)}>
-                <Field.Label mb="8px" fontWeight="bold">
-                  パスワード
-                </Field.Label>
-                <Input
-                  value={password}
-                  type="password"
-                  placeholder="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <Field.ErrorText>パスワードを入力してください</Field.ErrorText>
-              </Field.Root>
-            </Box>
-          </VStack>
-          {errorMessage && (
-            <Text color="red.500" fontSize="sm">
-              {errorMessage}
-            </Text>
-          )}
-          <Button
-            loading={isLoading}
-            disabled={isLoading}
-            h="48px"
-            bg="blue.700"
-            color="white"
-            _hover={{ bg: "blue.800" }}
-            onClick={onClickLogin}
-          >
-            ログイン
-          </Button>
-
-          <Button
-            variant="outline"
-            h="48px"
-            onClick={() => {
-              navigate("/signup");
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              onClickLogin();
             }}
           >
-            新規登録の方はこちら
-          </Button>
+            <Box textAlign="center">
+              <Heading size="2xl" color="blue.900">
+                RepTrack
+              </Heading>
+              <Text mt="12px" color="gray.600">
+                日々のトレーニングを記録して、成長を見える化しよう
+              </Text>
+            </Box>
+
+            <VStack align="stretch" gap="16px">
+              <Box>
+                <Field.Root invalid={Boolean(isSubmitted && !email)}>
+                  <Field.Label mb="8px" fontWeight="bold">
+                    メールアドレス
+                  </Field.Label>
+                  <Input
+                    value={email}
+                    placeholder="example@email.com"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <Field.ErrorText>
+                    メールアドレスを入力してください
+                  </Field.ErrorText>
+                </Field.Root>
+              </Box>
+
+              <Box>
+                <Field.Root invalid={Boolean(isSubmitted && !password)}>
+                  <Field.Label mb="8px" fontWeight="bold">
+                    パスワード
+                  </Field.Label>
+                  <Input
+                    value={password}
+                    type="password"
+                    placeholder="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <Field.ErrorText>
+                    パスワードを入力してください
+                  </Field.ErrorText>
+                </Field.Root>
+              </Box>
+            </VStack>
+            {errorMessage && (
+              <Text color="red.500" fontSize="sm">
+                {errorMessage}
+              </Text>
+            )}
+            <Button
+              loading={isLoading}
+              disabled={isLoading || !email || !password}
+              h="48px"
+              bg="blue.700"
+              color="white"
+              _hover={{ bg: "blue.800" }}
+              type="submit"
+            >
+              ログイン
+            </Button>
+
+            <Button
+              variant="outline"
+              h="48px"
+              onClick={() => {
+                navigate("/signup");
+              }}
+              type="button"
+            >
+              新規登録の方はこちら
+            </Button>
+          </form>
         </VStack>
       </Box>
     </Flex>

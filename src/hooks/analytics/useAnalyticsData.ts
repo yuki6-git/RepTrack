@@ -30,13 +30,13 @@ export const useAnalyticsData = () => {
   const createExercisesPr = (exerciseRecords: ExerciseRecord[]) => {
     const currentPrExercises: Record<string, number> = {};
     exerciseRecords.forEach((exerciseRecord) => {
-      if (exerciseRecord.max_weight === null) {
-        return;
-      }
+      const recordWeight =
+        exerciseRecord.max_weight && exerciseRecord.max_weight > 0
+          ? exerciseRecord.max_weight
+          : exerciseRecord.set_weight;
       const currentPr = currentPrExercises[exerciseRecord.exercise_name] ?? 0;
-      if (currentPr < exerciseRecord.max_weight) {
-        currentPrExercises[exerciseRecord.exercise_name] =
-          exerciseRecord.max_weight;
+      if (currentPr < recordWeight) {
+        currentPrExercises[exerciseRecord.exercise_name] = recordWeight;
       }
     });
     return Object.entries(currentPrExercises)

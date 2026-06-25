@@ -9,8 +9,8 @@ import {
 } from "@chakra-ui/react";
 import { FiPlus } from "react-icons/fi";
 import { TrainingMenu } from "./TrainingMenu";
-import { CreateTrainingMenuModal } from "./CreateTrainingMenuModal";
 import { useTrainingMenuContext } from "../../context/TrainingMenuContext";
+import { CreateTrainingMenuModal } from "./TrainingMenuModal";
 
 type Tab = {
   id: string;
@@ -71,9 +71,7 @@ export const TrainingContent = () => {
     >
       <Flex w="100%" align="center" justify="center" position="relative">
         <Heading size="xl">Workout</Heading>
-        <Flex position="absolute" right="0" top="0">
-          
-        </Flex>
+        <Flex position="absolute" right="0" top="0"></Flex>
       </Flex>
 
       <Flex>
@@ -82,6 +80,7 @@ export const TrainingContent = () => {
           value={selectedTab}
           variant="outline"
           onValueChange={(e) => setSelectedTab(e.value)}
+          size="lg"
         >
           <Tabs.List flex="1 1 auto">
             {tabs.map((tab, index) => (

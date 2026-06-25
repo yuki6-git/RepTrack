@@ -44,7 +44,7 @@ export const Analytics = () => {
           </Heading>
 
           <Flex gap="32px">
-            <VStack alignItems="stretch" gap="10px" flex="1">
+            <VStack flex="1">
               <TrainingMinutesChart
                 createTrainingMinutes={createTrainingMinutes}
               />

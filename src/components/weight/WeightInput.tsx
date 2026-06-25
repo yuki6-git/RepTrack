@@ -23,6 +23,8 @@ export const WeightInput = (props: Props) => {
       bodyFat,
     });
     setOpen(false);
+    setWeight;
+    setBodyFat;
   };
 
   return (
@@ -36,6 +38,7 @@ export const WeightInput = (props: Props) => {
             step={0.1}
             onValueChange={(e) => setWeight(e.value)}
           >
+            <NumberInput.Control />
             <NumberInput.Input />
           </NumberInput.Root>
           <Text fontWeight="bold">kg</Text>
@@ -50,13 +53,16 @@ export const WeightInput = (props: Props) => {
             step={1}
             onValueChange={(e) => setBodyFat(e.value)}
           >
+            <NumberInput.Control />
             <NumberInput.Input />
           </NumberInput.Root>
           <Text fontWeight="bold">%</Text>
         </Flex>
       </Flex>
       <Flex justifyContent="end" mr={4}>
-        <Button onClick={onSaveWeight}>保存</Button>
+        <Button disabled={!weight} onClick={onSaveWeight}>
+          更新
+        </Button>
       </Flex>
     </>
   );

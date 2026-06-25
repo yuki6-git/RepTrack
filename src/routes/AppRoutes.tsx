@@ -10,6 +10,7 @@ import { Login } from "../pages/Login";
 import { Register } from "../pages/Register";
 import { SignUp } from "../pages/SignUp";
 import { AuthGuard } from "../components/auth/AuthGuard";
+import { DevPreview } from "../pages/DevPreview";
 
 export const AppRoutes = () => {
   return (
@@ -31,6 +32,7 @@ export const AppRoutes = () => {
         <Route path="/weight" element={<Weight />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/profile-setting" element={<ProfileSetting />} />
+        <Route path="/dev" element={<DevPreview />} />
       </Route>
     </Routes>
   );

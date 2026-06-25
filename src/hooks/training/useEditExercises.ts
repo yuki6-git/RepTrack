@@ -8,7 +8,7 @@ type Props = {
   initialForm: NewExercise;
 };
 
-export const useDraftExercises = (props: Props) => {
+export const useEditExercises = (props: Props) => {
   const { setDraftExercises, setForm, initialForm } = props;
 
   const [editingExerciseId, setEditingExerciseId] = useState<string | null>(

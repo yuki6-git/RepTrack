@@ -12,7 +12,7 @@ import {
 import { useState, type Dispatch, type SetStateAction } from "react";
 import type { NewExercise } from "../../types/NewExercise";
 import { ExerciseListBypart } from "./ExerciseListByPart";
-import { useDraftExercises } from "../../hooks/training/useDraftExercises";
+import { useEditExercises } from "../../hooks/training/useEditExercises";
 
 type Props = {
   onSave: (exercises: NewExercise[]) => void;
@@ -83,7 +83,7 @@ export const TrainingMenuInput = (props: Props) => {
     setIsLoading(false);
   };
 
-  const { onClickEditExercise, onClickDeleteExercise } = useDraftExercises({
+  const { onClickEditExercise, onClickDeleteExercise } = useEditExercises({
     setDraftExercises,
     setForm,
     initialForm,
@@ -93,6 +93,12 @@ export const TrainingMenuInput = (props: Props) => {
     <>
       <Box>
         <Heading mb={2}>メニュー名</Heading>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onClickSaveMenu();
+          }}
+        ></form>
         <Input
           placeholder="メニュー名"
           value={menuTitle}
@@ -238,7 +244,7 @@ export const TrainingMenuInput = (props: Props) => {
         </Field.Root>
       </Box>
 
-      <Button onClick={onClickAddExercise} my={4}>
+      <Button type="button" onClick={onClickAddExercise} my={4}>
         種目を追加
       </Button>
 
@@ -258,11 +264,7 @@ export const TrainingMenuInput = (props: Props) => {
       />
 
       <Flex justifyContent="end" mt={4}>
-        <Button
-          loading={isLoading}
-          disabled={isLoading}
-          onClick={onClickSaveMenu}
-        >
+        <Button loading={isLoading} disabled={isLoading} type="submit">
           保存
         </Button>
       </Flex>

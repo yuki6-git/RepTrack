@@ -61,6 +61,12 @@ export const SignUp = () => {
           </Box>
 
           <VStack align="stretch" gap="16px">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                onClickSignUp();
+              }}
+            ></form>
             <Box>
               <Field.Root invalid={Boolean(isSubmitted && !email)}>
                 <Field.Label mb="8px" fontWeight="bold">
@@ -110,8 +116,8 @@ export const SignUp = () => {
             color="white"
             _hover={{ bg: "blue.800" }}
             loading={isLoading}
-            disabled={isLoading}
-            onClick={onClickSignUp}
+            disabled={isLoading || !email || !password}
+            type="submit"
           >
             登録
           </Button>

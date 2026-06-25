@@ -15,13 +15,14 @@ export const PrByExercises = (props: Props) => {
   const { logs } = useWorkoutLogs();
   const exerciseRecords = logs.flatMap((log) => log.records);
   const ExercisePrData = createExercisesPr(exerciseRecords);
+
   return (
     <>
       {ExercisePrData.length === 0 ? (
         <Text color="gray.500">PRデータがありません</Text>
       ) : (
         <VStack align="stretch" gap="12px">
-          {ExercisePrData.map((pr, index) => (
+          {ExercisePrData.slice(0, 3).map((pr, index) => (
             <Flex
               key={pr.exerciseName}
               justify="space-between"

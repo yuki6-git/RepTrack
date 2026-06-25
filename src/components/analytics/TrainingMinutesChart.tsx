@@ -34,14 +34,21 @@ export const TrainingMinutesChart = (props: Props) => {
           data={TrainingMinutesData}
           margin={{
             top: 5,
-            right: 0,
+            right: 5,
             left: 0,
             bottom: 5,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="date" />
-          <YAxis width="auto" />
+          <YAxis
+            label={{
+              value: "(分)",
+              position: "top",
+              offset: -8,
+            }}
+            width="auto"
+          />
           <Tooltip />
           <Bar
             dataKey="duration"
