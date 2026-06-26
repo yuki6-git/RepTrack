@@ -3,11 +3,8 @@ import {
   Heading,
   HStack,
   Input,
-  List,
   NativeSelect,
   Flex,
-  Center,
-  VStack,
   Tag,
 } from "@chakra-ui/react";
 import { useState, type Dispatch, type SetStateAction } from "react";
@@ -49,9 +46,9 @@ export const MenuBasicStep = (props: Props) => {
 
   return (
     <>
-      <Heading mb={2}>トレーニングタイトル</Heading>
+      <Heading mb={2}>トレーニングタイトル (optional)</Heading>
       <Input value={menuTitle} onChange={(e) => setMenuTitle(e.target.value)} />
-      <Heading my={2}>トレーニングする部位を選択</Heading>
+      <Heading my={2}>トレーニングする部位を選択  (複数可)</Heading>
       <Flex alignItems="center">
         <NativeSelect.Root>
           <NativeSelect.Field
@@ -81,10 +78,14 @@ export const MenuBasicStep = (props: Props) => {
           部位を追加
         </Button>
       </Flex>
-      <Heading my={2}>追加した部位</Heading>
+      <Heading my={2}>追加済みの部位</Heading>
       <HStack>
         {selectedParts.map((part) => (
-          <Tag.Root size="md" colorPalette={PART_COLORS[part] ?? "gray"}>
+          <Tag.Root
+            key={part}
+            size="xl"
+            colorPalette={PART_COLORS[part] ?? "gray"}
+          >
             <Tag.Label>{part}</Tag.Label>
             <Tag.EndElement>
               <Tag.CloseTrigger

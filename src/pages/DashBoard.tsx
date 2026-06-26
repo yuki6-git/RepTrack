@@ -1,15 +1,17 @@
 import { Text, Box, Button, Heading, VStack, Flex } from "@chakra-ui/react";
 import { useDashboardData } from "../hooks/dashboard/useDashboardData";
+import { useNavigate } from "react-router-dom";
+import { useWeeklyTrainingCount } from "../utils/weeklyTrainingCount";
 
 export const Dashboard = () => {
+  const navigate = useNavigate();
   const { dashboardData } = useDashboardData();
-
   const latestWeight = dashboardData?.latestWeight ?? null;
   const targetWeight = dashboardData?.targetWeight ?? null;
-  const weeklyWorkoutCount = dashboardData?.weeklyWorkoutCount ?? 0;
   const weeklyGoal = dashboardData?.weeklyGoal ?? null;
   const todayTrainingTitle = dashboardData?.todayTrainingMenu?.title ?? null;
   const latestPr = dashboardData?.latestPr ?? null;
+  const currentCount = useWeeklyTrainingCount();
 
   const weightDiff =
     targetWeight !== null && latestWeight !== null
@@ -27,24 +29,19 @@ export const Dashboard = () => {
     <VStack gap="24px" align="stretch">
       <Box p="24px" borderRadius="16px" boxShadow="md">
         <Heading size="xl" mb="8px">
-          Weight
-        </Heading>
-        <Text mb="20px">現在の体重は{latestWeight ?? "-"}kgです。</Text>
-        <Text mb="20px">目標まであと{displayWeightDiff}kgです。</Text>
-        <Flex mt="16px" justify="flex-end">
-          <Button>詳細ページ</Button>
-        </Flex>
-      </Box>
-
-      <Box p="24px" borderRadius="16px" boxShadow="md">
-        <Heading size="xl" mb="8px">
           Weekly Goal
         </Heading>
         <Text mb="20px">
-          今週は{weeklyWorkoutCount}/{weeklyGoal ?? ""}回トレーニングしました
+          今週は{currentCount}/{weeklyGoal ?? ""}回トレーニングしました
         </Text>
         <Flex mt="16px" justify="flex-end">
-          <Button>詳細ページ</Button>
+          <Button
+            onClick={() => {
+              navigate("/workout");
+            }}
+          >
+            詳細ページ
+          </Button>
         </Flex>
       </Box>
 
@@ -52,11 +49,32 @@ export const Dashboard = () => {
         <Heading size="xl" mb="8px">
           Today's Training
         </Heading>
-        <Text mb="20px">
-          今日は{todayTrainingTitle ?? "未設定"}の日です。
-        </Text>
+        <Text mb="20px">今日は{todayTrainingTitle ?? "未設定"}の日です。</Text>
         <Flex mt="16px" justify="flex-end">
-          <Button>詳細ページ</Button>
+          <Button
+            onClick={() => {
+              navigate("/training");
+            }}
+          >
+            詳細ページ
+          </Button>
+        </Flex>
+      </Box>
+
+      <Box p="24px" borderRadius="16px" boxShadow="md">
+        <Heading size="xl" mb="8px">
+          Weight
+        </Heading>
+        <Text mb="20px">現在の体重は{latestWeight ?? "-"}kgです。</Text>
+        <Text mb="20px">目標まであと{displayWeightDiff}kgです。</Text>
+        <Flex mt="16px" justify="flex-end">
+          <Button
+            onClick={() => {
+              navigate("/weight");
+            }}
+          >
+            詳細ページ
+          </Button>
         </Flex>
       </Box>
 
@@ -70,7 +88,13 @@ export const Dashboard = () => {
             : "PR記録はまだありません"}
         </Text>
         <Flex mt="16px" justify="flex-end">
-          <Button>詳細ページ</Button>
+          <Button
+            onClick={() => {
+              navigate("/analytics");
+            }}
+          >
+            詳細ページ
+          </Button>
         </Flex>
       </Box>
     </VStack>

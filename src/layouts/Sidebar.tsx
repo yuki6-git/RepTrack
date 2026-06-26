@@ -44,19 +44,6 @@ export const Sidebar = () => {
           </NavLink>
         );
       })}
-      <Box mt="auto">
-        <Button
-          width="100%"
-          justifyContent="flex-start"
-          gap="12px"
-          variant="ghost"
-          color="white"
-          _hover={{ bg: "blue.800" }}
-        >
-          <FiSettings />
-          設定
-        </Button>
-      </Box>
     </Flex>
   );
 };

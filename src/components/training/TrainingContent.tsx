@@ -10,7 +10,7 @@ import {
 import { FiPlus } from "react-icons/fi";
 import { TrainingMenu } from "./TrainingMenu";
 import { useTrainingMenuContext } from "../../context/TrainingMenuContext";
-import { CreateTrainingMenuModal } from "./TrainingMenuModal";
+import { CreateTrainingMenuModal } from "./CreateTrainingMenuModal";
 
 type Tab = {
   id: string;
@@ -61,7 +61,7 @@ export const TrainingContent = () => {
 
   return (
     <VStack
-      align="center"
+      align="stretch"
       gap="24px"
       m={10}
       p="20px"
@@ -71,11 +71,12 @@ export const TrainingContent = () => {
     >
       <Flex w="100%" align="center" justify="center" position="relative">
         <Heading size="xl">Workout</Heading>
-        <Flex position="absolute" right="0" top="0"></Flex>
       </Flex>
 
-      <Flex>
+      <Flex w="100%" flex="1">
         <Tabs.Root
+          w="100%"
+          h="100%"
           mt={10}
           value={selectedTab}
           variant="outline"
@@ -84,7 +85,16 @@ export const TrainingContent = () => {
         >
           <Tabs.List flex="1 1 auto">
             {tabs.map((tab, index) => (
-              <Tabs.Trigger value={tab.id} key={tab.id}>
+              <Tabs.Trigger
+                value={tab.id}
+                key={tab.id}
+                minW="120px"
+                px="24px"
+                justifyContent="center"
+                flexShrink={0}
+                maxH="100vh"
+                overflow="hidden"
+              >
                 Day{index + 1}
                 <CloseButton
                   as="span"
@@ -108,28 +118,27 @@ export const TrainingContent = () => {
               <FiPlus /> Add Tab
             </Button>
           </Tabs.List>
-          <Tabs.ContentGroup>
-            <Tabs.ContentGroup>
-              {tabs.map((tab) => {
-                const trainingMenu = trainingMenus.find(
-                  (menu) => menu.tabId === tab.id,
-                );
 
-                return (
-                  <Tabs.Content value={tab.id} key={tab.id}>
-                    {trainingMenu ? (
-                      <TrainingMenu trainingMenu={trainingMenu} />
-                    ) : (
-                      <CreateTrainingMenuModal
-                        tabId={tab.id}
-                        triggerLabel="トレーニングメニューを追加"
-                        mode="create"
-                      />
-                    )}
-                  </Tabs.Content>
-                );
-              })}
-            </Tabs.ContentGroup>
+          <Tabs.ContentGroup>
+            {tabs.map((tab) => {
+              const trainingMenu = trainingMenus.find(
+                (menu) => menu.tabId === tab.id,
+              );
+
+              return (
+                <Tabs.Content value={tab.id} key={tab.id}>
+                  {trainingMenu ? (
+                    <TrainingMenu trainingMenu={trainingMenu} />
+                  ) : (
+                    <CreateTrainingMenuModal
+                      tabId={tab.id}
+                      triggerLabel="トレーニングメニューを作成"
+                      mode="create"
+                    />
+                  )}
+                </Tabs.Content>
+              );
+            })}
           </Tabs.ContentGroup>
         </Tabs.Root>
       </Flex>

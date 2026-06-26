@@ -15,7 +15,6 @@ import { TrainingVolumeByPartChart } from "../components/analytics/TrainingVolum
 
 export const Analytics = () => {
   const {
-    createWeeklyTrainingData,
     createTrainingMinutes,
     createExercisesPr,
     calculateTrainingVolumebypart,
@@ -30,12 +29,9 @@ export const Analytics = () => {
       <SimpleGrid columns={{ base: 1, lg: 2 }} gap="24px">
         <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px">
           <Heading size="md" mb="20px">
-            今週のトレーニング記録
+            トレーニング記録
           </Heading>
-          <WeeklyTrainingProgress
-            createWeeklyTrainingData={createWeeklyTrainingData}
-            userGoals={userGoals}
-          />
+          <WeeklyTrainingProgress userGoals={userGoals} />
         </Box>
 
         <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px">
@@ -57,9 +53,6 @@ export const Analytics = () => {
             種目別PR記録
           </Heading>
           <PrByExercises createExercisesPr={createExercisesPr} />
-          <Button mt="24px" width="100%" variant="outline">
-            すべて見る
-          </Button>
         </Box>
 
         <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px">

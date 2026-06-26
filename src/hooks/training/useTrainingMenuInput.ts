@@ -26,14 +26,13 @@ export const useTrainingMenuInput = ({
     addExercises ?? [],
   );
 
-  const hasRequiredValues =
-    form.part.trim() !== "" &&
-    form.exerciseName.trim() !== "" &&
-    form.setWeight.trim() !== "" &&
-    form.sets.trim() !== "" &&
-    form.reps.trim() !== "";
-
-  const onClickAddExercise = () => {
+  const onClickAddExercise = (form: NewExercise, part: string) => {
+    const hasRequiredValues =
+      part.trim() !== "" &&
+      form.exerciseName.trim() !== "" &&
+      form.setWeight.trim() !== "" &&
+      form.sets.trim() !== "" &&
+      form.reps.trim() !== "";
     if (!hasRequiredValues) {
       setValidationMessage("必須項目を入力してください");
       return;
@@ -41,7 +40,7 @@ export const useTrainingMenuInput = ({
     const newExercise: NewExercise = {
       id: crypto.randomUUID(),
       tabId: "",
-      part: form.part,
+      part,
       exerciseName: form.exerciseName,
       maxWeight: form.maxWeight,
       setWeight: form.setWeight,

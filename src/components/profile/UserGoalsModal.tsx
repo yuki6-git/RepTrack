@@ -24,13 +24,19 @@ export const UserGoalsModal = (props: Props) => {
       [name]: value,
     });
   };
-
+  const [isOpen, setIsOpen] = useState(false);
   const onClickSave = async () => {
     await onSave(form);
   };
 
   return (
-    <Dialog.Root size="md" placement="top" motionPreset="slide-in-bottom">
+    <Dialog.Root
+      open={isOpen}
+      onOpenChange={(e) => setIsOpen(e.open)}
+      size="md"
+      placement="top"
+      motionPreset="slide-in-bottom"
+    >
       <Dialog.Trigger asChild>
         <Button variant="outline" size="sm">
           目標を編集
@@ -50,9 +56,9 @@ export const UserGoalsModal = (props: Props) => {
               <UserGoalsInput form={form} onChangeForm={onChangeForm} />
             </Dialog.Body>
             <Dialog.Footer>
-              <Dialog.CloseTrigger asChild>
-                <Button variant="outline">キャンセル</Button>
-              </Dialog.CloseTrigger>
+              <Button onClick={() => setIsOpen(false)} variant="outline">
+                キャンセル
+              </Button>
 
               <Button onClick={onClickSave}>保存</Button>
             </Dialog.Footer>

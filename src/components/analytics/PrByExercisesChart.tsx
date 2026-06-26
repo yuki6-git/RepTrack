@@ -1,4 +1,4 @@
-import { Flex, Text, VStack } from "@chakra-ui/react";
+import { Button, Flex, Text, VStack } from "@chakra-ui/react";
 import type { ExerciseRecord } from "../../types/Workout";
 import { useWorkoutLogs } from "../../hooks/workout/useWorkoutLogs";
 
@@ -41,6 +41,9 @@ export const PrByExercises = (props: Props) => {
               <Text fontWeight="bold">{pr.maxWeight}kg</Text>
             </Flex>
           ))}
+          <Button mt="24px" width="100%" variant="outline">
+            くわしく見る
+          </Button>
         </VStack>
       )}
     </>

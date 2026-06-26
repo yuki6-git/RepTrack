@@ -1,9 +1,10 @@
 import { Text, HStack, Spacer, Box } from "@chakra-ui/react";
 import type { TrainingMenu as TrainingMenuType } from "../../types/TrainingMenu";
 import { ExerciseListBypart } from "./ExerciseListByPart";
-import { CreateTrainingMenuModal } from "./CreateTrainingMenuModal";
+
 import { TrainingTimer } from "../organisms/TrainingTimer";
 import { useWorkoutSession } from "../../hooks/workout/useWorkoutSession";
+import { CreateTrainingMenuModal } from "./CreateTrainingMenuModal";
 
 type Props = {
   trainingMenu: TrainingMenuType;
