@@ -2,10 +2,17 @@ import { Label, Pie, PieChart, Tooltip } from "recharts";
 import type { ExerciseRecord } from "../../types/Workout";
 import { useWorkoutLogs } from "../../hooks/workout/useWorkoutLogs";
 import { HStack, Text, VStack, Button, Spacer, Box } from "@chakra-ui/react";
+import { TrainingVolumeDetailModal } from "./details/TrainingVolumeDetailModal";
+
+type ExerciseVolume = {
+  exerciseName: string;
+  volume: number;
+};
 
 type CalculateTrainingVolumebypart = {
   part: string;
-  volume: number;
+  totalVolume: number;
+  exercises: ExerciseVolume[];
 };
 type Props = {
   calculateTrainingVolumebypart: (
@@ -15,14 +22,14 @@ type Props = {
 export const TrainingVolumeByPartChart = (props: Props) => {
   const { calculateTrainingVolumebypart } = props;
   const { logs } = useWorkoutLogs();
-  const exerciseRecords = logs.flatMap((log) => log.records);
+  const latestExerciseRecords = logs[0]?.records ?? [];
   const COLORS = ["#2563eb", "#16a34a", "#f59e0b", "#9333ea", "#ef4444"];
-  const trainingVolumeData = calculateTrainingVolumebypart(exerciseRecords).map(
-    (data, index) => ({
-      ...data,
-      fill: COLORS[index % COLORS.length],
-    }),
-  );
+  const trainingVolumeData = calculateTrainingVolumebypart(
+    latestExerciseRecords,
+  ).map((data, index) => ({
+    ...data,
+    fill: COLORS[index % COLORS.length],
+  }));
 
   return (
     <>
@@ -33,7 +40,7 @@ export const TrainingVolumeByPartChart = (props: Props) => {
           <PieChart width={300} height={300}>
             <Pie
               data={trainingVolumeData}
-              dataKey="volume"
+              dataKey="totalVolume"
               nameKey="part"
               fill="#8884d8"
               innerRadius="80%"
@@ -53,17 +60,15 @@ export const TrainingVolumeByPartChart = (props: Props) => {
           </PieChart>
           <VStack h="100%" as="ul" ml="4" align="flex-start" justify="stretch">
             <Box>
-              {trainingVolumeData.map((exersice) => (
-                <li>
+              {trainingVolumeData.map((partVolume) => (
+                <li key={partVolume.part}>
                   <Text fontSize="xl" textAlign="left">
-                    {exersice.part} : {exersice.volume}kg
+                    {partVolume.part} : {partVolume.totalVolume}kg
                   </Text>
                 </li>
               ))}
             </Box>
-            <Button mt="24px" width="100%" variant="outline">
-              くわしく見る
-            </Button>
+            <TrainingVolumeDetailModal />
           </VStack>
         </HStack>
       )}

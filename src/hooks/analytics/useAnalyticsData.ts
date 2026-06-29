@@ -1,3 +1,4 @@
+import type { VolumeData } from "../../types/AnalyticsData";
 import type { ExerciseRecord, WorkoutLog } from "../../types/Workout";
 import { formatDate } from "../../utils/formatdate";
 
@@ -26,42 +27,64 @@ export const useAnalyticsData = () => {
     }));
     return latestFiveWorkouts;
   };
-
+  type ExercisePrData = {
+    exerciseName: string;
+    part: string;
+    maxWeight: number;
+    achievedDate: string;
+  };
   const createExercisesPr = (exerciseRecords: ExerciseRecord[]) => {
-    const currentPrExercises: Record<string, number> = {};
+    const currentPrExercises: Record<string, ExercisePrData> = {};
     exerciseRecords.forEach((exerciseRecord) => {
+      const createdDate = formatDate(new Date(exerciseRecord.created_at));
       const recordWeight =
         exerciseRecord.max_weight && exerciseRecord.max_weight > 0
           ? exerciseRecord.max_weight
           : exerciseRecord.set_weight;
-      const currentPr = currentPrExercises[exerciseRecord.exercise_name] ?? 0;
+      const currentPr =
+        currentPrExercises[exerciseRecord.exercise_name]?.maxWeight ?? 0;
       if (currentPr < recordWeight) {
-        currentPrExercises[exerciseRecord.exercise_name] = recordWeight;
+        currentPrExercises[exerciseRecord.exercise_name] = {
+          exerciseName: exerciseRecord.exercise_name,
+          part: exerciseRecord.part,
+          maxWeight: recordWeight,
+          achievedDate: createdDate,
+        };
       }
     });
-    return Object.entries(currentPrExercises)
-      .map(([exerciseName, maxWeight]) => ({
-        exerciseName,
-        maxWeight,
-      }))
-      .sort((a, b) => {
-        return b.maxWeight - a.maxWeight;
-      });
+    return Object.values(currentPrExercises).sort((a, b) => {
+      return b.maxWeight - a.maxWeight;
+    });
   };
-
+  
   const calculateTrainingVolumebypart = (exerciseRecords: ExerciseRecord[]) => {
-    const volumebypart: Record<string, number> = {};
+    const volumeByPart: Record<string, VolumeData> = {};
     exerciseRecords.forEach((exerciseRecord) => {
       const volume =
         exerciseRecord.set_weight * exerciseRecord.sets * exerciseRecord.reps;
+      const currentData = volumeByPart[exerciseRecord.part];
 
-      volumebypart[exerciseRecord.part] =
-        (volumebypart[exerciseRecord.part] ?? 0) + volume;
+      if (!currentData) {
+        volumeByPart[exerciseRecord.part] = {
+          part: exerciseRecord.part,
+          totalVolume: volume,
+          exercises: [{ exerciseName: exerciseRecord.exercise_name, volume }],
+        };
+        return;
+      }
+      volumeByPart[exerciseRecord.part] = {
+        ...currentData,
+        totalVolume: currentData.totalVolume + volume,
+        exercises: [
+          ...currentData.exercises,
+          {
+            exerciseName: exerciseRecord.exercise_name,
+            volume,
+          },
+        ],
+      };
     });
-    return Object.entries(volumebypart).map(([part, volume]) => ({
-      part,
-      volume,
-    }));
+    return Object.values(volumeByPart);
   };
 
   return {

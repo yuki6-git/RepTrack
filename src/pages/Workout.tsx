@@ -1,19 +1,21 @@
-import { Box, Heading, Text, HStack, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Box, Text, Flex, SimpleGrid } from "@chakra-ui/react";
 import { useState } from "react";
 import Calendar from "react-calendar";
 import { WorkoutModal } from "../components/workout/WorkoutModal";
 import { useWorkoutLogs } from "../hooks/workout/useWorkoutLogs";
 import type { WorkoutLog } from "../types/Workout";
 import { formatDate } from "../utils/formatdate";
-import { getThisMonthTrainingCount } from "../components/workout/getThisMonthTrainingCount";
-import { useWeeklyTrainingCount } from "../utils/weeklyTrainingCount";
+
+import { useGetTrainingCount } from "../utils/useGetTrainingCount";
 
 export const Workout = () => {
   const { logs, isLoading, errorMessage } = useWorkoutLogs();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const weeklyCount = useWeeklyTrainingCount();
-  const monthlyCount = getThisMonthTrainingCount(logs);
+  const { getThisWeekTraingCount, getThisMonthTrainingCount } =
+    useGetTrainingCount();
+  const thisWeekTraingCount = getThisWeekTraingCount;
+  const thisMonthTraingCount = getThisMonthTrainingCount();
 
   const selectedLog: WorkoutLog | undefined = logs.find(
     (log) => log.date === selectedDate,
@@ -81,7 +83,7 @@ export const Workout = () => {
           </Text>
 
           <Flex align="baseline" justify="space-between">
-            <Text fontSize="3xl">{weeklyCount}</Text>
+            <Text fontSize="3xl">{thisWeekTraingCount}</Text>
             <Text fontSize="lg" fontWeight="bold" color="gray.600">
               回
             </Text>
@@ -101,7 +103,7 @@ export const Workout = () => {
           </Text>
 
           <Flex align="baseline" justify="space-between">
-            <Text fontSize="3xl">{monthlyCount}</Text>
+            <Text fontSize="3xl">{thisMonthTraingCount}</Text>
             <Text fontSize="lg" fontWeight="bold" color="gray.600">
               回
             </Text>

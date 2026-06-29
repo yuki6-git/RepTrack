@@ -1,5 +1,10 @@
-import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
+import { TrainingTimeDetail } from "../../organisms/analyticsDetail/TrainingTimeDetail";
+import { DetailModal } from "./DeatailModal";
 
 export const TrainingTimeDetailModal = () => {
-  return <DetailModal></DetailModal>;
+  return (
+    <DetailModal title="トレーニング時間の詳細">
+      <TrainingTimeDetail />
+    </DetailModal>
+  );
 };

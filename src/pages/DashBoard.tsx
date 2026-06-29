@@ -1,7 +1,7 @@
 import { Text, Box, Button, Heading, VStack, Flex } from "@chakra-ui/react";
 import { useDashboardData } from "../hooks/dashboard/useDashboardData";
 import { useNavigate } from "react-router-dom";
-import { useWeeklyTrainingCount } from "../utils/weeklyTrainingCount";
+import { useGetTrainingCount } from "../utils/useGetTrainingCount";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ export const Dashboard = () => {
   const weeklyGoal = dashboardData?.weeklyGoal ?? null;
   const todayTrainingTitle = dashboardData?.todayTrainingMenu?.title ?? null;
   const latestPr = dashboardData?.latestPr ?? null;
-  const currentCount = useWeeklyTrainingCount();
+  const { getThisWeekTraingCount } = useGetTrainingCount();
 
   const weightDiff =
     targetWeight !== null && latestWeight !== null
@@ -32,7 +32,8 @@ export const Dashboard = () => {
           Weekly Goal
         </Heading>
         <Text mb="20px">
-          今週は{currentCount}/{weeklyGoal ?? ""}回トレーニングしました
+          今週は{getThisWeekTraingCount}/{weeklyGoal ?? ""}
+          回トレーニングしました
         </Text>
         <Flex mt="16px" justify="flex-end">
           <Button

@@ -1,13 +1,5 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Progress,
-  Spacer,
-  VStack,
-} from "@chakra-ui/react";
-import { useWeeklyTrainingCount } from "../../utils/weeklyTrainingCount";
+import { HStack, Progress, VStack } from "@chakra-ui/react";
+import { useGetTrainingCount } from "../../utils/useGetTrainingCount";
 import type { UserGoals } from "../../types/ProfileSetting";
 import { TrainingCountDetailModal } from "./details/TrainingCountDetailModal";
 
@@ -17,14 +9,16 @@ type Props = {
 
 export const WeeklyTrainingProgress = (props: Props) => {
   const { userGoals } = props;
-  const currentCount = useWeeklyTrainingCount();
+  const { getThisWeekTraingCount } = useGetTrainingCount();
 
   if (!userGoals) {
     return null;
   }
   const targetCount = userGoals.weekly_goal;
   const progressValue =
-    targetCount > 0 ? Math.min((currentCount / targetCount) * 100, 100) : 0;
+    targetCount > 0
+      ? Math.min((getThisWeekTraingCount / targetCount) * 100, 100)
+      : 0;
 
   return (
     <VStack align="stretch" h="90%">
@@ -41,7 +35,7 @@ export const WeeklyTrainingProgress = (props: Props) => {
             <Progress.Range />
           </Progress.Track>
           <Progress.ValueText>
-            {currentCount} / {targetCount} 回
+            {getThisWeekTraingCount} / {targetCount} 回
           </Progress.ValueText>
         </HStack>
       </Progress.Root>

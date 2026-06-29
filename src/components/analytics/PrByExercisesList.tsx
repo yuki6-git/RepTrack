@@ -1,16 +1,19 @@
 import { Button, Flex, Text, VStack } from "@chakra-ui/react";
 import type { ExerciseRecord } from "../../types/Workout";
 import { useWorkoutLogs } from "../../hooks/workout/useWorkoutLogs";
+import { PrDetailModal } from "./details/PrDetailModal";
 
-type CreateExercisesPr = {
+export type CreateExercisesPr = {
   exerciseName: string;
+  part: string;
   maxWeight: number;
+  achievedDate: string;
 };
 type Props = {
   createExercisesPr: (exerciseRecords: ExerciseRecord[]) => CreateExercisesPr[];
 };
 
-export const PrByExercises = (props: Props) => {
+export const PrByExercisesList = (props: Props) => {
   const { createExercisesPr } = props;
   const { logs } = useWorkoutLogs();
   const exerciseRecords = logs.flatMap((log) => log.records);
@@ -41,9 +44,7 @@ export const PrByExercises = (props: Props) => {
               <Text fontWeight="bold">{pr.maxWeight}kg</Text>
             </Flex>
           ))}
-          <Button mt="24px" width="100%" variant="outline">
-            くわしく見る
-          </Button>
+          <PrDetailModal ExercisePrData={ExercisePrData} />
         </VStack>
       )}
     </>
