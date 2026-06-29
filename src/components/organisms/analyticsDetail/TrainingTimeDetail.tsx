@@ -4,6 +4,7 @@ import { useWorkoutLogs } from "../../../hooks/workout/useWorkoutLogs";
 import { TrainingTimeList } from "../../analytics/details/chart/TrainingTimeList";
 import { groupLogsByWeek } from "../../../utils/groupLogsByWeek";
 import { calculateAverageTrainingTime } from "../../../utils/calculareAvarageTrainingTime";
+import { groupLogsByMonth } from "../../../utils/groupLogsByMonth";
 
 export const TrainingTimeDetail = () => {
   const { logs } = useWorkoutLogs();
@@ -11,7 +12,7 @@ export const TrainingTimeDetail = () => {
     id: log.id ?? "",
     date: log.date ?? "",
     title: log.title ?? "",
-    durationMinutes: log.duration ?? 0,
+    durationMinutes: log.duration ? Math.round(log.duration / 60) : 0,
   }));
 
   const weeklyLogs = groupLogsByWeek(logs);
@@ -24,7 +25,7 @@ export const TrainingTimeDetail = () => {
       };
     },
   );
-  const monthlyLogs = groupLogsByWeek(logs);
+  const monthlyLogs = groupLogsByMonth(logs);
   const monthlyAverageTrainingMinutes = Object.entries(monthlyLogs).map(
     ([month, Logs]) => {
       const durations = Logs.map((log) => log.duration ?? 0);
@@ -43,11 +44,11 @@ export const TrainingTimeDetail = () => {
 
       <Box>
         <Text>月ごとの平均トレーニング時間</Text>
-        <AverageTrainingMinuesLineChart data={weeklyAverageTrainingMinutes} />
+        <AverageTrainingMinuesLineChart data={monthlyAverageTrainingMinutes} />
       </Box>
       <Box>
         <Text>週ごとの平均トレーニング時間</Text>
-        <AverageTrainingMinuesLineChart data={monthlyAverageTrainingMinutes} />
+        <AverageTrainingMinuesLineChart data={weeklyAverageTrainingMinutes} />
       </Box>
     </>
   );

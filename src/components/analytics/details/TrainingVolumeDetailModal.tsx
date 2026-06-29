@@ -18,7 +18,9 @@ export const TrainingVolumeDetailModal = () => {
     id: log.id,
     date: log.date,
     title: log.title,
-    volumeData,
+    volumeData: calculateTrainingVolumebypart(log.records).sort(
+      (a, b) => b.totalVolume - a.totalVolume,
+    ),
   }));
   return (
     <DetailModal title={"最新4件のトレーニング総重量の詳細"}>

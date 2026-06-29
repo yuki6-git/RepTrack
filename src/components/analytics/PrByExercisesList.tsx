@@ -1,4 +1,4 @@
-import { Button, Flex, Text, VStack } from "@chakra-ui/react";
+import { Flex, Text, VStack } from "@chakra-ui/react";
 import type { ExerciseRecord } from "../../types/Workout";
 import { useWorkoutLogs } from "../../hooks/workout/useWorkoutLogs";
 import { PrDetailModal } from "./details/PrDetailModal";

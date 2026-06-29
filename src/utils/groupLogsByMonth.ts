@@ -1,6 +1,6 @@
 import type { WorkoutLog } from "../types/Workout";
 
-export const groupLogsByWeek = (logs: WorkoutLog[]) => {
+export const groupLogsByMonth = (logs: WorkoutLog[]) => {
   const logsByMonth: Record<string, WorkoutLog[]> = {};
 
   logs.forEach((log) => {

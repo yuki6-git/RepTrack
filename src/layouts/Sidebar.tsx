@@ -5,10 +5,9 @@ import {
   FiTrendingUp,
   FiBarChart2,
   FiUser,
-  FiSettings,
 } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 
 export const Sidebar = () => {
   const navItems = [

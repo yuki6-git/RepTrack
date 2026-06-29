@@ -1,7 +1,7 @@
 import { Label, Pie, PieChart, Tooltip } from "recharts";
 import type { ExerciseRecord } from "../../types/Workout";
 import { useWorkoutLogs } from "../../hooks/workout/useWorkoutLogs";
-import { HStack, Text, VStack, Button, Spacer, Box } from "@chakra-ui/react";
+import { HStack, Text, VStack, Box } from "@chakra-ui/react";
 import { TrainingVolumeDetailModal } from "./details/TrainingVolumeDetailModal";
 
 type ExerciseVolume = {
