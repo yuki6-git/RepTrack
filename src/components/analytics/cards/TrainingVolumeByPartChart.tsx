@@ -1,35 +1,19 @@
 import { Label, Pie, PieChart, Tooltip } from "recharts";
-import type { ExerciseRecord } from "../../types/Workout";
-import { useWorkoutLogs } from "../../hooks/workout/useWorkoutLogs";
 import { HStack, Text, VStack, Box } from "@chakra-ui/react";
-import { TrainingVolumeDetailModal } from "./details/TrainingVolumeDetailModal";
+import { TrainingVolumeDetailModal } from "../details/TrainingVolumeDetailModal";
+import type {
+  LatestFourVolumeData,
+  TrainingVolumeData,
+  VolumeData,
+} from "../../../types/AnalyticsData";
 
-type ExerciseVolume = {
-  exerciseName: string;
-  volume: number;
-};
-
-type CalculateTrainingVolumebypart = {
-  part: string;
-  totalVolume: number;
-  exercises: ExerciseVolume[];
-};
 type Props = {
-  calculateTrainingVolumebypart: (
-    exerciseRecords: ExerciseRecord[],
-  ) => CalculateTrainingVolumebypart[];
+  trainingVolumeData: TrainingVolumeData[];
+  latestFourVolumeData: LatestFourVolumeData[];
+  volumeData: VolumeData[];
 };
 export const TrainingVolumeByPartChart = (props: Props) => {
-  const { calculateTrainingVolumebypart } = props;
-  const { logs } = useWorkoutLogs();
-  const latestExerciseRecords = logs[0]?.records ?? [];
-  const COLORS = ["#2563eb", "#16a34a", "#f59e0b", "#9333ea", "#ef4444"];
-  const trainingVolumeData = calculateTrainingVolumebypart(
-    latestExerciseRecords,
-  ).map((data, index) => ({
-    ...data,
-    fill: COLORS[index % COLORS.length],
-  }));
+  const { trainingVolumeData, latestFourVolumeData, volumeData } = props;
 
   return (
     <>
@@ -68,7 +52,10 @@ export const TrainingVolumeByPartChart = (props: Props) => {
                 </li>
               ))}
             </Box>
-            <TrainingVolumeDetailModal />
+            <TrainingVolumeDetailModal
+              latestFourVolumeData={latestFourVolumeData}
+              volumeData={volumeData}
+            />
           </VStack>
         </HStack>
       )}

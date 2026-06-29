@@ -1,18 +1,31 @@
-import { useWorkoutLogs } from "../../../hooks/workout/useWorkoutLogs";
-import { useAnalyticsData } from "../../../hooks/analytics/useAnalyticsData";
-import { WeeklyTrainingCountChart } from "./chart/WeeklyTrainingCountChart";
-import { DetailModal } from "./DeatailModal";
-import { TrainingCountCards } from "../../organisms/analyticsDetail/TrainingCountCards";
+import type { WeeklyTrainingData } from "../../../types/AnalyticsData";
+import { WeeklyTrainingCountChart } from "./charts/WeeklyTrainingCountChart";
+import { DetailModal } from "./DetailModal";
+import { TrainingCountCards } from "./lists/TrainingCountCards";
 
-export const TrainingCountDetailModal = () => {
-  const { logs } = useWorkoutLogs();
-  const { createWeeklyTrainingData } = useAnalyticsData();
-  const weeklyTrainingData = createWeeklyTrainingData(logs);
+type Props = {
+  weeklyTrainingData: WeeklyTrainingData[];
+  thisWeekTrainingCount: number;
+  thisMonthTrainingCount: number;
+  thisYearTrainingCount: number;
+};
+
+export const TrainingCountDetailModal = (props: Props) => {
+  const {
+    weeklyTrainingData,
+    thisWeekTrainingCount,
+    thisMonthTrainingCount,
+    thisYearTrainingCount,
+  } = props;
 
   return (
     <DetailModal title={"トレーニング回数の詳細"}>
       <WeeklyTrainingCountChart data={weeklyTrainingData} />
-      <TrainingCountCards />
+      <TrainingCountCards
+        thisWeekTrainingCount={thisWeekTrainingCount}
+        thisMonthTrainingCount={thisMonthTrainingCount}
+        thisYearTrainingCount={thisYearTrainingCount}
+      />
     </DetailModal>
   );
 };

@@ -1,7 +1,7 @@
 import { Dialog, Portal, VStack, Flex, Text, Button } from "@chakra-ui/react";
 import type { WorkoutLog } from "../../types/Workout";
-import { formatTime } from "../../utils/formatTime";
-import { formatDurationMinutes } from "../../utils/formatDurationMinutes";
+import { formatTime } from "../../utils/data/formatTime";
+import { formatDurationMinutes } from "../../utils/data/formatDurationMinutes";
 
 type Props = {
   isOpen: boolean;

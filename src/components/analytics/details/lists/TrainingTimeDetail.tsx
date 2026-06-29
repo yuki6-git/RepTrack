@@ -1,13 +1,16 @@
 import { Box, Text } from "@chakra-ui/react";
-import { AverageTrainingMinuesLineChart } from "../../analytics/details/chart/AverageTrainingMinuesLineChart";
-import { useWorkoutLogs } from "../../../hooks/workout/useWorkoutLogs";
-import { TrainingTimeList } from "../../analytics/details/chart/TrainingTimeList";
-import { groupLogsByWeek } from "../../../utils/groupLogsByWeek";
-import { calculateAverageTrainingTime } from "../../../utils/calculareAvarageTrainingTime";
-import { groupLogsByMonth } from "../../../utils/groupLogsByMonth";
+import { AverageTrainingMinutesLineChart } from "../charts/AverageTrainingMinutesLineChart";
+import { TrainingTimeList } from "./TrainingTimeList";
+import { groupLogsByWeek } from "../../../../utils/data/groupLogsByWeek";
+import { calculateAverageTrainingTime } from "../../../../utils/analytics/calculateAverageTrainingTime";
+import { groupLogsByMonth } from "../../../../utils/data/groupLogsByMonth"
+import type { WorkoutLog } from "../../../../types/Workout";
 
-export const TrainingTimeDetail = () => {
-  const { logs } = useWorkoutLogs();
+type Props = {
+  logs: WorkoutLog[];
+};
+export const TrainingTimeDetail = (props: Props) => {
+  const { logs } = props;
   const thisMonthTrainingMinutes = logs.map((log) => ({
     id: log.id ?? "",
     date: log.date ?? "",
@@ -44,11 +47,11 @@ export const TrainingTimeDetail = () => {
 
       <Box>
         <Text>月ごとの平均トレーニング時間</Text>
-        <AverageTrainingMinuesLineChart data={monthlyAverageTrainingMinutes} />
+        <AverageTrainingMinutesLineChart data={monthlyAverageTrainingMinutes} />
       </Box>
       <Box>
         <Text>週ごとの平均トレーニング時間</Text>
-        <AverageTrainingMinuesLineChart data={weeklyAverageTrainingMinutes} />
+        <AverageTrainingMinutesLineChart data={weeklyAverageTrainingMinutes} />
       </Box>
     </>
   );

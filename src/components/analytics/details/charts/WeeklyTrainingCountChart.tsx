@@ -7,11 +7,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import type { WeeklyTrainingData } from "../../../../types/AnalyticsData";
 
-type WeeklyTrainingData = {
-  week: string;
-  count: number;
-};
+
 
 type Props = {
   data: WeeklyTrainingData[];

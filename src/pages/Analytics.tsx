@@ -1,25 +1,25 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  SimpleGrid,
-  VStack,
-} from "@chakra-ui/react";
-import { useAnalyticsData } from "../hooks/analytics/useAnalyticsData";
-import { WeeklyTrainingProgress } from "../components/analytics/WeeklyTrainingProgress";
-import { useFetchUserProfile } from "../hooks/profileSetting/useFetchuserProfile";
-import { TrainingMinutesChart } from "../components/analytics/TrainingMinutesChart";
-import { PrByExercisesList } from "../components/analytics/PrByExercisesList";
-import { TrainingVolumeByPartChart } from "../components/analytics/TrainingVolumeByPartChart";
+import { Box, Flex, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
+import { WeeklyTrainingProgress } from "../components/analytics/cards/WeeklyTrainingProgress";
+import { TrainingMinutesChart } from "../components/analytics/cards/TrainingMinutesChart";
+import { PrByExercisesList } from "../components/analytics/cards/PrByExercisesList";
+import { TrainingVolumeByPartChart } from "../components/analytics/cards/TrainingVolumeByPartChart";
+import { useAnalyticsPageData } from "../hooks/analytics/useAnalyticsPageData";
 
 export const Analytics = () => {
   const {
-    createTrainingMinutes,
-    createExercisesPr,
-    calculateTrainingVolumebypart,
-  } = useAnalyticsData();
-
-  const { userGoals } = useFetchUserProfile();
+    logs,
+    weeklyTrainingData,
+    trainingMinutesData,
+    exercisePrData,
+    targetCount,
+    progressValue,
+    trainingVolumeData,
+    volumeData,
+    latestFourVolumeData,
+    thisWeekTrainingCount,
+    thisMonthTrainingCount,
+    thisYearTrainingCount,
+  } = useAnalyticsPageData();
 
   return (
     <VStack align="stretch" gap="24px">
@@ -30,7 +30,14 @@ export const Analytics = () => {
           <Heading size="md" mb="20px">
             トレーニング記録
           </Heading>
-          <WeeklyTrainingProgress userGoals={userGoals} />
+          <WeeklyTrainingProgress
+            thisWeekTrainingCount={thisWeekTrainingCount}
+            thisMonthTrainingCount={thisMonthTrainingCount}
+            thisYearTrainingCount={thisYearTrainingCount}
+            targetCount={targetCount}
+            progressValue={progressValue}
+            weeklyTrainingData={weeklyTrainingData}
+          />
         </Box>
 
         <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px">
@@ -41,7 +48,8 @@ export const Analytics = () => {
           <Flex gap="32px">
             <VStack flex="1">
               <TrainingMinutesChart
-                createTrainingMinutes={createTrainingMinutes}
+                trainingMinutesData={trainingMinutesData}
+                logs={logs}
               />
             </VStack>
           </Flex>
@@ -51,7 +59,7 @@ export const Analytics = () => {
           <Heading size="md" mb="20px">
             種目別PR記録
           </Heading>
-          <PrByExercisesList createExercisesPr={createExercisesPr} />
+          <PrByExercisesList exercisePrData={exercisePrData} />
         </Box>
 
         <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px">
@@ -59,7 +67,9 @@ export const Analytics = () => {
             部位別総重量
           </Heading>
           <TrainingVolumeByPartChart
-            calculateTrainingVolumebypart={calculateTrainingVolumebypart}
+            trainingVolumeData={trainingVolumeData}
+            latestFourVolumeData={latestFourVolumeData}
+            volumeData={volumeData}
           />
         </Box>
       </SimpleGrid>

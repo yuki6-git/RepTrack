@@ -1,4 +1,4 @@
-import type { RegisterUserInfo } from "../../../types/UserInfoForm";
+import type { RegisterUserInfo } from "../../types/UserInfoForm";
 
 export type UserInfoErrors = Partial<Record<keyof RegisterUserInfo, string>>;
 

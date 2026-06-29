@@ -1,5 +1,5 @@
 import { Badge, Box, Flex, Heading, Text, VStack } from "@chakra-ui/react";
-import type { VolumeData } from "../../../types/AnalyticsData";
+import type { VolumeData } from "../../../../types/AnalyticsData";
 
 type Props = { volumeRanking: VolumeData[] };
 

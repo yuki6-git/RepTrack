@@ -3,9 +3,9 @@ import {
   insertProfileSetting,
   insertGoals,
   insertWeightRecord,
-} from "../../../api/registerApi";
-import { getCurrentUser } from "../../../api/authApi";
-import type { RegisterUserInfo } from "../../../types/UserInfoForm";
+} from "../../api/registerApi";
+import { getCurrentUser } from "../../api/authApi";
+import type { RegisterUserInfo } from "../../types/UserInfoForm";
 import type { NavigateFunction } from "react-router-dom";
 import type { Dispatch, SetStateAction } from "react";
 

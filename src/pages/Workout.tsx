@@ -4,18 +4,22 @@ import Calendar from "react-calendar";
 import { WorkoutModal } from "../components/workout/WorkoutModal";
 import { useWorkoutLogs } from "../hooks/workout/useWorkoutLogs";
 import type { WorkoutLog } from "../types/Workout";
-import { formatDate } from "../utils/formatdate";
-
-import { useGetTrainingCount } from "../utils/useGetTrainingCount";
+import { formatDate } from "../utils/data/formatdate";
+import {
+  getThisMonthTrainingCount,
+  getThisWeekTrainingCount,
+} from "../utils/data/getTrainingCount";
+import { createWeeklyTrainingData } from "../utils/analytics";
 
 export const Workout = () => {
   const { logs, isLoading, errorMessage } = useWorkoutLogs();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { getThisWeekTraingCount, getThisMonthTrainingCount } =
-    useGetTrainingCount();
-  const thisWeekTraingCount = getThisWeekTraingCount;
-  const thisMonthTraingCount = getThisMonthTrainingCount();
+  const thisWeekTrainingCount = getThisWeekTrainingCount({
+    logs,
+    createWeeklyTrainingData,
+  });
+  const thisMonthTrainingCount = getThisMonthTrainingCount(logs);
 
   const selectedLog: WorkoutLog | undefined = logs.find(
     (log) => log.date === selectedDate,
@@ -83,7 +87,7 @@ export const Workout = () => {
           </Text>
 
           <Flex align="baseline" justify="space-between">
-            <Text fontSize="3xl">{thisWeekTraingCount}</Text>
+            <Text fontSize="3xl">{thisWeekTrainingCount}</Text>
             <Text fontSize="lg" fontWeight="bold" color="gray.600">
               回
             </Text>
@@ -103,7 +107,7 @@ export const Workout = () => {
           </Text>
 
           <Flex align="baseline" justify="space-between">
-            <Text fontSize="3xl">{thisMonthTraingCount}</Text>
+            <Text fontSize="3xl">{thisMonthTrainingCount}</Text>
             <Text fontSize="lg" fontWeight="bold" color="gray.600">
               回
             </Text>

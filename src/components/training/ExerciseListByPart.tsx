@@ -19,7 +19,7 @@ type Props = {
   exerciseRecords?: ExerciseRecord[];
 };
 
-export const ExerciseListBypart = (props: Props) => {
+export const ExerciseListByPart = (props: Props) => {
   const {
     exercises,
     mode,

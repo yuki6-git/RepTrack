@@ -1,5 +1,5 @@
 import { Dialog, Button, Portal, CloseButton } from "@chakra-ui/react";
-import { UserGoalsInput } from "./UserGoalsnput";
+import { UserGoalsInput } from "./UserGoalsInput";
 import { useState } from "react";
 import type { UserGoals } from "../../types/ProfileSetting";
 import type { UserGoalsForm } from "../../types/UserInfoForm";

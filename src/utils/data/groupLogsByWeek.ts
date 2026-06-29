@@ -1,7 +1,5 @@
-
-import type { WorkoutLog } from "../types/Workout";
+import type { WorkoutLog } from "../../types/Workout";
 import { getWeekStartDate } from "./getWeekStartDate";
-
 
 export const groupLogsByWeek = (logs: WorkoutLog[]) => {
   const logsByWeek: Record<string, WorkoutLog[]> = {};

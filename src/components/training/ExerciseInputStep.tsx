@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import type { NewExercise } from "../../types/NewExercise";
 import type { Dispatch, SetStateAction } from "react";
-import { ExerciseListBypart } from "./ExerciseListByPart";
+import { ExerciseListByPart } from "./ExerciseListByPart";
 
 type Props = {
   selectedParts: string[];
@@ -184,7 +184,7 @@ export const ExerciseInputStep = (props: Props) => {
           )}
           <Text my={4}>追加済み種目</Text>
 
-          <ExerciseListBypart
+          <ExerciseListByPart
             exercises={draftExercises.filter(
               (exercise) => exercise.part === part,
             )}

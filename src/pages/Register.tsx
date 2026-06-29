@@ -18,11 +18,11 @@ import { useEffect, useState } from "react";
 import { useCalorieCalculation } from "../hooks/register/useCalorieCalculation";
 import { ManualCaloriModal } from "../components/register/ManualcaloriModal";
 import { useNavigate } from "react-router-dom";
-import { onClickRegister } from "../components/features/register/onClickRegister";
+import { onClickRegister } from "../features/register/onClickRegister";
 import {
   checkRequiredField,
   type UserInfoErrors,
-} from "../components/features/register/checkRequiredField";
+} from "../features/register/checkRequiredField";
 import type { RegisterUserInfo } from "../types/UserInfoForm";
 
 export const Register = () => {

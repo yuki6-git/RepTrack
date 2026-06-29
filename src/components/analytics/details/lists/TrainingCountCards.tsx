@@ -1,15 +1,16 @@
 import { Box, SimpleGrid, Text, Flex } from "@chakra-ui/react";
-import { useGetTrainingCount } from "../../../utils/useGetTrainingCount";
 
-export const TrainingCountCards = () => {
+type Props = {
+  thisWeekTrainingCount: number;
+  thisMonthTrainingCount: number;
+  thisYearTrainingCount: number;
+};
+export const TrainingCountCards = (props: Props) => {
   const {
-    getThisWeekTraingCount,
-    getThisMonthTrainingCount,
-    getThisYearTrainingCount,
-  } = useGetTrainingCount();
-
-  const thisMonthTrainingCount = getThisMonthTrainingCount();
-  const thisYearTrainingCount = getThisYearTrainingCount();
+    thisWeekTrainingCount,
+    thisMonthTrainingCount,
+    thisYearTrainingCount,
+  } = props;
 
   return (
     <SimpleGrid m={10} columns={{ base: 1, md: 3 }} gap="20px">
@@ -26,7 +27,7 @@ export const TrainingCountCards = () => {
         </Text>
 
         <Flex align="baseline" justify="space-between">
-          <Text fontSize="3xl">{getThisWeekTraingCount}</Text>
+          <Text fontSize="3xl">{thisWeekTrainingCount}</Text>
           <Text fontSize="lg" fontWeight="bold" color="gray.600">
             回
           </Text>

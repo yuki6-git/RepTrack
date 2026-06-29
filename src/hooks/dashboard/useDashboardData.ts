@@ -8,6 +8,8 @@ import type { DashboardData } from "../../types/DashboardData";
 import { fetchTrainingMenuRows } from "../../api/trainingMenuApi";
 import type { WeightRecord } from "../../types/WeightRecord";
 import { getCurrentUserId } from "../../api/authApi";
+import { getThisWeekTrainingCount } from "../../utils/data/getTrainingCount";
+import { createWeeklyTrainingData } from "../../utils/analytics";
 
 type WorkoutWithRecords = Workout & {
   exercise_records?: ExerciseRecord[];
@@ -73,8 +75,8 @@ export const useDashboardData = () => {
     const { data: workouts } = await fetchWorkoutLogs(userId);
     const { data: Menus } = await fetchTrainingMenuRows();
 
-    const weightRecords = (weightRecordsData ?? []) as WeightRecord[];
-    const workoutLogs = (workouts ?? []) as WorkoutWithRecords[];
+    const weightRecords: WeightRecord[] = weightRecordsData ?? [];
+    const workoutLogs: WorkoutWithRecords[] = workouts ?? [];
     const trainingMenus = (Menus ?? []).map((menu) => ({
       id: menu.id,
       userId: menu.user_id,
@@ -92,12 +94,24 @@ export const useDashboardData = () => {
     const latestPr = latestWorkout
       ? getLatestPr(latestWorkout.exercise_records ?? [])
       : null;
-
+    const workoutLogItems = workoutLogs.map((workout) => ({
+      id: workout.id,
+      date: workout.workout_date,
+      title: "",
+      start: workout.start_time,
+      end: workout.end_time,
+      duration: workout.duration,
+      records: workout.exercise_records ?? [],
+    }));
+    const thisWeekTrainingCount = getThisWeekTrainingCount({
+      logs: workoutLogItems,
+      createWeeklyTrainingData,
+    });
     // ここでDashboard用に整形
     setDashboardData({
       latestWeight: weightRecords[0]?.weight ?? null,
       targetWeight: goals?.target_weight ?? null,
-      weeklyWorkoutCount: 0,
+      weeklyWorkoutCount: thisWeekTrainingCount,
       weeklyGoal: goals?.weekly_goal ?? null,
       todayTrainingMenu,
       latestWorkouts: workoutLogs.slice(0, 3),

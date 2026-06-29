@@ -1,6 +1,6 @@
 import { Button, CloseButton, Dialog, Portal, Flex } from "@chakra-ui/react";
 import { useState } from "react";
-import { UserProfileInput } from "./UserProfilenput";
+import { UserProfileInput } from "./UserProfileInput";
 import type { ProfileSetting, UserInfo } from "../../types/ProfileSetting";
 import type { UserProfileSettingForm } from "../../types/UserInfoForm";
 

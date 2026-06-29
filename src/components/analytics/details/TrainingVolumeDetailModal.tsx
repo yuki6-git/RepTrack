@@ -1,27 +1,20 @@
 import { Heading } from "@chakra-ui/react";
-import { useAnalyticsData } from "../../../hooks/analytics/useAnalyticsData";
-import { useWorkoutLogs } from "../../../hooks/workout/useWorkoutLogs";
-import { TrainingVolumeRanking } from "../../organisms/analyticsDetail/TrainingVolumeRanking";
-import { TrainingVolumeDetailChart } from "./chart/TrainingVolumeDetailChart";
-import { DetailModal } from "./DeatailModal";
+import { TrainingVolumeRanking } from "./lists/TrainingVolumeRanking";
+import { TrainingVolumeDetailChart } from "./charts/TrainingVolumeDetailChart";
+import { DetailModal } from "./DetailModal";
+import type {
+  LatestFourVolumeData,
+  VolumeData,
+} from "../../../types/AnalyticsData";
 
-export const TrainingVolumeDetailModal = () => {
-  const { calculateTrainingVolumebypart } = useAnalyticsData();
-  const { logs } = useWorkoutLogs();
-  const latestExerciseRecords = logs
-    .slice(0, 4)
-    .flatMap((log) => log.records ?? []);
-  const volumeData = calculateTrainingVolumebypart(latestExerciseRecords).sort(
-    (a, b) => b.totalVolume - a.totalVolume,
-  );
-  const latestFourVolumeData = logs.slice(0, 4).map((log) => ({
-    id: log.id,
-    date: log.date,
-    title: log.title,
-    volumeData: calculateTrainingVolumebypart(log.records).sort(
-      (a, b) => b.totalVolume - a.totalVolume,
-    ),
-  }));
+type Props = {
+  latestFourVolumeData: LatestFourVolumeData[];
+  volumeData: VolumeData[];
+};
+
+export const TrainingVolumeDetailModal = (props: Props) => {
+  const { latestFourVolumeData, volumeData } = props;
+
   return (
     <DetailModal title={"最新4件のトレーニング総重量の詳細"}>
       <TrainingVolumeDetailChart latestFourVolumeData={latestFourVolumeData} />

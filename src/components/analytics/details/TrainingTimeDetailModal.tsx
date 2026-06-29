@@ -1,10 +1,15 @@
-import { TrainingTimeDetail } from "../../organisms/analyticsDetail/TrainingTimeDetail";
-import { DetailModal } from "./DeatailModal";
+import type { WorkoutLog } from "../../../types/Workout";
+import { TrainingTimeDetail } from "./lists/TrainingTimeDetail";
+import { DetailModal } from "./DetailModal";
 
-export const TrainingTimeDetailModal = () => {
+type Props = {
+  logs: WorkoutLog[];
+};
+export const TrainingTimeDetailModal = (props: Props) => {
+  const { logs } = props;
   return (
     <DetailModal title="トレーニング時間の詳細">
-      <TrainingTimeDetail />
+      <TrainingTimeDetail logs={logs} />
     </DetailModal>
   );
 };

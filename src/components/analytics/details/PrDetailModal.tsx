@@ -1,6 +1,6 @@
-import { DetailModal } from "./DeatailModal";
-import { AllPrByExercisesList } from "../../organisms/analyticsDetail/AllPrByExercisesList";
-import type { CreateExercisesPr } from "../PrByExercisesList";
+import { DetailModal } from "./DetailModal";
+import { AllPrByExercisesList } from "./lists/AllPrByExercisesList";
+import type { CreateExercisesPr } from "../../../types/AnalyticsData";
 
 type Props = { ExercisePrData: CreateExercisesPr[] };
 export const PrDetailModal = (props: Props) => {

@@ -1,11 +1,6 @@
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
+import type { TrainingMinutesListItem } from "../../../../types/AnalyticsData";
 
- type TrainingMinutesListItem = {
-  id: string;
-  date: string;
-  title: string;
-  durationMinutes: number;
-};
 type Props = {
   thisMonthTrainingMinutes: TrainingMinutesListItem[];
 };

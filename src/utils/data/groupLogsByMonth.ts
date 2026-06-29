@@ -1,4 +1,4 @@
-import type { WorkoutLog } from "../types/Workout";
+import type { WorkoutLog } from "../../types/Workout";
 
 export const groupLogsByMonth = (logs: WorkoutLog[]) => {
   const logsByMonth: Record<string, WorkoutLog[]> = {};

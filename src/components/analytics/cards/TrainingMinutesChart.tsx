@@ -1,26 +1,20 @@
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
-import type { WorkoutLog } from "../../types/Workout";
-import { useWorkoutLogs } from "../../hooks/workout/useWorkoutLogs";
-import { Button, Text } from "@chakra-ui/react";
-
-type TrainingMinues = {
-  date: string;
-  duration: number;
-};
+import { Text } from "@chakra-ui/react";
+import { TrainingTimeDetailModal } from "../details/TrainingTimeDetailModal";
+import type { TrainingMinutes } from "../../../types/AnalyticsData";
+import type { WorkoutLog } from "../../../types/Workout";
 
 type Props = {
-  createTrainingMinutes: (workouts: WorkoutLog[]) => TrainingMinues[];
+  trainingMinutesData: TrainingMinutes[];
+  logs: WorkoutLog[];
 };
 
 export const TrainingMinutesChart = (props: Props) => {
-  const { createTrainingMinutes } = props;
-  const { logs } = useWorkoutLogs();
-
-  const TrainingMinutesData = createTrainingMinutes(logs);
+  const { trainingMinutesData, logs } = props;
 
   return (
     <>
-      {TrainingMinutesData.length === 0 ? (
+      {trainingMinutesData.length === 0 ? (
         <Text color="gray.500">トレーニングデータがありません</Text>
       ) : (
         <BarChart
@@ -31,7 +25,7 @@ export const TrainingMinutesChart = (props: Props) => {
             aspectRatio: 1.618,
           }}
           responsive
-          data={TrainingMinutesData}
+          data={trainingMinutesData}
           margin={{
             top: 5,
             right: 5,
@@ -58,9 +52,7 @@ export const TrainingMinutesChart = (props: Props) => {
           />
         </BarChart>
       )}
-      <Button mt="24px" width="100%" variant="outline">
-        くわしく見る
-      </Button>
+      <TrainingTimeDetailModal logs={logs} />
     </>
   );
 };

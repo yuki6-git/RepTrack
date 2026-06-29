@@ -7,14 +7,12 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-type AverageTrainingMinutesData = {
-  label: string;
-  averageMinutes: number;
-};
+import type { AverageTrainingMinutesData } from "../../../../types/AnalyticsData";
+
 type Props = {
   data: AverageTrainingMinutesData[];
 };
-export const AverageTrainingMinuesLineChart = (props: Props) => {
+export const AverageTrainingMinutesLineChart = (props: Props) => {
   const { data } = props;
   return (
     <ResponsiveContainer width="100%" height={240}>
