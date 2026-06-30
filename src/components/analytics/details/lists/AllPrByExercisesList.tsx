@@ -1,8 +1,8 @@
 import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
-import type { CreateExercisesPr } from "../../../../types/AnalyticsData";
+import type { ExercisePrData } from "../../../../types/AnalyticsData";
 
 
-type Props = { ExercisePrData: CreateExercisesPr[] };
+type Props = { ExercisePrData: ExercisePrData[] };
 export const AllPrByExercisesList = (props: Props) => {
   const { ExercisePrData } = props;
   return (

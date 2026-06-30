@@ -24,6 +24,7 @@ type Props = {
   onClickEditExercise: (exercises: NewExercise) => void;
   onClickDeleteExercise: (id: string) => void;
 };
+
 export const ExerciseInputStep = (props: Props) => {
   const {
     selectedParts,
@@ -35,6 +36,7 @@ export const ExerciseInputStep = (props: Props) => {
     onClickEditExercise,
     onClickDeleteExercise,
   } = props;
+
   return (
     <Tabs.Root defaultValue={selectedParts[0]} w="100%">
       <Box overflowX="auto" maxW="100%">

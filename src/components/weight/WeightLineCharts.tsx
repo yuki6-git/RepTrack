@@ -8,30 +8,15 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Box, Heading, Text } from "@chakra-ui/react";
-import type { WeightRecord } from "../../types/WeightRecord";
+import type { ChartData } from "../../types/WeightData";
 
 type Props = {
-  weightLogs: WeightRecord[];
+  chartData: ChartData[];
   isLoading: boolean;
   error: string;
 };
 export const WeightLineChart = (props: Props) => {
-  const { weightLogs, isLoading, error } = props;
-
-  const formatMonthDay = (date: string) => {
-    const parsedDate = new Date(date);
-    const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
-    const day = String(parsedDate.getDate()).padStart(2, "0");
-    return `${month}/${day}`;
-  };
-
-  const chartData = weightLogs
-    .slice(0, 7)
-    .reverse()
-    .map((log) => ({
-      date: formatMonthDay(log.recorded_at),
-      weight: log.weight,
-    }));
+  const { chartData, isLoading, error } = props;
 
   if (isLoading) {
     return <Text>読み込み中...</Text>;

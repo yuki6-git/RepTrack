@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import type { TrainingMenu } from "../../types/TrainingMenu";
-import type { ExerciseRecord, Workout } from "../../types/Workout";
+import { useEffect, useMemo, useState } from "react";
 import { fetchUserGoals } from "../../api/profileSettingApi";
 import { fetchWorkoutLogs } from "../../api/workoutApi";
 import { fetchweightRecords } from "../../api/weightApi";
-import type { DashboardData } from "../../types/DashboardData";
 import { fetchTrainingMenuRows } from "../../api/trainingMenuApi";
-import type { WeightRecord } from "../../types/WeightRecord";
 import { getCurrentUserId } from "../../api/authApi";
 import { getThisWeekTrainingCount } from "../../utils/data/getTrainingCount";
 import { createWeeklyTrainingData } from "../../utils/analytics";
+import type { TrainingMenu } from "../../types/TrainingMenu";
+import type { ExerciseRecord, Workout } from "../../types/Workout";
+import type { WeightRecord } from "../../types/WeightData";
+import type { DashboardData } from "../../types/DashboardData";
 
 type WorkoutWithRecords = Workout & {
   exercise_records?: ExerciseRecord[];
@@ -107,7 +107,7 @@ export const useDashboardData = () => {
       logs: workoutLogItems,
       createWeeklyTrainingData,
     });
-    // ここでDashboard用に整形
+
     setDashboardData({
       latestWeight: weightRecords[0]?.weight ?? null,
       targetWeight: goals?.target_weight ?? null,

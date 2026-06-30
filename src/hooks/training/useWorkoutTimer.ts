@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useWorkoutTimer = () => {
   const [startedTime, setStartedTime] = useState<Date | null>(null);
@@ -18,21 +18,21 @@ export const useWorkoutTimer = () => {
     };
   }, [startedTime, isRunning]);
 
-  const startTimer = () => {
+  const startTimer = useCallback(() => {
     setStartedTime(new Date());
     setElapsedSeconds(0);
     setIsRunning(true);
-  };
+  }, []);
 
-  const stopTimer = () => {
+  const stopTimer = useCallback(() => {
     setIsRunning(false);
-  };
+  }, []);
 
-  const resetTimer = () => {
+  const resetTimer = useCallback(() => {
     setStartedTime(null);
     setElapsedSeconds(0);
     setIsRunning(false);
-  };
+  }, []);
 
   const formatTime = (seconds: number) => {
     const h = Math.floor(seconds / 3600);

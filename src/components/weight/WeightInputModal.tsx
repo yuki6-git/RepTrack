@@ -1,19 +1,17 @@
 import { Dialog, Button, Portal, CloseButton } from "@chakra-ui/react";
-import { useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { WeightInput } from "./WeightInput";
-
 type Props = {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  onSaveWeight: (weight: string, bodyFat: string) => Promise<void>;
   latestWeight: string;
   latestBodyFat: string;
-  createWeightRecord: (params: {
-    weight: string;
-    bodyFat: string;
-  }) => Promise<void>;
 };
 
 export const WeightInputModal = (props: Props) => {
-  const { latestWeight, latestBodyFat, createWeightRecord } = props;
-  const [open, setOpen] = useState(false);
+  const { open, setOpen, onSaveWeight, latestWeight, latestBodyFat } = props;
+
   return (
     <Dialog.Root
       size="md"
@@ -39,10 +37,10 @@ export const WeightInputModal = (props: Props) => {
             </Dialog.Header>
             <Dialog.Body overflowY="auto">
               <WeightInput
+                open={open}
                 latestWeight={latestWeight}
                 latestBodyFat={latestBodyFat}
-                createWeightRecord={createWeightRecord}
-                setOpen={setOpen}
+                onSaveWeight={onSaveWeight}
               />
             </Dialog.Body>
           </Dialog.Content>

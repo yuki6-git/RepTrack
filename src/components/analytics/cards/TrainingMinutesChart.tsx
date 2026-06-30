@@ -1,16 +1,25 @@
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
 import { Text } from "@chakra-ui/react";
 import { TrainingTimeDetailModal } from "../details/TrainingTimeDetailModal";
-import type { TrainingMinutes } from "../../../types/AnalyticsData";
-import type { WorkoutLog } from "../../../types/Workout";
+import type {
+  AverageTrainingMinutesData,
+  TrainingMinutes,
+  TrainingMinutesListItem,
+} from "../../../types/AnalyticsData";
 
 type Props = {
   trainingMinutesData: TrainingMinutes[];
-  logs: WorkoutLog[];
+  weeklyAverageTrainingMinutes: AverageTrainingMinutesData[];
+  monthlyAverageTrainingMinutes: AverageTrainingMinutesData[];
+  thisMonthTrainingMinutes: TrainingMinutesListItem[];
 };
-
 export const TrainingMinutesChart = (props: Props) => {
-  const { trainingMinutesData, logs } = props;
+  const {
+    trainingMinutesData,
+    weeklyAverageTrainingMinutes,
+    monthlyAverageTrainingMinutes,
+    thisMonthTrainingMinutes,
+  } = props;
 
   return (
     <>
@@ -52,7 +61,11 @@ export const TrainingMinutesChart = (props: Props) => {
           />
         </BarChart>
       )}
-      <TrainingTimeDetailModal logs={logs} />
+      <TrainingTimeDetailModal
+        weeklyAverageTrainingMinutes={weeklyAverageTrainingMinutes}
+        monthlyAverageTrainingMinutes={monthlyAverageTrainingMinutes}
+        thisMonthTrainingMinutes={thisMonthTrainingMinutes}
+      />
     </>
   );
 };

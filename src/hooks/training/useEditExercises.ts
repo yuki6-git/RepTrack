@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { NewExercise } from "../../types/NewExercise";
 import type { Dispatch, SetStateAction } from "react";
 
@@ -15,22 +15,30 @@ export const useEditExercises = (props: Props) => {
     null,
   );
 
-  const onClickDeleteExercise = (id: string) => {
-    setDraftExercises((prev) => prev.filter((exercise) => exercise.id !== id));
+  const onClickDeleteExercise = useCallback(
+    (id: string) => {
+      setDraftExercises((prev) =>
+        prev.filter((exercise) => exercise.id !== id),
+      );
 
-    if (editingExerciseId === id) {
-      setEditingExerciseId(null);
-      setForm(initialForm);
-    }
-  };
+      if (editingExerciseId === id) {
+        setEditingExerciseId(null);
+        setForm(initialForm);
+      }
+    },
+    [editingExerciseId, initialForm, setDraftExercises, setForm],
+  );
 
-  const onClickEditExercise = (exercise: NewExercise) => {
-    setDraftExercises((prev) =>
-      prev.filter((Exercise) => Exercise.id !== exercise.id),
-    );
-    setEditingExerciseId(exercise.id);
-    setForm(exercise);
-  };
+  const onClickEditExercise = useCallback(
+    (exercise: NewExercise) => {
+      setDraftExercises((prev) =>
+        prev.filter((Exercise) => Exercise.id !== exercise.id),
+      );
+      setEditingExerciseId(exercise.id);
+      setForm(exercise);
+    },
+    [setDraftExercises, setForm],
+  );
 
   return {
     onClickEditExercise,

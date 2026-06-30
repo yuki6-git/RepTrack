@@ -1,43 +1,23 @@
 import { Box, Text } from "@chakra-ui/react";
 import { AverageTrainingMinutesLineChart } from "../charts/AverageTrainingMinutesLineChart";
 import { TrainingTimeList } from "./TrainingTimeList";
-import { groupLogsByWeek } from "../../../../utils/data/groupLogsByWeek";
-import { calculateAverageTrainingTime } from "../../../../utils/analytics/calculateAverageTrainingTime";
-import { groupLogsByMonth } from "../../../../utils/data/groupLogsByMonth"
-import type { WorkoutLog } from "../../../../types/Workout";
+import type {
+  AverageTrainingMinutesData,
+  TrainingMinutesListItem,
+} from "../../../../types/AnalyticsData";
 
 type Props = {
-  logs: WorkoutLog[];
+  weeklyAverageTrainingMinutes: AverageTrainingMinutesData[];
+  monthlyAverageTrainingMinutes: AverageTrainingMinutesData[];
+  thisMonthTrainingMinutes: TrainingMinutesListItem[];
 };
 export const TrainingTimeDetail = (props: Props) => {
-  const { logs } = props;
-  const thisMonthTrainingMinutes = logs.map((log) => ({
-    id: log.id ?? "",
-    date: log.date ?? "",
-    title: log.title ?? "",
-    durationMinutes: log.duration ? Math.round(log.duration / 60) : 0,
-  }));
+  const {
+    weeklyAverageTrainingMinutes,
+    monthlyAverageTrainingMinutes,
+    thisMonthTrainingMinutes,
+  } = props;
 
-  const weeklyLogs = groupLogsByWeek(logs);
-  const weeklyAverageTrainingMinutes = Object.entries(weeklyLogs).map(
-    ([week, Logs]) => {
-      const durations = Logs.map((log) => log.duration ?? 0);
-      return {
-        label: week,
-        averageMinutes: calculateAverageTrainingTime(durations),
-      };
-    },
-  );
-  const monthlyLogs = groupLogsByMonth(logs);
-  const monthlyAverageTrainingMinutes = Object.entries(monthlyLogs).map(
-    ([month, Logs]) => {
-      const durations = Logs.map((log) => log.duration ?? 0);
-      return {
-        label: month,
-        averageMinutes: calculateAverageTrainingTime(durations),
-      };
-    },
-  );
   return (
     <>
       <Box>

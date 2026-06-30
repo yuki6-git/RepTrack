@@ -52,6 +52,7 @@ export const CreateTrainingMenuModal = (props: Props) => {
 
     setSelectedParts(trainingParts);
   }, [addExercises]);
+  
   const {
     onClickSaveMenu,
     form,
@@ -66,6 +67,7 @@ export const CreateTrainingMenuModal = (props: Props) => {
     onSave,
     addExercises,
   });
+
   return (
     <Dialog.Root
       open={isOpen}

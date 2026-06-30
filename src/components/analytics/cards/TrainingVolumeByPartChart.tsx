@@ -52,10 +52,12 @@ export const TrainingVolumeByPartChart = (props: Props) => {
                 </li>
               ))}
             </Box>
-            <TrainingVolumeDetailModal
-              latestFourVolumeData={latestFourVolumeData}
-              volumeData={volumeData}
-            />
+            <Box mt="50px">
+              <TrainingVolumeDetailModal
+                latestFourVolumeData={latestFourVolumeData}
+                volumeData={volumeData}
+              />
+            </Box>
           </VStack>
         </HStack>
       )}

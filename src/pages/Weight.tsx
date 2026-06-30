@@ -1,7 +1,3 @@
-import { useEffect, useState } from "react";
-import { WeightInputModal } from "../components/weight/WeightInputModal";
-import { useWeightRecords } from "../hooks/weight/useWeightRecords";
-
 import {
   Box,
   Button,
@@ -12,48 +8,25 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { fetchUserGoals } from "../api/profileSettingApi";
-import { getCurrentUserId } from "../api/authApi";
+import { WeightInputModal } from "../components/weight/WeightInputModal";
 import { WeightLineChart } from "../components/weight/WeightLineCharts";
+import { useWeightPageData } from "../hooks/weight/useWeightPageData";
 
 export const Weight = () => {
-  const [targetWeight, setTargetWeight] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const { weightLogs, isLoading, error, createWeightRecord } =
-    useWeightRecords();
-
-  useEffect(() => {
-    const fetchTargetWeight = async () => {
-      const userId = await getCurrentUserId();
-      if (!userId) {
-        setErrorMessage("ユーザー情報がありません");
-        return;
-      }
-      const { data: goalsData, error: goalsError } =
-        await fetchUserGoals(userId);
-      if (goalsError || !goalsData) {
-        setErrorMessage("目標体重の取得に失敗しました");
-        return;
-      }
-
-      setTargetWeight(String(goalsData.target_weight));
-    };
-
-    fetchTargetWeight();
-  }, []);
-
-  const latestRecord = weightLogs[0];
-  const weightDiff =
-    latestRecord !== undefined
-      ? Number(targetWeight) - latestRecord.weight
-      : null;
-  const displayWeightDiff =
-    weightDiff === null
-      ? "-"
-      : weightDiff > 0
-        ? `+ ${weightDiff}`
-        : `${weightDiff}`;
+  const {
+    latestRecord,
+    isLoading,
+    error,
+    displayWeightDiff,
+    errorMessage,
+    chartData,
+    latestWeight,
+    latestBodyFat,
+    open,
+    setOpen,
+    onSaveWeight,
+    latestFiveRecord,
+  } = useWeightPageData();
 
   return (
     <VStack align="stretch" gap="24px">
@@ -63,17 +36,11 @@ export const Weight = () => {
         </Heading>
 
         <WeightInputModal
-          latestWeight={
-            latestRecord?.weight !== undefined
-              ? String(latestRecord.weight)
-              : ""
-          }
-          latestBodyFat={
-            latestRecord?.body_fat !== undefined
-              ? String(latestRecord.body_fat)
-              : ""
-          }
-          createWeightRecord={createWeightRecord}
+          open={open}
+          setOpen={setOpen}
+          onSaveWeight={onSaveWeight}
+          latestWeight={latestWeight}
+          latestBodyFat={latestBodyFat}
         />
       </Flex>
 
@@ -130,7 +97,7 @@ export const Weight = () => {
             体重の推移
           </Heading>
           <WeightLineChart
-            weightLogs={weightLogs}
+            chartData={chartData}
             isLoading={isLoading}
             error={error}
           />
@@ -153,29 +120,14 @@ export const Weight = () => {
           </Table.Header>
 
           <Table.Body>
-            {weightLogs.slice(0, 5).map((log, index) => {
-              const previousLog = weightLogs[index + 1];
-
-              const diff =
-                previousLog !== undefined
-                  ? Number(log.weight) - Number(previousLog.weight)
-                  : null;
-
-              const displayDiff =
-                diff === null
-                  ? "-"
-                  : diff > 0
-                    ? `+${diff.toFixed(1)}`
-                    : diff.toFixed(1);
-              return (
-                <Table.Row key={log.id}>
-                  <Table.Cell>{log.recorded_at}</Table.Cell>
-                  <Table.Cell>{log.weight}</Table.Cell>
-                  <Table.Cell>{log.body_fat}</Table.Cell>
-                  <Table.Cell>{displayDiff}</Table.Cell>
-                </Table.Row>
-              );
-            })}
+            {latestFiveRecord.map((log) => (
+              <Table.Row key={log.id}>
+                <Table.Cell>{log.recorded_at}</Table.Cell>
+                <Table.Cell>{log.weight}</Table.Cell>
+                <Table.Cell>{log.body_fat}</Table.Cell>
+                <Table.Cell>{log.displayDiff}</Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
         </Table.Root>
 

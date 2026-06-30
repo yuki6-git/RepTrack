@@ -1,6 +1,6 @@
-import { useState } from "react";
-import type { NewExercise } from "../../types/NewExercise";
+import { useCallback, useState } from "react";
 import { useEditExercises } from "./useEditExercises";
+import type { NewExercise } from "../../types/NewExercise";
 
 export const useTrainingMenuInput = ({
   onSave,
@@ -26,33 +26,37 @@ export const useTrainingMenuInput = ({
     addExercises ?? [],
   );
 
-  const onClickAddExercise = (form: NewExercise, part: string) => {
-    const hasRequiredValues =
-      part.trim() !== "" &&
-      form.exerciseName.trim() !== "" &&
-      form.setWeight.trim() !== "" &&
-      form.sets.trim() !== "" &&
-      form.reps.trim() !== "";
-    if (!hasRequiredValues) {
-      setValidationMessage("必須項目を入力してください");
-      return;
-    }
-    const newExercise: NewExercise = {
-      id: crypto.randomUUID(),
-      tabId: "",
-      part,
-      exerciseName: form.exerciseName,
-      maxWeight: form.maxWeight,
-      setWeight: form.setWeight,
-      sets: form.sets,
-      reps: form.reps,
-    };
+  const onClickAddExercise = useCallback(
+    (form: NewExercise, part: string) => {
+      const hasRequiredValues =
+        part.trim() !== "" &&
+        form.exerciseName.trim() !== "" &&
+        form.setWeight.trim() !== "" &&
+        form.sets.trim() !== "" &&
+        form.reps.trim() !== "";
+      if (!hasRequiredValues) {
+        setValidationMessage("必須項目を入力してください");
+        return;
+      }
+      const newExercise: NewExercise = {
+        id: crypto.randomUUID(),
+        tabId: "",
+        part,
+        exerciseName: form.exerciseName,
+        maxWeight: form.maxWeight,
+        setWeight: form.setWeight,
+        sets: form.sets,
+        reps: form.reps,
+      };
 
-    setDraftExercises((prev) => [...prev, newExercise]);
-    setForm(initialForm);
-    setValidationMessage("");
-  };
-  const onClickSaveMenu = () => {
+      setDraftExercises((prev) => [...prev, newExercise]);
+      setForm(initialForm);
+      setValidationMessage("");
+    },
+    [initialForm],
+  );
+
+  const onClickSaveMenu = useCallback(() => {
     setIsLoading(true);
 
     if (draftExercises.length === 0) {
@@ -63,7 +67,8 @@ export const useTrainingMenuInput = ({
 
     onSave(draftExercises);
     setIsLoading(false);
-  };
+  }, [draftExercises, onSave]);
+
   const { onClickEditExercise, onClickDeleteExercise } = useEditExercises({
     setDraftExercises,
     setForm,

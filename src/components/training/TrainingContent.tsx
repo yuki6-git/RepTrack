@@ -25,13 +25,10 @@ export const TrainingContent = () => {
     if (trainingMenus.length === 0) {
       return;
     }
-
     const savedTabs = trainingMenus.map((menu) => ({ id: menu.tabId }));
-
     setTabs(savedTabs);
     setSelectedTab((prev) => {
       const selectedTab = savedTabs.find((tab) => tab.id === prev);
-
       return selectedTab ? prev : savedTabs[0].id;
     });
   }, [trainingMenus]);

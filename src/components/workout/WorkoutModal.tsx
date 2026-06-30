@@ -16,7 +16,7 @@ export const WorkoutModal = (props: Props) => {
     new Set(selectedLog?.records.map((record) => record.part) ?? []),
   );
 
-  const startTIme = selectedLog?.start ?? null;
+  const startTime = selectedLog?.start ?? null;
   const endTime = selectedLog?.end ?? null;
   const duration = selectedLog?.duration ?? null;
   return (
@@ -36,7 +36,7 @@ export const WorkoutModal = (props: Props) => {
                 <Flex justify="space-between">
                   <Text fontWeight="bold">開始〜終了</Text>
                   <Text>
-                    {formatTime(startTIme)} 〜 {formatTime(endTime)}
+                    {formatTime(startTime)} 〜 {formatTime(endTime)}
                   </Text>
                 </Flex>
 

@@ -11,19 +11,16 @@ export const Dashboard = () => {
   const todayTrainingTitle = dashboardData?.todayTrainingMenu?.title ?? null;
   const latestPr = dashboardData?.latestPr ?? null;
   const thisWeekTrainingCount = dashboardData.weeklyWorkoutCount ?? null;
-
   const weightDiff =
     targetWeight !== null && latestWeight !== null
       ? targetWeight - latestWeight
       : null;
-
   const displayWeightDiff =
     weightDiff !== null
       ? weightDiff > 0
         ? `+${weightDiff}`
         : `${weightDiff}`
       : null;
-
   return (
     <VStack gap="24px" align="stretch">
       <Box p="24px" borderRadius="16px" boxShadow="md">

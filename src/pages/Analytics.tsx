@@ -7,7 +7,6 @@ import { useAnalyticsPageData } from "../hooks/analytics/useAnalyticsPageData";
 
 export const Analytics = () => {
   const {
-    logs,
     weeklyTrainingData,
     trainingMinutesData,
     exercisePrData,
@@ -19,6 +18,9 @@ export const Analytics = () => {
     thisWeekTrainingCount,
     thisMonthTrainingCount,
     thisYearTrainingCount,
+    weeklyAverageTrainingMinutes,
+    monthlyAverageTrainingMinutes,
+    thisMonthTrainingMinutes,
   } = useAnalyticsPageData();
 
   return (
@@ -49,7 +51,9 @@ export const Analytics = () => {
             <VStack flex="1">
               <TrainingMinutesChart
                 trainingMinutesData={trainingMinutesData}
-                logs={logs}
+                weeklyAverageTrainingMinutes={weeklyAverageTrainingMinutes}
+                monthlyAverageTrainingMinutes={monthlyAverageTrainingMinutes}
+                thisMonthTrainingMinutes={thisMonthTrainingMinutes}
               />
             </VStack>
           </Flex>

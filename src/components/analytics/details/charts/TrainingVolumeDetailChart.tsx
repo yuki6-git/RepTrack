@@ -1,27 +1,15 @@
 import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import { Label, Pie, PieChart, Tooltip } from "recharts";
-import type { VolumeData } from "../../../../types/AnalyticsData";
+import type { LatestFourVolumeData } from "../../../../types/AnalyticsData";
 type Props = {
-  latestFourVolumeData: {
-    id: string;
-    date: string;
-    title: string;
-    volumeData: VolumeData[];
-  }[];
+  latestFourVolumeData: LatestFourVolumeData[];
 };
 export const TrainingVolumeDetailChart = (props: Props) => {
   const { latestFourVolumeData } = props;
-  const COLORS = ["#2563eb", "#16a34a", "#f59e0b", "#9333ea", "#ef4444"];
-  const trainingVolumeData = latestFourVolumeData.map((data) => ({
-    ...data,
-    volumeData: data.volumeData.map((partData, index) => ({
-      ...partData,
-      fill: COLORS[index % COLORS.length],
-    })),
-  }));
+
   return (
     <SimpleGrid columns={{ base: 2, md: 4 }} gap="20px">
-      {trainingVolumeData.map((workoutVolume) => (
+      {latestFourVolumeData.map((workoutVolume) => (
         <Box
           key={workoutVolume.id}
           p="16px"

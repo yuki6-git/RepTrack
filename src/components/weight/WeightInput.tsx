@@ -1,32 +1,24 @@
 import { Flex, Text, NumberInput, Button } from "@chakra-ui/react";
-import { useState } from "react";
-import type { Dispatch, SetStateAction } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  open: boolean;
   latestWeight: string;
   latestBodyFat: string;
-  createWeightRecord: (params: {
-    weight: string;
-    bodyFat: string;
-  }) => Promise<void>;
+  onSaveWeight: (weight: string, bodyFat: string) => Promise<void>;
 };
 
 export const WeightInput = (props: Props) => {
-  const { latestWeight, latestBodyFat, setOpen, createWeightRecord } = props;
+  const { open, latestWeight, latestBodyFat, onSaveWeight } = props;
   const [weight, setWeight] = useState(String(latestWeight));
   const [bodyFat, setBodyFat] = useState(String(latestBodyFat));
-
-  const onSaveWeight = async () => {
-    await createWeightRecord({
-      weight,
-      bodyFat,
-    });
-    setOpen(false);
-    setWeight;
-    setBodyFat;
-  };
-
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    setWeight(latestWeight);
+    setBodyFat(latestBodyFat);
+  }, [open, latestWeight, latestBodyFat]);
   return (
     <>
       <Flex justify="space-between" align="center" mb="20px">
@@ -60,7 +52,10 @@ export const WeightInput = (props: Props) => {
         </Flex>
       </Flex>
       <Flex justifyContent="end" mr={4}>
-        <Button disabled={!weight} onClick={onSaveWeight}>
+        <Button
+          disabled={!weight}
+          onClick={async () => await onSaveWeight(weight, bodyFat)}
+        >
           更新
         </Button>
       </Flex>

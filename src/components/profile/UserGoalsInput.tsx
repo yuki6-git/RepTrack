@@ -3,13 +3,11 @@ import type { UserGoalsForm } from "../../types/UserInfoForm";
 
 type Props = {
   form: UserGoalsForm;
-
   onChangeForm: (name: keyof UserGoalsForm, value: string) => void;
 };
 
 export const UserGoalsInput = (props: Props) => {
   const { form, onChangeForm } = props;
-
   return (
     <>
       <Flex justify="space-between" align="center" mb="20px">

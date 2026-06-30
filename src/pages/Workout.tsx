@@ -1,37 +1,20 @@
 import { Box, Text, Flex, SimpleGrid } from "@chakra-ui/react";
-import { useState } from "react";
 import Calendar from "react-calendar";
 import { WorkoutModal } from "../components/workout/WorkoutModal";
-import { useWorkoutLogs } from "../hooks/workout/useWorkoutLogs";
-import type { WorkoutLog } from "../types/Workout";
-import { formatDate } from "../utils/data/formatdate";
-import {
-  getThisMonthTrainingCount,
-  getThisWeekTrainingCount,
-} from "../utils/data/getTrainingCount";
-import { createWeeklyTrainingData } from "../utils/analytics";
+import { useWorkoutPageData } from "../hooks/workout/useWorkoutPageData";
 
 export const Workout = () => {
-  const { logs, isLoading, errorMessage } = useWorkoutLogs();
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const thisWeekTrainingCount = getThisWeekTrainingCount({
-    logs,
-    createWeeklyTrainingData,
-  });
-  const thisMonthTrainingCount = getThisMonthTrainingCount(logs);
-
-  const selectedLog: WorkoutLog | undefined = logs.find(
-    (log) => log.date === selectedDate,
-  );
-
-  const handleClickDay = (date: Date) => {
-    const dateKey = formatDate(date);
-    const log = logs.find((log) => log.date === dateKey);
-    if (!log) return;
-    setSelectedDate(dateKey);
-    setIsOpen(true);
-  };
+  const {
+    isLoading,
+    errorMessage,
+    handleClickDay,
+    isOpen,
+    setIsOpen,
+    selectedLog,
+    thisWeekTrainingCount,
+    thisMonthTrainingCount,
+    hasWorkoutOnDate,
+  } = useWorkoutPageData();
 
   if (isLoading) {
     return <Text>読み込み中...</Text>;
@@ -48,11 +31,7 @@ export const Workout = () => {
           onClickDay={handleClickDay}
           tileContent={({ date, view }) => {
             if (view !== "month") return null;
-
-            const dateKey = formatDate(date);
-            const hasWorkout = logs.some((log) => log.date === dateKey);
-
-            if (!hasWorkout) return null;
+            if (!hasWorkoutOnDate(date)) return null;
 
             return (
               <Box

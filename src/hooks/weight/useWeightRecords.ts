@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchweightRecords, insertWeightRecords } from "../../api/weightApi";
-import type { WeightRecord } from "../../types/WeightRecord";
+import type { WeightRecord } from "../../types/WeightData";
 import { getCurrentUserId } from "../../api/authApi";
 
 type CreateWeightRecordParams = {
@@ -60,6 +60,7 @@ export const useWeightRecords = () => {
     fetchWeightRecords();
   }, []);
 
+  
   
 
   return {
