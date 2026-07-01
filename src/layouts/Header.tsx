@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
   const navigate = useNavigate();
-  
+
   const onClickLogout = async () => {
     const isCancel = window.confirm("ログアウトしますか？");
     if (!isCancel) {
@@ -30,7 +30,14 @@ export const Header = () => {
         RepTrack
       </Heading>
       <Spacer />
-      <FaUserCircle size={32} />
+      <Button
+        size="2xl"
+        bg="transparent"
+        onClick={() => navigate("/profile-setting")}
+      >
+        <FaUserCircle />
+      </Button>
+
       <Button onClick={onClickLogout} mx={4}>
         ログアウト
       </Button>

@@ -28,3 +28,7 @@ export type TrainingMenuExerciseRow = {
   reps: number;
   created_at: string;
 };
+
+export type Tab = {
+  id: string;
+};

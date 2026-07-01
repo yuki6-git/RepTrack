@@ -7,12 +7,12 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import { FiRefreshCw } from "react-icons/fi";
-import type { TrainingMenu as TrainingMenuType } from "../../types/TrainingMenu";
+import { useTrainingTimerController } from "../../hooks/training/useTrainingTimerController";
+import type { TrainingMenu } from "../../types/TrainingMenu";
 import type { NewExercise } from "../../types/NewExercise";
-import { useWorkoutTimer } from "../../hooks/training/useWorkoutTimer";
 
 type Props = {
-  trainingMenu: TrainingMenuType;
+  trainingMenu: TrainingMenu;
   startworkout: (
     trainingMenuId: string,
     exercises: NewExercise[],
@@ -22,48 +22,13 @@ type Props = {
 
 export const TrainingTimer = (props: Props) => {
   const { trainingMenu, startworkout, endWorkout } = props;
-  const {
-    elapsedSeconds,
-    formattedTime,
-    isRunning,
-    startTimer,
-    stopTimer,
-    resetTimer,
-  } = useWorkoutTimer();
 
-  const onClickTimer = async () => {
-    if (!isRunning) {
-      const isStart = window.confirm("トレーニングを開始しますか？");
-      if (!isStart) {
-        return;
-      }
-      const isStarted = await startworkout(
-        trainingMenu.id,
-        trainingMenu.exercises,
-      );
-      if (!isStarted) {
-        return;
-      }
-
-      startTimer();
-
-      return;
-    }
-    const isEnd = window.confirm("トレーニングを終了しますか？");
-    if (!isEnd) {
-      return;
-    }
-    const isEnded = await endWorkout(elapsedSeconds);
-    if (!isEnded) {
-      return;
-    }
-    stopTimer();
-  };
-
-  const onClickRestart = () => {
-    resetTimer();
-    return;
-  };
+  const { formattedTime, isRunning, onClickTimer, onClickRestart } =
+    useTrainingTimerController({
+      trainingMenu,
+      startworkout,
+      endWorkout,
+    });
 
   return (
     <Flex borderRadius="8px" boxShadow="sm" alignItems="center" p={4}>

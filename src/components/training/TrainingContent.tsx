@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Tabs,
   VStack,
@@ -9,52 +8,14 @@ import {
 } from "@chakra-ui/react";
 import { FiPlus } from "react-icons/fi";
 import { TrainingMenu } from "./TrainingMenu";
-import { useTrainingMenuContext } from "../../context/TrainingMenuContext";
 import { CreateTrainingMenuModal } from "./CreateTrainingMenuModal";
-
-type Tab = {
-  id: string;
-};
+import { useTrainingTabs } from "../../hooks/training/useTrainingTabs";
+import { useTrainingMenuContext } from "../../context/TrainingMenuContext";
 
 export const TrainingContent = () => {
-  const [tabs, setTabs] = useState<Tab[]>([{ id: crypto.randomUUID() }]);
-  const [selectedTab, setSelectedTab] = useState<string | null>(tabs[0].id);
   const { trainingMenus } = useTrainingMenuContext();
-
-  useEffect(() => {
-    if (trainingMenus.length === 0) {
-      return;
-    }
-    const savedTabs = trainingMenus.map((menu) => ({ id: menu.tabId }));
-    setTabs(savedTabs);
-    setSelectedTab((prev) => {
-      const selectedTab = savedTabs.find((tab) => tab.id === prev);
-      return selectedTab ? prev : savedTabs[0].id;
-    });
-  }, [trainingMenus]);
-
-  const addTab = () => {
-    if (tabs.length < 7) {
-      const newTab = {
-        id: crypto.randomUUID(),
-      };
-      const newTabs = [...tabs, newTab];
-
-      setTabs(newTabs);
-      setSelectedTab(newTabs[newTabs.length - 1].id);
-    } else {
-      alert("追加できるメニューは７件までです");
-      return;
-    }
-  };
-
-  const removeTab = (id: string) => {
-    if (tabs.length > 1) {
-      const newTabs = [...tabs].filter((tab) => tab.id !== id);
-      setTabs(newTabs);
-      setSelectedTab(newTabs[0].id);
-    }
-  };
+  const { selectedTab, setSelectedTab, tabs, removeTab, addTab } =
+    useTrainingTabs({ trainingMenus });
 
   return (
     <VStack

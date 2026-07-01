@@ -1,10 +1,8 @@
 import { Button, CloseButton, Dialog, Flex, Portal } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import { MenuBasicStep } from "./MenuBasicStep";
 import { ExerciseInputStep } from "./ExerciseInputStep";
-import { useTrainingMenuContext } from "../../context/TrainingMenuContext";
+import { useTrainingMenuModal } from "../../hooks/training/useTrainingMenuModal";
 import type { NewExercise } from "../../types/NewExercise";
-import { useTrainingMenuInput } from "../../hooks/training/useTrainingMenuInput";
 
 type Props = {
   tabId: string;
@@ -22,49 +20,29 @@ export const CreateTrainingMenuModal = (props: Props) => {
     mode,
     menuTitle: initialMenuTitle,
   } = props;
-  const [step, setStep] = useState(1);
-  const [menuTitle, setMenuTitle] = useState(initialMenuTitle ?? "");
-  const [selectedParts, setSelectedParts] = useState<string[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
 
-  const { createTrainingMenu, onUpdateMenu } = useTrainingMenuContext();
-  const onSave = async (exercises: NewExercise[]) => {
-    let isSaved = false;
-
-    if (mode === "create") {
-      isSaved = await createTrainingMenu(tabId, menuTitle, exercises);
-    }
-    if (mode === "edit") {
-      isSaved = await onUpdateMenu(tabId, menuTitle, exercises);
-    }
-
-    if (isSaved) {
-      setIsOpen(false);
-    }
-  };
-  useEffect(() => {
-    if (!addExercises) return;
-
-    const trainingPartsSet = new Set(
-      addExercises.map((exercise) => exercise.part),
-    );
-    const trainingParts = [...trainingPartsSet];
-
-    setSelectedParts(trainingParts);
-  }, [addExercises]);
-  
   const {
+    isOpen,
+    setIsOpen,
+    step,
+    setStep,
+    menuTitle,
+    setMenuTitle,
+    selectedParts,
+    setSelectedParts,
+    isLoading,
     onClickSaveMenu,
     form,
     setForm,
-    isLoading,
     validationMessage,
     draftExercises,
     onClickAddExercise,
     onClickEditExercise,
     onClickDeleteExercise,
-  } = useTrainingMenuInput({
-    onSave,
+  } = useTrainingMenuModal({
+    mode,
+    tabId,
+    initialMenuTitle,
     addExercises,
   });
 

@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Field,
+  Flex,
   Heading,
   HStack,
   Input,
@@ -10,18 +11,18 @@ import {
   Tabs,
   Text,
 } from "@chakra-ui/react";
+import { ExerciseListByPart } from "./ExerciseListByPart";
 import type { NewExercise } from "../../types/NewExercise";
 import type { Dispatch, SetStateAction } from "react";
-import { ExerciseListByPart } from "./ExerciseListByPart";
 
 type Props = {
   selectedParts: string[];
   form: NewExercise;
   setForm: Dispatch<SetStateAction<NewExercise>>;
-  onClickAddExercise: (form: NewExercise, part: string) => void;
   validationMessage: string;
   draftExercises: NewExercise[];
-  onClickEditExercise: (exercises: NewExercise) => void;
+  onClickAddExercise: (form: NewExercise, part: string) => void;
+  onClickEditExercise: (exercise: NewExercise) => void;
   onClickDeleteExercise: (id: string) => void;
 };
 
@@ -30,9 +31,9 @@ export const ExerciseInputStep = (props: Props) => {
     selectedParts,
     form,
     setForm,
-    onClickAddExercise,
     validationMessage,
     draftExercises,
+    onClickAddExercise,
     onClickEditExercise,
     onClickDeleteExercise,
   } = props;
@@ -172,13 +173,15 @@ export const ExerciseInputStep = (props: Props) => {
               </Field.Root>
             </HStack>
           </Box>
-          <Button
-            type="button"
-            onClick={() => onClickAddExercise(form, part)}
-            my={4}
-          >
-            種目を追加
-          </Button>
+          <Flex justify="flex-end">
+            <Button
+              type="button"
+              onClick={() => onClickAddExercise(form, part)}
+              my={4}
+            >
+              種目を追加
+            </Button>
+          </Flex>
           {validationMessage && (
             <Text color="red.500" mb={4}>
               {validationMessage}

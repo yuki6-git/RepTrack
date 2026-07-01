@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchUserGoals } from "../../api/profileSettingApi";
 import { fetchWorkoutLogs } from "../../api/workoutApi";
 import { fetchweightRecords } from "../../api/weightApi";
@@ -10,6 +10,7 @@ import type { TrainingMenu } from "../../types/TrainingMenu";
 import type { ExerciseRecord, Workout } from "../../types/Workout";
 import type { WeightRecord } from "../../types/WeightData";
 import type { DashboardData } from "../../types/DashboardData";
+import { getThisWeekTrainingLogs } from "../../utils/data/getThisWeekTrainingLogs";
 
 type WorkoutWithRecords = Workout & {
   exercise_records?: ExerciseRecord[];
@@ -36,9 +37,13 @@ export const useDashboardData = () => {
     if (trainingMenus.length === 0) {
       return null;
     }
-    if (workouts.length === 0) {
+    if (
+      workouts.length === 0 ||
+      getThisWeekTrainingLogs(workouts).length === 0
+    ) {
       return trainingMenus[0];
     }
+
     const latestTraining = workouts[0];
     const latestTrainingMenuIndex = trainingMenus.findIndex(
       (menu: TrainingMenu) => menu.id === latestTraining.training_menu_id,
