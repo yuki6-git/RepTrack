@@ -57,7 +57,7 @@ export const CreateTrainingMenuModal = (props: Props) => {
       size="cover"
     >
       <Dialog.Trigger asChild>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="xs">
           {triggerLabel}
         </Button>
       </Dialog.Trigger>

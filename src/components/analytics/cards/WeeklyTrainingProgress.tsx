@@ -22,7 +22,7 @@ export const WeeklyTrainingProgress = (props: Props) => {
   } = props;
 
   return (
-    <VStack align="stretch" h="90%">
+    <VStack align="stretch" h={{ base: "80%", lg: "90%" }}>
       <Progress.Root
         value={progressValue}
         colorPalette={"blue"}

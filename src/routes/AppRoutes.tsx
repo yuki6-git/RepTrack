@@ -54,6 +54,11 @@ const PageLoading = () => (
     <Text color="gray.500">読み込み中...</Text>
   </Flex>
 );
+const NotFound = lazy(() =>
+  import("../pages/NotFound").then((module) => ({
+    default: module.NotFound,
+  })),
+);
 export const AppRoutes = () => {
   return (
     <Suspense fallback={<PageLoading />}>
@@ -61,7 +66,7 @@ export const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/register" element={<Register />} />
-
+        <Route path="*" element={<NotFound />} />
         <Route
           element={
             <AuthGuard>

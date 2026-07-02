@@ -1,17 +1,9 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Table,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { WeightInputModal } from "../components/weight/WeightInputModal";
 import { WeightLineChart } from "../components/weight/WeightLineCharts";
 import { useWeightPageData } from "../hooks/weight/useWeightPageData";
-
+import { WeightRecordTable } from "../components/weight/WeightRecordTable";
+import { AllWeightRecordModal } from "../components/weight/AllWeightRecordModal";
 export const Weight = () => {
   const {
     latestRecord,
@@ -26,6 +18,7 @@ export const Weight = () => {
     setOpen,
     onSaveWeight,
     latestFiveRecord,
+    weightRecord,
   } = useWeightPageData();
 
   return (
@@ -109,31 +102,9 @@ export const Weight = () => {
           体重記録一覧
         </Heading>
 
-        <Table.Root>
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeader>日付</Table.ColumnHeader>
-              <Table.ColumnHeader>体重(kg)</Table.ColumnHeader>
-              <Table.ColumnHeader>体脂肪率(%)</Table.ColumnHeader>
-              <Table.ColumnHeader>体重変移</Table.ColumnHeader>
-            </Table.Row>
-          </Table.Header>
+        <WeightRecordTable weightRecord={latestFiveRecord} />
 
-          <Table.Body>
-            {latestFiveRecord.map((log) => (
-              <Table.Row key={log.id}>
-                <Table.Cell>{log.recorded_at}</Table.Cell>
-                <Table.Cell>{log.weight}</Table.Cell>
-                <Table.Cell>{log.body_fat}</Table.Cell>
-                <Table.Cell>{log.displayDiff}</Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Root>
-
-        <Button mt="20px" variant="outline">
-          すべて見る
-        </Button>
+        <AllWeightRecordModal weightRecord={weightRecord} />
       </Box>
     </VStack>
   );

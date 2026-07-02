@@ -45,8 +45,8 @@ export const useWeightPageData = () => {
   const latestBodyFat =
     latestRecord?.body_fat !== undefined ? String(latestRecord.body_fat) : "";
 
-  const latestFiveRecord = useMemo(() => {
-    return weightLogs.slice(0, 5).map((log, index) => {
+  const weightRecord = useMemo(() => {
+    return weightLogs.map((log, index) => {
       const previousLog = weightLogs[index + 1];
       const diff =
         previousLog !== undefined
@@ -67,6 +67,10 @@ export const useWeightPageData = () => {
     });
   }, [weightLogs]);
 
+  const latestFiveRecord = useMemo(() => {
+    return weightRecord.slice(0, 5);
+  }, [weightRecord]);
+
   const [open, setOpen] = useState(false);
   const onSaveWeight = async (weight: string, bodyFat: string) => {
     await createWeightRecord({
@@ -85,7 +89,7 @@ export const useWeightPageData = () => {
         weight: log.weight,
       }));
   }, [weightLogs]);
-  
+
   return {
     latestRecord,
     createWeightRecord,
@@ -99,6 +103,7 @@ export const useWeightPageData = () => {
     onSaveWeight,
     setOpen,
     open,
+    weightRecord,
     latestFiveRecord,
     chartData,
   };

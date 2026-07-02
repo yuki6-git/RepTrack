@@ -11,7 +11,12 @@ export const DetailModal = (props: Props) => {
   return (
     <Dialog.Root size="full" motionPreset="slide-in-bottom">
       <Dialog.Trigger asChild>
-        <Button mt="auto" width="100%" variant="outline">
+        <Button
+          mt="auto"
+          width="100%"
+          variant="outline"
+          size={{ base: "xs", md: "sm" }}
+        >
           詳しく見る
         </Button>
       </Dialog.Trigger>

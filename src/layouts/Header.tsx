@@ -1,7 +1,8 @@
-import { Flex, Heading, Button, Spacer } from "@chakra-ui/react";
+import { Flex, Heading, Button, Spacer, Box } from "@chakra-ui/react";
 import { FaUserCircle } from "react-icons/fa";
 import { signOut } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
+import { MenuDrawer } from "./MenuDrawer";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -26,9 +27,13 @@ export const Header = () => {
       borderBottomWidth="1px"
       borderColor="gray.400"
     >
-      <Heading ml={4} textAlign="left">
+      <Box display={{ base: "block", md: "none" }}>
+        <MenuDrawer />
+      </Box>
+      <Heading ml={{ base: 0, md: 4 }} textAlign="left">
         RepTrack
       </Heading>
+
       <Spacer />
       <Button
         size="2xl"

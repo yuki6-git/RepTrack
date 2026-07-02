@@ -21,7 +21,7 @@ export const TrainingContent = () => {
     <VStack
       align="stretch"
       gap="24px"
-      m={10}
+      m={{ base: 2, md: 10 }}
       p="20px"
       borderWidth="1px"
       borderRadius="8px"
@@ -31,15 +31,16 @@ export const TrainingContent = () => {
         <Heading size="xl">Workout</Heading>
       </Flex>
 
-      <Flex w="100%" flex="1">
+      <Flex w="100%" flex="1" overflowX="auto" overflowY="hidden">
         <Tabs.Root
           w="100%"
           h="100%"
           mt={10}
+          minW="max-content"
           value={selectedTab}
           variant="outline"
           onValueChange={(e) => setSelectedTab(e.value)}
-          size="lg"
+          size={{ base: "sm", md: "lg" }}
         >
           <Tabs.List flex="1 1 auto">
             {tabs.map((tab, index) => (
