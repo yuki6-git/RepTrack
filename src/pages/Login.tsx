@@ -130,6 +130,9 @@ export const Login = () => {
               color="white"
               _hover={{ bg: "blue.800" }}
               type="submit"
+              my={4}
+              mr={4}
+              
             >
               ログイン
             </Button>

@@ -68,7 +68,8 @@ export const useWorkoutSession = () => {
       setErrorMessage("トレーニング終了の保存に失敗しました");
       return false;
     }
-
+    setWorkout(null);
+    setExerciseRecords([]);
     return true;
   };
 

@@ -44,7 +44,8 @@ export const useTrainingTimerController = (props: Props) => {
     if (!isEnd) {
       return;
     }
-    const isEnded = await endWorkout(elapsedSeconds);
+    const elapsedMinutes = Math.ceil(elapsedSeconds / 60);
+    const isEnded = await endWorkout(elapsedMinutes);
     if (!isEnded) {
       return;
     }

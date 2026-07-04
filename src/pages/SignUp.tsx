@@ -54,73 +54,78 @@ export const SignUp = () => {
         boxShadow="xl"
       >
         <VStack align="stretch" gap="24px">
-          <Box textAlign="center">
-            <Heading size="2xl" color="blue.900">
-              新規登録
-            </Heading>
-          </Box>
-
-          <VStack align="stretch" gap="16px">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                onClickSignUp();
-              }}
-            ></form>
-            <Box>
-              <Field.Root invalid={Boolean(isSubmitted && !email)}>
-                <Field.Label mb="8px" fontWeight="bold">
-                  メールアドレス
-                </Field.Label>
-                <Input
-                  value={email}
-                  placeholder="example@email.com"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <Field.ErrorText>
-                  メールアドレスを入力してください
-                </Field.ErrorText>
-              </Field.Root>
-            </Box>
-
-            <Box>
-              <Field.Root invalid={Boolean(isSubmitted && !password)}>
-                <Field.Label mb="8px" fontWeight="bold">
-                  パスワード
-                </Field.Label>
-                <Input
-                  value={password}
-                  type="password"
-                  placeholder="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <Field.ErrorText>パスワードを入力してください</Field.ErrorText>
-              </Field.Root>
-            </Box>
-          </VStack>
-
-          {errorMessage && (
-            <Text color="red.500" fontSize="sm">
-              {errorMessage}
-            </Text>
-          )}
-
-          {message && (
-            <Text color="green.600" fontSize="sm">
-              {message}
-            </Text>
-          )}
-          <Button
-            h="48px"
-            bg="blue.700"
-            color="white"
-            _hover={{ bg: "blue.800" }}
-            loading={isLoading}
-            disabled={isLoading || !email || !password}
-            type="submit"
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              onClickSignUp();
+            }}
           >
-            登録
-          </Button>
+            <Box textAlign="center">
+              <Heading size="2xl" color="blue.900">
+                新規登録
+              </Heading>
+            </Box>
+
+            <VStack align="stretch" gap="16px">
+              <Box>
+                <Field.Root invalid={Boolean(isSubmitted && !email)}>
+                  <Field.Label mb="8px" fontWeight="bold">
+                    メールアドレス
+                  </Field.Label>
+                  <Input
+                    value={email}
+                    placeholder="example@email.com"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <Field.ErrorText>
+                    メールアドレスを入力してください
+                  </Field.ErrorText>
+                </Field.Root>
+              </Box>
+
+              <Box>
+                <Field.Root invalid={Boolean(isSubmitted && !password)}>
+                  <Field.Label mb="8px" fontWeight="bold">
+                    パスワード
+                  </Field.Label>
+                  <Input
+                    value={password}
+                    type="password"
+                    placeholder="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <Field.ErrorText>
+                    パスワードを入力してください
+                  </Field.ErrorText>
+                </Field.Root>
+              </Box>
+            </VStack>
+
+            {errorMessage && (
+              <Text color="red.500" fontSize="sm">
+                {errorMessage}
+              </Text>
+            )}
+
+            {message && (
+              <Text color="green.600" fontSize="sm">
+                {message}
+              </Text>
+            )}
+            <Button
+              h="48px"
+              w="100%"
+              mt={4}
+              bg="blue.700"
+              color="white"
+              _hover={{ bg: "blue.800" }}
+              loading={isLoading}
+              disabled={isLoading || !email || !password}
+              type="submit"
+            >
+              登録
+            </Button>
+          </form>
         </VStack>
       </Box>
     </Flex>

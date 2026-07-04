@@ -37,8 +37,8 @@ export const useWeightPageData = () => {
     weightDiff === null
       ? "-"
       : weightDiff > 0
-        ? `+ ${weightDiff}`
-        : `${weightDiff}`;
+        ? `+ ${weightDiff.toFixed(1)}`
+        : `${weightDiff.toFixed(1)}`;
 
   const latestWeight =
     latestRecord?.weight !== undefined ? String(latestRecord.weight) : "";

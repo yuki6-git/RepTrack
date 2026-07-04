@@ -9,17 +9,17 @@ import type {
 
 type Props = {
   latestFourVolumeData: LatestFourVolumeData[];
-  volumeData: VolumeData[];
+  groupedExercises: VolumeData[];
 };
 
 export const TrainingVolumeDetailModal = (props: Props) => {
-  const { latestFourVolumeData, volumeData } = props;
+  const { latestFourVolumeData, groupedExercises } = props;
 
   return (
     <DetailModal title={"最新4件のトレーニング総重量の詳細"}>
       <TrainingVolumeDetailChart latestFourVolumeData={latestFourVolumeData} />
       <Heading my={4}>最新4件の合計重量ランキング</Heading>
-      <TrainingVolumeRanking volumeRanking={volumeData} />
+      <TrainingVolumeRanking groupedExercises={groupedExercises} />
     </DetailModal>
   );
 };

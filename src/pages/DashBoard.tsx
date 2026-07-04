@@ -18,8 +18,8 @@ export const Dashboard = () => {
   const displayWeightDiff =
     weightDiff !== null
       ? weightDiff > 0
-        ? `+${weightDiff}`
-        : `${weightDiff}`
+        ? `+${weightDiff.toFixed(1)}`
+        : `${weightDiff.toFixed(1)}`
       : null;
   return (
     <VStack gap="24px" align="stretch">

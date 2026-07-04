@@ -12,7 +12,7 @@ export const insertUser = async ({
 }) => {
   return await supabase
     .from("users")
-    .insert({ id, username, email })
+    .upsert({ id, username, email })
     .select()
     .single();
 };
@@ -24,7 +24,7 @@ export const insertProfileSetting = async ({
   userId: string;
   userInfo: RegisterUserInfo;
 }) => {
-  return await supabase.from("profile_setting").insert({
+  return await supabase.from("profile_setting").upsert({
     user_id: userId,
     birthday: userInfo.birthday,
     gender: userInfo.gender,
@@ -41,7 +41,7 @@ export const insertGoals = async ({
   userId: string;
   userInfo: RegisterUserInfo;
 }) => {
-  return await supabase.from("goals").insert({
+  return await supabase.from("goals").upsert({
     user_id: userId,
     weekly_goal: Number(userInfo.weeklyGoal),
     target_weight: Number(userInfo.targetWeight),
@@ -61,7 +61,7 @@ export const insertWeightRecord = async ({
   return await supabase.from("weight_records").insert({
     user_id: userId,
     weight: Number(weight),
-    bodyFat: Number(bodyFat),
+    body_fat: bodyFat === "" ? null : Number(bodyFat),
     recorded_at: new Date().toISOString().slice(0, 10),
   });
 };

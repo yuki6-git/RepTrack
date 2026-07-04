@@ -13,7 +13,7 @@ export const Analytics = () => {
     targetCount,
     progressValue,
     trainingVolumeData,
-    volumeData,
+    groupedExercises,
     latestFourVolumeData,
     thisWeekTrainingCount,
     thisMonthTrainingCount,
@@ -44,7 +44,7 @@ export const Analytics = () => {
 
         <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px">
           <Heading size="md" mb="20px">
-            トレーニング時間
+            トレーニング時間 (分)
           </Heading>
 
           <Flex gap="32px">
@@ -73,7 +73,7 @@ export const Analytics = () => {
           <TrainingVolumeByPartChart
             trainingVolumeData={trainingVolumeData}
             latestFourVolumeData={latestFourVolumeData}
-            volumeData={volumeData}
+            groupedExercises={groupedExercises}
           />
         </Box>
       </SimpleGrid>

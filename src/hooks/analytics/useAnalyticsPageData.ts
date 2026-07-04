@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import {
   calculateTrainingVolumeByPart,
   createExercisesPr,
@@ -16,7 +16,14 @@ import { groupLogsByWeek } from "../../utils/data/groupLogsByWeek";
 import { useFetchUserProfile } from "../profileSetting/useFetchuserProfile";
 import { useWorkoutLogs } from "../workout/useWorkoutLogs";
 
-const COLORS = ["#2563eb", "#16a34a", "#f59e0b", "#9333ea", "#ef4444"];
+const PART_COLORS: Record<string, string> = {
+  胸: "blue",
+  背中: "green",
+  脚: "orange",
+  肩: "purple",
+  上腕二頭筋: "pink",
+  上腕三頭筋: "cyan",
+};
 
 export const useAnalyticsPageData = () => {
   const { logs } = useWorkoutLogs();
@@ -32,7 +39,7 @@ export const useAnalyticsPageData = () => {
       id: log.id ?? "",
       date: log.date ?? "",
       title: log.title ?? "",
-      durationMinutes: log.duration ? Math.round(log.duration / 60) : 0,
+      durationMinutes: log.duration ?? 0,
     }));
   }, [logs]);
 
@@ -79,9 +86,9 @@ export const useAnalyticsPageData = () => {
   const latestVolumeData = logs[0]?.records ?? [];
   const trainingVolumeData = calculateTrainingVolumeByPart(
     latestVolumeData,
-  ).map((data, index) => ({
+  ).map((data) => ({
     ...data,
-    fill: COLORS[index % COLORS.length],
+    fill: PART_COLORS[data.part] ?? "gray",
   }));
   const latestExerciseRecords = useMemo(() => {
     return logs.slice(0, 4).flatMap((log) => log.records ?? []);
@@ -96,13 +103,43 @@ export const useAnalyticsPageData = () => {
       date: log.date,
       title: log.title,
       volumeData: calculateTrainingVolumeByPart(log.records)
-        .map((partData, index) => ({
+        .map((partData) => ({
           ...partData,
-          fill: COLORS[index % COLORS.length],
+          fill: PART_COLORS[partData.part] ?? "gray",
         }))
         .sort((a, b) => b.totalVolume - a.totalVolume),
     }));
   }, [logs]);
+
+  const groupedExercises = useMemo(() => {
+    return volumeData.map((data) => {
+      const exercisesByName = data.exercises.reduce<
+        Record<string, { exerciseName: string; volume: number }>
+      >((groups, exercise) => {
+        const currentExercise = groups[exercise.exerciseName];
+        if (!currentExercise) {
+          return {
+            ...groups,
+            [exercise.exerciseName]: {
+              exerciseName: exercise.exerciseName,
+              volume: exercise.volume,
+            },
+          };
+        }
+        return {
+          ...groups,
+          [exercise.exerciseName]: {
+            ...currentExercise,
+            volume: currentExercise.volume + exercise.volume,
+          },
+        };
+      }, {});
+      return {
+        ...data,
+        exercises: Object.values(exercisesByName),
+      };
+    });
+  }, [volumeData]);
 
   return {
     logs,
@@ -126,5 +163,6 @@ export const useAnalyticsPageData = () => {
     trainingVolumeData,
     latestVolumeData,
     latestFourVolumeData,
+    groupedExercises,
   };
 };

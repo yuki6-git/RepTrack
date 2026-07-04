@@ -35,13 +35,20 @@ export const WeightLineChart = (props: Props) => {
       alignItems="center"
       justifyContent="start"
     >
-      <Box p="24px" bg="white" borderRadius="8px" borderWidth="1px" w="100%">
+      <Box
+        p="24px"
+        bg="white"
+        borderRadius="8px"
+        borderWidth="1px"
+        w="100%"
+        minW={0}
+      >
         <Heading size="md" mb="20px">
           体重推移
         </Heading>
 
-        <Box h="280px">
-          <ResponsiveContainer width="100%" height="100%">
+        <Box h="280px" minW={0} w="100%">
+          <ResponsiveContainer height={280} width="100%">
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="date" dy={10} />

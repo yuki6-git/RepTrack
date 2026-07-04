@@ -1,17 +1,18 @@
 import { Badge, Box, Flex, Heading, Text, VStack } from "@chakra-ui/react";
 import type { VolumeData } from "../../../../types/AnalyticsData";
 
-type Props = { volumeRanking: VolumeData[] };
+type Props = { groupedExercises: VolumeData[] };
 
 export const TrainingVolumeRanking = (props: Props) => {
-  const { volumeRanking } = props;
+  const { groupedExercises } = props;
 
+  if (groupedExercises.length === 0) {
+    return <Text color="gray.500">総重量データがありません</Text>;
+  }
   return (
     <VStack align="stretch" gap="12px">
-      {volumeRanking.length === 0 ? (
-        <Text color="gray.500">総重量データがありません</Text>
-      ) : (
-        volumeRanking.map((data, index) => (
+      {groupedExercises.map((data, index) => {
+        return (
           <Box
             key={data.part}
             p="16px"
@@ -38,9 +39,9 @@ export const TrainingVolumeRanking = (props: Props) => {
             </Flex>
 
             <VStack align="stretch" gap="6px">
-              {data.exercises.map((exercise, exerciseIndex) => (
+              {data.exercises.map((exercise) => (
                 <Flex
-                  key={`${exercise.exerciseName}-${exerciseIndex}`}
+                  key={exercise.exerciseName}
                   justify="space-between"
                   color="gray.600"
                 >
@@ -50,8 +51,8 @@ export const TrainingVolumeRanking = (props: Props) => {
               ))}
             </VStack>
           </Box>
-        ))
-      )}
+        );
+      })}
     </VStack>
   );
 };

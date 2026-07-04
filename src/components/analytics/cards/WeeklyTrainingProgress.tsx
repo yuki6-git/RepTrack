@@ -22,16 +22,15 @@ export const WeeklyTrainingProgress = (props: Props) => {
   } = props;
 
   return (
-    <VStack align="stretch" h={{ base: "80%", lg: "90%" }}>
+    <VStack align="stretch" h={{ base: "70%", lg: "80%" }}>
       <Progress.Root
         value={progressValue}
         colorPalette={"blue"}
         variant="subtle"
         size={"xl"}
-        gap="10px"
       >
         <Progress.Label>今週のトレーニング回数</Progress.Label>
-        <HStack mt={8} gap="5">
+        <HStack mt={8}>
           <Progress.Track flex="1">
             <Progress.Range />
           </Progress.Track>

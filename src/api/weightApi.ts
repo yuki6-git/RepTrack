@@ -8,7 +8,7 @@ export const insertWeightRecords = async (
   return await supabase.from("weight_records").insert({
     user_id: userId,
     weight: Number(weight),
-    body_fat: Number(bodyFat),
+    body_fat: bodyFat === "" ? null : Number(bodyFat),
     recorded_at: new Date().toISOString().slice(0, 10),
   });
 };

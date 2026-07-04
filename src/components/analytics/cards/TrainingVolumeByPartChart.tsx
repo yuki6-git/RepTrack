@@ -10,10 +10,10 @@ import type {
 type Props = {
   trainingVolumeData: TrainingVolumeData[];
   latestFourVolumeData: LatestFourVolumeData[];
-  volumeData: VolumeData[];
+  groupedExercises: VolumeData[];
 };
 export const TrainingVolumeByPartChart = (props: Props) => {
-  const { trainingVolumeData, latestFourVolumeData, volumeData } = props;
+  const { trainingVolumeData, latestFourVolumeData, groupedExercises } = props;
 
   return (
     <>
@@ -33,7 +33,7 @@ export const TrainingVolumeByPartChart = (props: Props) => {
               cornerRadius="50%"
             >
               <Label
-                value="部位別総重量"
+                value="最新トレーニングの総重量"
                 position="center"
                 fontSize={16}
                 fontWeight="bold"
@@ -55,7 +55,7 @@ export const TrainingVolumeByPartChart = (props: Props) => {
             <Box mt="50px">
               <TrainingVolumeDetailModal
                 latestFourVolumeData={latestFourVolumeData}
-                volumeData={volumeData}
+                groupedExercises={groupedExercises}
               />
             </Box>
           </VStack>
