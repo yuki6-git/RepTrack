@@ -51,7 +51,9 @@ export const CreateTrainingMenuModal = (props: Props) => {
       open={isOpen}
       onOpenChange={(e) => {
         setIsOpen(e.open);
-        !e.open && setStep(1);
+        if (!e.open) {
+          setStep(1);
+        }
       }}
       placement="center"
       size="cover"

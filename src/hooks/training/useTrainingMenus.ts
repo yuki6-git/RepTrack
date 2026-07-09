@@ -109,7 +109,7 @@ export const useTrainingMenus = () => {
   );
   useEffect(() => {
     fetchTrainingMenus();
-  }, []);
+  }, [fetchTrainingMenus]);
 
   const onToggleComplete = useCallback((id: string) => {
     setTrainingMenus((prev) =>
@@ -119,7 +119,7 @@ export const useTrainingMenus = () => {
           exercise.id === id
             ? {
                 ...exercise,
-                completed: !Boolean(exercise.completed),
+                completed: !exercise.completed,
               }
             : exercise,
         ),

@@ -63,35 +63,32 @@ export const useTrainingMenuModal = (props: Props) => {
     setSelectedParts(trainingParts);
   }, [addExercises]);
 
-  const onClickAddExercise = useCallback(
-    (form: NewExercise, part: string) => {
-      const hasRequiredValues =
-        part.trim() !== "" &&
-        form.exerciseName.trim() !== "" &&
-        form.setWeight.trim() !== "" &&
-        form.sets.trim() !== "" &&
-        form.reps.trim() !== "";
-      if (!hasRequiredValues) {
-        setValidationMessage("必須項目を入力してください");
-        return;
-      }
-      const newExercise: NewExercise = {
-        id: crypto.randomUUID(),
-        tabId: "",
-        part,
-        exerciseName: form.exerciseName,
-        maxWeight: form.maxWeight,
-        setWeight: form.setWeight,
-        sets: form.sets,
-        reps: form.reps,
-      };
+  const onClickAddExercise = useCallback((form: NewExercise, part: string) => {
+    const hasRequiredValues =
+      part.trim() !== "" &&
+      form.exerciseName.trim() !== "" &&
+      form.setWeight.trim() !== "" &&
+      form.sets.trim() !== "" &&
+      form.reps.trim() !== "";
+    if (!hasRequiredValues) {
+      setValidationMessage("必須項目を入力してください");
+      return;
+    }
+    const newExercise: NewExercise = {
+      id: crypto.randomUUID(),
+      tabId: "",
+      part,
+      exerciseName: form.exerciseName,
+      maxWeight: form.maxWeight,
+      setWeight: form.setWeight,
+      sets: form.sets,
+      reps: form.reps,
+    };
 
-      setDraftExercises((prev) => [...prev, newExercise]);
-      setForm(initialForm);
-      setValidationMessage("");
-    },
-    [initialForm],
-  );
+    setDraftExercises((prev) => [...prev, newExercise]);
+    setForm(initialForm);
+    setValidationMessage("");
+  }, []);
 
   const { onClickEditExercise, onClickDeleteExercise } = useEditExercises({
     setDraftExercises,

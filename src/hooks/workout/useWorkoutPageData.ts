@@ -23,13 +23,16 @@ export const useWorkoutPageData = () => {
     (log) => log.date === selectedDate,
   );
 
-  const handleClickDay = useCallback((date: Date) => {
-    const dateKey = formatDate(date);
-    const log = logs.find((log) => log.date === dateKey);
-    if (!log) return;
-    setSelectedDate(dateKey);
-    setIsOpen(true);
-  }, []);
+  const handleClickDay = useCallback(
+    (date: Date) => {
+      const dateKey = formatDate(date);
+      const log = logs.find((log) => log.date === dateKey);
+      if (!log) return;
+      setSelectedDate(dateKey);
+      setIsOpen(true);
+    },
+    [logs],
+  );
 
   const hasWorkoutOnDate = useCallback(
     (date: Date) => {

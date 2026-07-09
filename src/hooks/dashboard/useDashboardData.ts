@@ -126,7 +126,7 @@ export const useDashboardData = () => {
 
   useEffect(() => {
     fetchDashboardData();
-  }, []);
+  }, [fetchDashboardData]);
 
   return { getTodayTrainingMenu, dashboardData };
 };

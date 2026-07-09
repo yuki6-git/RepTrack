@@ -9,6 +9,41 @@ body {
   min-height: 100vh;
 }
 
+.scroll-indicator {
+  appearance: none;
+}
+
+.scroll-indicator__line {
+  transform-origin: top;
+  overflow: hidden;
+  background: transparent;
+  position: relative;
+}
+
+.scroll-indicator__line::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  animation: scroll-line 1.6s ease-in-out infinite;
+}
+
+@keyframes scroll-line {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
 .react-calendar {
   width: 100%;
   border: 1px solid #e5e7eb;
